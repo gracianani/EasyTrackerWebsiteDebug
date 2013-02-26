@@ -1,0 +1,93 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="EasyTrackerSolution.SiteMaster"  %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head runat="server">
+    <title></title>
+    <script src="Scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="Scripts/jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
+    <script src="Scripts/jquery.tmpl.js" type="text/javascript"></script>
+    <script src="Scripts/sprintf-0.7-beta1.js" type="text/javascript"></script>
+    <script src="Scripts/json2.js" type="text/javascript"></script>
+    <script src="Scripts/bootstrap.min.js" type="text/javascript"></script>
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }</style>
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body><form id="Form1"  runat="server" >
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                        <ul class="nav">
+                            <li class="active">
+                                <a class="brand" href="#">店铺助手</a>
+                            </li>
+                            <li>
+                                <asp:Menu ID="menu_main" runat="server" CssClass="nav-collapse" StaticMenuStyle-CssClass="nav"  SkipLinkText=""
+                                EnableTheming="false" RenderingMode="List"  IncludeStyleBlock="false" Orientation="Horizontal" >
+                                <StaticSelectedStyle ForeColor="White" Font-Bold="true"  />
+                                <LevelSubMenuStyles>
+                                    <asp:SubMenuStyle CssClass="nav" />
+                                    <asp:SubMenuStyle CssClass="dropdown-menu" />
+                                </LevelSubMenuStyles>
+                                <Items>
+                                    <asp:MenuItem NavigateUrl="~/Default.aspx"  Text="主页" ></asp:MenuItem>
+                                    <asp:MenuItem NavigateUrl="~/View-Employee-Leaflet.aspx" Text="员工信息" ></asp:MenuItem>
+                                    <asp:MenuItem NavigateUrl="~/View-Store.aspx" Text="店铺信息">
+                                        <asp:MenuItem NavigateUrl="~/View-Store-All.aspx" Text="查看所有店铺"  ></asp:MenuItem>
+                                        <asp:MenuItem NavigateUrl="~/View-Store.aspx" Text="查看单个店铺"></asp:MenuItem>
+                                    </asp:MenuItem>
+                                    <asp:MenuItem NavigateUrl="~/Manage-Employee.aspx" Text="管理" >
+                                        <asp:MenuItem NavigateUrl="~/Manage-Employee.aspx" Text="管理员工"  ></asp:MenuItem>
+                                        <asp:MenuItem NavigateUrl="~/Manage-Store.aspx" Text="管理店铺"></asp:MenuItem>
+                                        <asp:MenuItem NavigateUrl="~/Manage-Task.aspx" Text="管理任务"></asp:MenuItem>
+                                        <asp:MenuItem NavigateUrl="~/Upload-New-Stores.aspx" Text="上传店铺"></asp:MenuItem>
+                                        <asp:MenuItem NavigateUrl="~/Upload-New-Employees.aspx" Text="上传员工"></asp:MenuItem>
+                                    </asp:MenuItem>
+                                </Items>
+                                
+                            </asp:Menu>
+                            </li>
+                            
+                        </ul>
+                        <ul class="nav pull-right nav-pills">
+                        <li class="active dropdown dropdown-submenu">
+                                <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false" EnableTheming="false"  >
+                                    <AnonymousTemplate>
+                                            <asp:LinkButton  ID="HeadLoginStatus" runat="server" PostBackUrl="~/Account/Login.aspx" Text="登陆" ></asp:LinkButton></a>
+                                    </AnonymousTemplate>
+                                    <LoggedInTemplate>
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="drop2">
+                                            <span> 欢迎你  <%= HttpContext.Current.User.Identity.Name %></span>
+                                            <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="drop2">
+                                            <li>
+                                                <a href="Account/ChangePassword.aspx">修改密码</a>
+                                            </li>
+                                            <li>
+                                                <asp:LoginStatus ID="HeadLoginStatus" runat="server" LogoutAction="Redirect" LogoutText="退出登陆" LogoutPageUrl="~/"/>
+                                            </li>
+                                            </ul>
+                                       
+                                    </LoggedInTemplate>
+                                </asp:LoginView>
+                            </li>
+                        </ul>
+                </div>
+            </div>
+                    
+                
+        </div>
+        <div class="container">
+             
+            <asp:ContentPlaceHolder ID="MainContent" runat="server"/>
+            
+        </div>
+</form>
+</body>
+</html>

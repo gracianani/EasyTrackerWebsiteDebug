@@ -1,0 +1,21 @@
+﻿<html><head><style type="text/css">@media print {  .gmnoprint {    display:none  }}@media screen {  .gmnoscreen {    display:none  }}</style>
+    <meta charset="UTF-8">
+    <title>Google Maps JavaScript API v3 Example: Place Search</title>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAizK-CoOU44u0bTWzVeUlbMkQ2cHagM9s&amp;sensor=true"></script>
+    <script type="text/javascript" src="Scripts/map.js"></script>
+    <style type="text/css">
+      #map {
+        height: 400px;
+        width: 600px;
+        border: 1px solid #333;
+        margin-top: 0.6em;
+      }
+    </style>
+
+  <body onload="initMap()">
+    <input id="address" type="text" />
+    <input type="button" value="定位" onclick="reverseGeocode()" />
+    <div id="map_canvas" style="width: 100%;height:700px"></div>
+    
+    </body>
+</html>

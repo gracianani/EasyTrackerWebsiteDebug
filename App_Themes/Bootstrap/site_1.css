@@ -1,0 +1,34 @@
+﻿#login {
+width: 500px;
+margin: 20px auto;
+position: absolute;
+top: 50%;
+left: 50%;
+margin-left: -200px;
+margin-top: -148px;
+opacity: 0;
+filter: alpha(opacity=0);
+border: 5px #F4F4F4 solid;
+min-width: 200px;
+border-radius: 15px;
+-webkit-border-radius: 15px;
+}
+#login h2
+{
+    margin: 1em 0.8em 0.3em;
+}
+#login .inner
+{
+    background-color: white;
+    border: 1px #CCC solid;
+    min-height: 230px;
+    overflow: hidden;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+#login .accountInfo
+{
+    width:400px;
+    margin:auto;
+    text-align:left;
+}
