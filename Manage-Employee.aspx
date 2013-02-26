@@ -29,37 +29,37 @@
     </h2>
     <div class="content">
     <div id="employee" class="active tab-pane">
-    
-        <div id="fv_SearchEmployee">
+    	<div class="clearfix">
+        <div id="fv_SearchEmployee" class="pull-left">
             
                 <asp:MultiView ID="mv_SearchEmployee" runat="server" ActiveViewIndex="0">
                     <asp:View ID="view_Search" runat="server" >
-                    <div class="row-fluid clearfix well">
-                            <div class="form-search">
+                    <div class="form-inline">
                             <label>检索：员工姓名</label>
                             <asp:RequiredFieldValidator ID="rfv_SearchEmployeeName" runat="server" ValidationGroup="searchEmployee" ControlToValidate="tb_SearchEmployeeName" ErrorMessage="*"
                              CssClass="label label-warning" Display="Dynamic"></asp:RequiredFieldValidator>
-                            <asp:TextBox ID="tb_SearchEmployeeName" runat="server"  CssClass="search-query"></asp:TextBox>
+                            <asp:TextBox ID="tb_SearchEmployeeName" runat="server" ></asp:TextBox>
                             
                             <asp:Button ID="btn_SearchEmployee" runat="server" Text="搜索" ValidationGroup="searchEmployee" OnClick="btn_SearchEmployeeClick" CssClass="btn" />
-                            </div>
                         </div>
                     </asp:View>
                     <asp:View ID="view_SearchResult" runat="server">
-                    <div class="row-fluid clearfix well form-inline">
-                        <label style="padding-right:20px;"><span class="label label-info">搜索词:</span> <%= tb_SearchEmployeeName.Text %></label> 
+                    <div class="form-inline">
+                        <label style="padding-right:20px;">搜索词: <%= tb_SearchEmployeeName.Text %></label> 
                         <asp:Button ID="btn_SearchEmployeeReset" runat="server" Text="还原" OnClick="btn_EmployeeResetClick" CssClass="btn" />
                         </div>
                     </asp:View>
                 </asp:MultiView>
            </div>  
-        <div class="btn-toolbar">
+        <div class="pull-right">
             <a id="btn_CreateUser" href="javascript:void(0)" class="btn btn-primary">创建新员工</a>   
             <a id="btn_ImportEmployees" class="btn btn-primary" href="#importEmployee" data-toggle="modal">导入</a>
             <button id="btn_ExportEmployees" class="btn btn-primary">导出</button>
             
-        </div>
-        
+        </div><!--.btn-toolbar-->
+        </div><!--.row-->
+        <hr />
+        每页显示：
         <asp:DropDownList ID="ddl_ItemsPerPage" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddl_ItemsPerPage_SelectedIndexChanged">
             <asp:ListItem Text="10" Value="10"></asp:ListItem>
             <asp:ListItem Text="50" Value="50"></asp:ListItem>

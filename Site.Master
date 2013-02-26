@@ -23,8 +23,8 @@
             <div class="navbar-inner">
                 <div class="container">
                         <ul class="nav">
-                            <li class="active">
-                                <a class="brand" href="#">店铺助手</a>
+                            <li>
+                                <a class="brand" href="#"><img src="Public/Images/salogo.png" alt="店铺助手" /></a>
                             </li>
                             <li>
                                 <asp:Menu ID="menu_main" runat="server" CssClass="nav-collapse" StaticMenuStyle-CssClass="nav"  SkipLinkText=""
@@ -54,7 +54,7 @@
                             </li>
                             
                         </ul>
-                        <ul class="nav pull-right nav-pills">
+                        <ul class="nav pull-right">
                         <li class="active dropdown dropdown-submenu">
                                 <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false" EnableTheming="false"  >
                                     <AnonymousTemplate>
@@ -83,7 +83,7 @@
                     
                 
         </div>
-        <div class="container">
+        <div class="container-fluid">
              
             <asp:ContentPlaceHolder ID="MainContent" runat="server"/>
             
