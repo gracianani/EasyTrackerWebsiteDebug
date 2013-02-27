@@ -4,7 +4,8 @@
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
     <script src="Scripts/jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
-    <script src="Scripts/bootstrap-tabs.js" type="text/javascript"></script>
+    <script type="text/javascript" src="Scripts/stupidtable.js?dev"></script>
+    <script src="Scripts/bootstrap.js" type="text/javascript"></script>
     <style type="text/css">
         #employee table input
         {
@@ -52,8 +53,8 @@
                 </asp:MultiView>
            </div>  
         <div class="pull-right">
-            <a id="btn_CreateUser" href="javascript:void(0)" class="btn btn-primary">创建新员工</a>   
-            <a id="btn_ImportEmployees" class="btn btn-primary" href="#importEmployee" data-toggle="modal">导入</a>
+            <button id="btn_CreateUser" href="javascript:void(0)" class="btn btn-primary">创建新员工</button>   
+            <button id="btn_ImportEmployees" class="btn btn-primary" href="#importEmployee" data-toggle="modal">导入</button>
             <button id="btn_ExportEmployees" class="btn btn-primary">导出</button>
             
         </div><!--.btn-toolbar-->
@@ -75,11 +76,13 @@
         OnRowUpdating="gv_Employee_RowUpdating">
             <Columns>
                 <asp:TemplateField HeaderText="#">
+                	<HeaderStyle CssClass="int" />
                     <ItemTemplate>
                         <%# Container.DisplayIndex + 1 %>
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField>
+                	<HeaderStyle CssClass="string" />
                     <HeaderTemplate>
                         姓名
                     </HeaderTemplate>
@@ -87,14 +90,16 @@
                         <%# Eval("LastName") %> <%# Eval("FirstName") %>
                     </ItemTemplate>
                 </asp:TemplateField>
-                <asp:BoundField DataField="employeeCode" HeaderText="员工编码" />
+                <asp:BoundField DataField="employeeCode" HeaderText="员工编码" >
+                <HeaderStyle CssClass="string" />
+                </asp:BoundField>
                 <asp:TemplateField>
                     <HeaderTemplate>
                     </HeaderTemplate>
                     <ItemTemplate>
-                        <a href='Edit-Employee.aspx?userId=<%# Eval("UserId") %>' class="btn btn-primary">修改</a>
-                        <asp:LinkButton ID="btn_DeleteUser" CommandName="delete" CssClass="btn primary  btn-inverse" runat="server" Text="删除" ></asp:LinkButton>
-                        <asp:LinkButton ID="btn_HardDeleteUser" CommandName="hardDelete" CommandArgument='<%# Eval("UserId") %>'  CssClass="btn primary btn-inverse" runat="server"  Text="强力删除"/>
+                        <a href='Edit-Employee.aspx?userId=<%# Eval("UserId") %>' class="btn btn-primary"><i class="icon-edit icon-white"></i> 修改</a>
+                        <asp:LinkButton ID="btn_DeleteUser" CommandName="delete" CssClass="btn btn-inverse" runat="server" Text="删除" ></asp:LinkButton>
+                        <asp:LinkButton ID="btn_HardDeleteUser" CommandName="hardDelete" CommandArgument='<%# Eval("UserId") %>'  CssClass="btn btn-inverse" runat="server"  Text="强力删除"/>
                     </ItemTemplate>
                     <EditItemTemplate>
                         <asp:LinkButton ID="btn_UpdateUser" CommandName="update"  CssClass="btn primary  btn-success" runat="server" Text="更新"/>
@@ -167,4 +172,18 @@
     </asp:ObjectDataSource>
 
     <script type="text/javascript" src="Scripts/manage.js"></script>
+    <script>
+	$(function(){
+		$(".table th[class]").each(function(){
+			$(this).attr('data-sort',$(this).attr('class'));
+		});
+        var table = $(".table").stupidtable();
+        table.bind('aftertablesort', function (event, data) {
+          var th = $(this).find("th");
+          th.find(".arrow").remove();
+          var arrow = data.direction === "asc" ? "&uarr;" : "&darr;";
+          th.eq(data.column).append('<span class="arrow">' + arrow +'</span>');
+        });
+    });
+	</script>
 </asp:Content>

@@ -28,6 +28,12 @@ a.brand {
 }
 h1, h2, h3, h4, h5, h6 {
 	font-weight:normal;
+	font-family:"Microsoft Yahei",sans-serif;
+	letter-spacing:2px;
+	color:#187fcb;
+}
+h2 {
+	margin-bottom:0.5em;
 }
 #login {
 width: 500px;
