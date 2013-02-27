@@ -1,10 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.master"  CodeBehind="View-Employee-Leaflet.aspx.cs" Inherits="EasyTrackerSolution.View_Employee_Leaflet" %>
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
-    
-    <script src="Scripts/bootstrap-collapse.js" type="text/javascript"></script>
-    <script src="Scripts/bootstrap-scrollspy.js" type="text/javascript"></script>
-    <script src="Scripts/bootstrap-alert.js" type="text/javascript"></script>
     <script src="Public/Libs/Leaflet/leaflet.js"  type="text/javascript"> </script>   
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAizK-CoOU44u0bTWzVeUlbMkQ2cHagM9s&sensor=false&amp;language=ch"  type="text/javascript"></script>  
     <script src="Public/Libs/Leaflet/google.js" type="text/javascript"></script>
@@ -126,43 +122,23 @@
     </div>
     <div class="row-fluid clearfix">
         <div class="span3">
-            
-
             <script id="employeeLocationTemplate" type="text/x-jquery-tmpl">
 
-         
-
                 <li><a href="javascript:void(0)">
-
                 <span class="checkInIndex">${index}</span> <i class="icon-time"></i>时间：${CreatedAt}<br />
-
                 {{if CheckInType == 2 }}
-
                 <i class="icon-home"></i>${Store[0].StoreName}</a>
-
                 {{else}}
-
 				<i class="icon-map-marker"></i>( ${CheckInCoordinate.Latitude}, ${CheckInCoordinate.Longitude} )</a>
-
 				</li>
-
 				{{/if}}
-
-             
-
             </script>
-
-            
             
         <div class="well">
             <ul id="locations" class="nav nav-list">
                     
             </ul>
         </div>
-        
-            
-           
-        
 
         </div>
         <div class="span6">

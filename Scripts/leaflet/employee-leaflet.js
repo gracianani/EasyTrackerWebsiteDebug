@@ -26,14 +26,8 @@ function initMap() {
 	initShopIcon();
 	shopLayer = new L.layerGroup().addTo(map);
 	initShopDetailWindow();
-
 	trackLayer = new L.layerGroup().addTo(map);
-
-	
     map.addControl(new L.Control.Layers({ 'Mapnik': mpn, 'MapQuest': qst, 'Google': new L.Google() },{'店铺':shopLayer,'行程':trackLayer}));
-	
-	
-	
 }
 
 
@@ -50,7 +44,6 @@ function generateTestShops(data) {
             shops = [];
             var stats = $.parseJSON(msg.d);
             $.each(stats, function (index, stat) {
-
                 shops.push({
                     'id': stat.StoreId,
                     'name': stat.StoreName,
@@ -70,7 +63,6 @@ function initShopIcon() {
 	shopIcon = L.icon({
 		iconUrl: 'Public/Styles/images/shop.png',
 		shadowUrl: 'Public/Styles/images/shop-shadow.png',
-	
 		iconSize:     [32, 32], // size of the icon
 		shadowSize:   [42, 13], // size of the shadow
 		iconAnchor:   [16, 16], // point of the icon which will correspond to marker's location
@@ -90,7 +82,6 @@ function initShopDetailWindow() {
 	
 	// method that we will use to update the control based on feature properties passed
 	info.update = function (props) {
-
 	    var trackRecords = "";
 	    if (props) {
 	        if (props.records) {
@@ -129,8 +120,6 @@ function initShopMarkers(shopList) {
     });
 	
 }
-
-
 
 
 function clearOverlays() {
