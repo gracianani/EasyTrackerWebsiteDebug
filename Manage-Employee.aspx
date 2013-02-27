@@ -65,7 +65,7 @@
             <asp:ListItem Text="50" Value="50"></asp:ListItem>
             <asp:ListItem Text="100" Value="100"></asp:ListItem>
         </asp:DropDownList>
-        <asp:GridView ID="gv_Employee" runat="server" CssClass="table table-bordered" 
+        <asp:GridView ID="gv_Employee" runat="server" CssClass="table table-condensed table-bordered" 
         AutoGenerateColumns="false" DataKeyNames="UserId" EnableTheming="False" 
         DataSourceID="ds_Employee" AllowPaging="true" PageSize="10" OnRowEditing="gv_Employee_RowEditing"
         OnRowCancelingEdit="gv_Employee_RowEditing"
@@ -76,6 +76,7 @@
         OnRowCreated="gv_Employee_RowCreated">
             <Columns>
                 <asp:TemplateField HeaderText="#">
+                	<ItemStyle CssClass="indexCol" />
                     <ItemTemplate>
                         <%# Container.DisplayIndex + 1 %>
                     </ItemTemplate>
@@ -178,10 +179,11 @@
         var table = $(".table").stupidtable();
         table.bind('aftertablesort', function (event, data) {
           var th = $(this).find("th");
-          th.find(".arrow").remove();
+          th.find(".caret").remove();
           var arrow = data.direction === "asc" ? "&uarr;" : "&darr;";
-          th.eq(data.column).append('<span class="arrow">' + arrow +'</span>');
+          th.eq(data.column).append('<span class="caret ' + data.direction +'">&nbsp;</span>');
 		  
+	
 	
         });
     });

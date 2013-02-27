@@ -60,6 +60,11 @@
         for(var i=0; i<map.length; i++){
           newIndex = map[i];
           clone[newIndex] = arr[i];
+		  //set indexCol td with number
+		  var indexTd = $(clone[newIndex]).find('.indexCol');
+		  if (indexTd.size()>0) {
+			  indexTd.html(newIndex+1);
+		  }
         }
         return clone;
       };

@@ -38,10 +38,26 @@ h2 {
 .table th {
 	background-color:#ebebeb;
 	color:#333;
+	font-weight:normal;
+}
+.caret.asc,
+.caret.desc {
+	margin-top:7px;
+	opacity:1;
+	margin-left:5px;
+}
+.caret.desc {
+	border-top:none;
+	border-bottom:4px solid #000;
 }
 .table td {
 	color:#111;
 }
+th.string,th.int,th.float {
+	cursor:pointer;
+	background-color:#e9e9e9;
+}
+
 #login {
 width: 500px;
 margin: 20px auto;
