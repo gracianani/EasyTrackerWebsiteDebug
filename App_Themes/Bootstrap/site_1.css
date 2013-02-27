@@ -6,6 +6,9 @@
 body,label {
 	font-size:14px;
 }
+body {
+	font-family:'Lucida Sans Unicode',Tahoma, Helvetica, Arial, sans-serif;
+}
 .btn {
 	border-radius:3px;
 	border-width:1px;
@@ -53,9 +56,13 @@ h2 {
 .table td {
 	color:#111;
 }
+td.indexCol {
+	color:#777;
+}
 th.string,th.int,th.float {
 	cursor:pointer;
 	background-color:#e9e9e9;
+	color:#000;
 }
 
 #login {

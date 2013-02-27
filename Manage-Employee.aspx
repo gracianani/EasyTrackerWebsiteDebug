@@ -24,14 +24,14 @@
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
     <asp:ScriptManager ID="scriptManager" runat="server"></asp:ScriptManager>
-    <h2>
-       管理员工
-    </h2>
     <div class="content">
-    <div id="employee" class="active tab-pane">
+    <div id="employee">
+    <div style="background:#f5f5f5;margin:-20px -20px 0;padding:20px 20px 0">
+        <h2>
+           管理员工
+        </h2>
     	<div class="clearfix">
         <div id="fv_SearchEmployee" class="pull-left">
-            
                 <asp:MultiView ID="mv_SearchEmployee" runat="server" ActiveViewIndex="0">
                     <asp:View ID="view_Search" runat="server" >
                     <div class="form-inline">
@@ -50,21 +50,23 @@
                         </div>
                     </asp:View>
                 </asp:MultiView>
-           </div>  
+        </div><!--fv_SearchEmployee-->
         <div class="pull-right">
             <button id="btn_CreateUser" href="javascript:void(0)" class="btn btn-primary">创建新员工</button>   
             <button id="btn_ImportEmployees" class="btn btn-primary" href="#importEmployee" data-toggle="modal">导入</button>
             <button id="btn_ExportEmployees" class="btn btn-primary">导出</button>
             
-        </div><!--.btn-toolbar-->
-        </div><!--.row-->
-        <hr />
+        </div><!--.pull-right-->
+        </div><!--.clearfix-->
+        <hr /></div>
+        <p>
         每页显示：
         <asp:DropDownList ID="ddl_ItemsPerPage" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddl_ItemsPerPage_SelectedIndexChanged">
             <asp:ListItem Text="10" Value="10"></asp:ListItem>
             <asp:ListItem Text="50" Value="50"></asp:ListItem>
             <asp:ListItem Text="100" Value="100"></asp:ListItem>
         </asp:DropDownList>
+        </p>
         <asp:GridView ID="gv_Employee" runat="server" CssClass="table table-condensed table-bordered" 
         AutoGenerateColumns="false" DataKeyNames="UserId" EnableTheming="False" 
         DataSourceID="ds_Employee" AllowPaging="true" PageSize="10" OnRowEditing="gv_Employee_RowEditing"
@@ -97,8 +99,8 @@
                     <HeaderTemplate>
                     </HeaderTemplate>
                     <ItemTemplate>
-                        <a href='Edit-Employee.aspx?userId=<%# Eval("UserId") %>' class="btn btn-primary">修改</a>
-                        <asp:LinkButton ID="btn_HardDeleteUser" CommandName="hardDelete" CommandArgument='<%# Eval("UserId") %>'  CssClass="btn primary btn-inverse" runat="server"  Text="强力删除"/>
+                        <a href='Edit-Employee.aspx?userId=<%# Eval("UserId") %>' class="btn btn-primary"><i class="icon-edit icon-white"></i> 修改</a>
+                        <asp:LinkButton ID="btn_HardDeleteUser" CommandName="hardDelete" CommandArgument='<%# Eval("UserId") %>'  CssClass="btn btn-inverse" runat="server"  Text="<i class='icon-remove icon-white'></i> 强力删除"/>
                     </ItemTemplate>
                     <EditItemTemplate>
                         <asp:LinkButton ID="btn_UpdateUser" CommandName="update"  CssClass="btn primary  btn-success" runat="server" Text="更新"/>

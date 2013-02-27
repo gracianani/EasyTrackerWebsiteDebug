@@ -13,27 +13,18 @@
  <link rel="Stylesheet" href="Public/Libs/Leaflet/leaflet.ie.css" />
  <![endif]-->
     <style type="text/css">
-        #employee table input
-        {
-            max-width:100px;
-        }
-
-		.ui-widget-content .btn-info,
-		.ui-widget-content .btn-info:hover {
-		  color: #ffffff;
-		  font-weight:bold;
-		  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+	
+		.table td {
+			border-width:0;
 		}
-		#map_canvas img {
-		 max-width: none;
-        }
     </style>
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
-    
+    <h2>编辑员工信息</h2>
+    <hr />
     <EasyTracker:Messager id="messager" runat="server" Visible="false" AlertMessage="" />
     <div class="well span10">
-    <asp:DetailsView ID="dv_EditEmployee" GridLines="None"  AutoGenerateRows="false"  CssClass="table table-condensed table-hover" 
+    <asp:DetailsView ID="dv_EditEmployee" GridLines="None"  AutoGenerateRows="false"  CssClass="table" 
                     runat="server" DataSourceID="ds_Employee" DefaultMode="Edit"  DataKeyNames="userId"  CellPadding="12" 
                      OnItemUpdating="dv_EditEmployee_ItemUpdating" OnItemUpdated="dv_EditStore_ItemUpdated" OnItemCommand="dv_EditEmployee_ItemCommand" >
         <Fields>
@@ -73,5 +64,11 @@
     </asp:ObjectDataSource>
       
     <script type="text/javascript" src="Scripts/manage.js"></script>
+    <script>
+	$(function(){
+		$(':submit,:button').addClass('btn btn-big');
+		$(':submit').addClass('btn-primary');
+	});
+	</script>
     
 </asp:Content>
