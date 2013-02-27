@@ -36,7 +36,7 @@
                 <asp:MultiView ID="mv_SearchEmployee" runat="server" ActiveViewIndex="0">
                     <asp:View ID="view_Search" runat="server" >
                     <div class="form-inline">
-                            <label>检索：员工姓名</label>
+                            <label>检索：</label>
                             <asp:RequiredFieldValidator ID="rfv_SearchEmployeeName" runat="server" ValidationGroup="searchEmployee" ControlToValidate="tb_SearchEmployeeName" ErrorMessage="*"
                              CssClass="label label-warning" Display="Dynamic"></asp:RequiredFieldValidator>
                             <asp:TextBox ID="tb_SearchEmployeeName" runat="server" ></asp:TextBox>
@@ -73,7 +73,8 @@
         OnPageIndexChanged="gv_Employee_RowEditing"
         OnRowCommand="gv_Employee_RowCommand"
         OnRowDataBound="gv_Employee_RowDataBound"
-        OnRowUpdating="gv_Employee_RowUpdating">
+        OnRowUpdating="gv_Employee_RowUpdating"
+        OnRowCreated="gv_Employee_RowCreated">
             <Columns>
                 <asp:TemplateField HeaderText="#">
                 	<HeaderStyle CssClass="int" />
@@ -97,9 +98,8 @@
                     <HeaderTemplate>
                     </HeaderTemplate>
                     <ItemTemplate>
-                        <a href='Edit-Employee.aspx?userId=<%# Eval("UserId") %>' class="btn btn-primary"><i class="icon-edit icon-white"></i> 修改</a>
-                        <asp:LinkButton ID="btn_DeleteUser" CommandName="delete" CssClass="btn btn-inverse" runat="server" Text="删除" ></asp:LinkButton>
-                        <asp:LinkButton ID="btn_HardDeleteUser" CommandName="hardDelete" CommandArgument='<%# Eval("UserId") %>'  CssClass="btn btn-inverse" runat="server"  Text="强力删除"/>
+                        <a href='Edit-Employee.aspx?userId=<%# Eval("UserId") %>' class="btn btn-primary">修改</a>
+                        <asp:LinkButton ID="btn_HardDeleteUser" CommandName="hardDelete" CommandArgument='<%# Eval("UserId") %>'  CssClass="btn primary btn-inverse" runat="server"  Text="强力删除"/>
                     </ItemTemplate>
                     <EditItemTemplate>
                         <asp:LinkButton ID="btn_UpdateUser" CommandName="update"  CssClass="btn primary  btn-success" runat="server" Text="更新"/>

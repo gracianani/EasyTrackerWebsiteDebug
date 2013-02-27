@@ -65,12 +65,14 @@ function initMap(lat, lng) {
     map.addLayer(mpn);
     map.addLayer(qst);
     map.addControl(new L.Control.Layers({ 'Mapnik': mpn, 'MapQuest': qst, 'Google': new L.Google() }));
-    map.setView([$(lat).val(), $(lng).val()], 13);
-    var marker = L.marker([$(lat).val(), $(lng).val()], { draggable: true }).addTo(map);
-    marker.on('dragend', function (e) {
-        $(lat).val(marker.getLatLng().lat);
-        $(lng).val(marker.getLatLng().lng);
-    });
+    if (lat != null && typeof (lat) != 'undefined' && lng != null && typeof (lng) != 'undefined') {
+        map.setView([$(lat).val(), $(lng).val()], 13);
+        var marker = L.marker([$(lat).val(), $(lng).val()], { draggable: true }).addTo(map);
+        marker.on('dragend', function (e) {
+            $(lat).val(marker.getLatLng().lat);
+            $(lng).val(marker.getLatLng().lng);
+        });
+    }
 }
 
 function initTaskEdit() {
@@ -291,7 +293,7 @@ function bindAutoComplete(ui, url_data, append, appendStoresByUser) {
         validate_group: 'insertuser'});
     createInsertDialog('#fv_Store', 'a[id$=btn_CreateStore]' ,{
         width:760, 
-        height:610,
+        height:750,
         data: getStoreData,
         data_url: 'Public/Services/Manage.asmx/InsertStore',
         postback_command_name : 'InsertStore',
@@ -325,8 +327,12 @@ $(document).ready(function () {
     user_autoComplete = bindAutoComplete('input[id$=tb_EmployeeName]', "Public/Services/Manage.asmx/GetEmployeeName", false, true);
     store_autoComplete = bindAutoComplete('input[id$=tb_Store]', "Public/Services/Manage.asmx/GetStoreName", true);
     $('#btn_locateStore').live('click', function () {
-        geocode(setLatLng, {'lat': latitude, 'lng': longitude });
-        //reverseGeocode($(city).val() + $(district).val() + $(street1).val() + $(street2).val(), setLatLng);
+        if ($(latitude).val() != '' && $(longitude).val() != '') {
+            geocode(setLatLng, { 'lat': latitude, 'lng': longitude });
+        }
+        else {
+            reverseGeocode($(city).val() + $(district).val() + $(street1).val() + $(street2).val(), setLatLng);
+        }
     });
 
     $('#btn_GetAddress').live('click', function () {

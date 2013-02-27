@@ -3,8 +3,6 @@
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
     <script src="Scripts/jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
-    <script src="Scripts/bootstrap-tabs.js" type="text/javascript"></script>
-    <script src="Scripts/bootstrap-dropdown.js" type="text/javascript"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAizK-CoOU44u0bTWzVeUlbMkQ2cHagM9s&amp;sensor=true&amp;language=ch"></script>
     <script src="Public/Libs/Leaflet/leaflet.js"></script>
     <script src="Public/Libs/Leaflet/google.js" type="text/javascript"></script>
@@ -43,7 +41,7 @@
                     <div class="row-fluid clearfix well">
                         
                         <div class="form-search">
-                        <label>检索：店铺名称</label> 
+                        <label>检索：</label> 
                             <asp:TextBox ID="tb_SearchStore" runat="server" CssClass="search-query" ></asp:TextBox>
                             <asp:Button ID="btn_SearchStore" runat="server" Text="搜索" OnClick="btn_SearchStoreClick" CssClass="btn" />
                         </div>
@@ -78,9 +76,9 @@
           EnableTheming="false" PageSize="10" AllowPaging="true" DataKeyNames="storeId" 
           OnRowEditing="gv_Store_RowEditing" OnRowCancelingEdit="gv_Store_RowCancelingEdit" 
           OnPageIndexChanged="gv_Store_PageIndexChanged" 
-          OnRowDataBound="gv_Store_RowDataBound" 
-          OnRowDeleted="gv_Store_RowDeleted">
-
+          OnRowCreated="gv_Store_RowCreated"
+          OnRowDeleted="gv_Store_RowDeleted" >
+            
             <Columns>
                 <asp:TemplateField HeaderText="#">
                     <ItemTemplate>
@@ -99,6 +97,7 @@
                 <asp:BoundField HeaderText="门店组号" DataField="storeCode" ItemStyle-Wrap="true" ControlStyle-Width="50" />
                 <asp:BoundField HeaderText="门店" DataField="storeName" ItemStyle-Wrap="true" ControlStyle-Width="100" />
                 <asp:TemplateField>
+                    <HeaderStyle CssClass="h"  />
                     <HeaderTemplate>
                         地址
                     </HeaderTemplate>
@@ -116,9 +115,9 @@
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField >
+                    
                     <ItemTemplate>
                         <a href='/Edit-Store.aspx?storeId=<%# Eval("StoreId")%>'  class="btn primary btn-info">修改</a>
-                        <asp:LinkButton ID="btn_DeleteStore" CommandName="delete" CommandArgument='<%# Eval("StoreId") %>' CssClass="btn btn-inverse" runat="server" style="display:inline-block" Text="删除"/>
                         <asp:LinkButton ID="btn_HardDeleteStore" CommandName="hardDelete" CommandArgument='<%# Eval("StoreId") %>' CssClass="btn btn-inverse" runat="server" style="display:inline-block" Text="强力删除"/>
                     </ItemTemplate>
                 </asp:TemplateField>
