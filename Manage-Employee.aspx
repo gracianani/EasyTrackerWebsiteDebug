@@ -5,7 +5,6 @@
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
     <script src="Scripts/jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="Scripts/stupidtable.js?dev"></script>
-    <script src="Scripts/bootstrap.js" type="text/javascript"></script>
     <style type="text/css">
         #employee table input
         {
@@ -66,7 +65,7 @@
             <asp:ListItem Text="50" Value="50"></asp:ListItem>
             <asp:ListItem Text="100" Value="100"></asp:ListItem>
         </asp:DropDownList>
-        <asp:GridView ID="gv_Employee" runat="server" CssClass="table table-striped table-bordered" 
+        <asp:GridView ID="gv_Employee" runat="server" CssClass="table table-bordered" 
         AutoGenerateColumns="false" DataKeyNames="UserId" EnableTheming="False" 
         DataSourceID="ds_Employee" AllowPaging="true" PageSize="10" OnRowEditing="gv_Employee_RowEditing"
         OnRowCancelingEdit="gv_Employee_RowEditing"
@@ -77,7 +76,6 @@
         OnRowCreated="gv_Employee_RowCreated">
             <Columns>
                 <asp:TemplateField HeaderText="#">
-                	<HeaderStyle CssClass="int" />
                     <ItemTemplate>
                         <%# Container.DisplayIndex + 1 %>
                     </ItemTemplate>
@@ -183,6 +181,8 @@
           th.find(".arrow").remove();
           var arrow = data.direction === "asc" ? "&uarr;" : "&darr;";
           th.eq(data.column).append('<span class="arrow">' + arrow +'</span>');
+		  
+	
         });
     });
 	</script>
