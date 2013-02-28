@@ -35,9 +35,14 @@
                 </asp:MultiView>
         </div><!--fv_SearchEmployee-->
         <div class="pull-right">
-            <a id="btn_CreateUser" href="javascript:void(0)" class="btn btn-primary"><i class="icon-plus icon-white"></i> 创建新员工</a>   
+      <!--      <a id="btn_CreateUser" href="javascript:void(0)" class="btn btn-primary"><i class="icon-plus icon-white"></i> 创建新员工</a>   
             <button id="btn_ImportEmployees" class="btn" href="#importEmployee" data-toggle="modal"><i class="icon-arrow-up"></i>上传</button>
-            <button id="btn_ExportEmployees" class="btn"><i class="icon-arrow-down"></i>下载</button>
+            <button id="btn_ExportEmployees" class="btn"><i class="icon-arrow-down"></i>下载</button> -->
+
+            <a id="btn_CreateUser" href="javascript:void(0)" class="btn btn-primary"><i class="icon-plus icon-white"></i>创建新员工</a>   
+            <button id="btn_ImportEmployees" class="btn btn-primary" href="#importEmployee" data-toggle="modal"><i class="icon-arrow-up"></i>上传</button>
+            <asp:Button id="btn_ExportEmployees" runat="server" class="btn btn-primary" Text="下载" OnClick="btn_ExportEmployees_Click" />
+            
             
         </div><!--.pull-right-->
         </div><!--.clearfix-->

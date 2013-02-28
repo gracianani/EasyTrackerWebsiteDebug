@@ -45,8 +45,6 @@
                                         <asp:MenuItem NavigateUrl="~/Manage-Employee.aspx" Text="管理员工"  ></asp:MenuItem>
                                         <asp:MenuItem NavigateUrl="~/Manage-Store.aspx" Text="管理店铺"></asp:MenuItem>
                                         <asp:MenuItem NavigateUrl="~/Manage-Task.aspx" Text="管理任务"></asp:MenuItem>
-                                        <asp:MenuItem NavigateUrl="~/Upload-New-Stores.aspx" Text="上传店铺"></asp:MenuItem>
-                                        <asp:MenuItem NavigateUrl="~/Upload-New-Employees.aspx" Text="上传员工"></asp:MenuItem>
                                     </asp:MenuItem>
                                 </Items>
                                 

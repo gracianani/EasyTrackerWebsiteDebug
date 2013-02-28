@@ -1,8 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="View-Store-All.aspx.cs" MasterPageFile="~/Site.master" Inherits="EasyTrackerSolution.View_Store_All" %>
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
     <script src="Scripts/jquery.tmpl.js" type="text/javascript"></script>
-    <script src="Scripts/bootstrap-tabs.js" type="text/javascript"></script>
-    <script src="Scripts/bootstrap-alert.js" type="text/javascript"></script>
     <script src="Scripts/lightbox.js"></script>
     <script src="Scripts/highcharts.js"></script>
     <script src="Scripts/modules/exporting.js"></script>
@@ -66,8 +64,8 @@
               </asp:DropDownList>
 
            <label>关键字</label>
-              <input type="text" class="" />
-              <asp:Button ID="btn_SearchMany1" runat="server" CssClass="btn btn-info"  Text="搜索"/>
+              <asp:TextBox ID="tb_SearchMany" runat="server" ></asp:TextBox>
+              <asp:Button ID="btn_SearchMany" runat="server" CssClass="btn btn-info" OnClick="btn_SearchMany_Click"  Text="搜索"/>
           
     		</div>
     </fieldset>
@@ -79,7 +77,7 @@
 	<h3>店铺列表</h3>
     <div class="well" style="overflow:scroll;height:700px">
     <asp:Literal ID="lt_searchResultDescription" runat="server" Text="没有符合您搜索条件的店铺" Visible="false"></asp:Literal>
-    <asp:Repeater ID="rpt_storesMany" runat="server" DataSourceID="ds_StoreMany" >
+    <asp:Repeater ID="rpt_storesMany" runat="server" >
         <ItemTemplate>
             <ul class="storeList">
     	        <li class="storeList-item">
