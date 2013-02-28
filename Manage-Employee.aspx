@@ -26,7 +26,7 @@
     <asp:ScriptManager ID="scriptManager" runat="server"></asp:ScriptManager>
     <div class="content">
     <div id="employee">
-    <div style="background:#f5f5f5;margin:-20px -20px 0;padding:20px 20px 0">
+    <div class="topContainer">
         <h2>
            管理员工
         </h2>
@@ -58,7 +58,7 @@
             
         </div><!--.pull-right-->
         </div><!--.clearfix-->
-        <hr /></div>
+        </div>
         <p>
         每页显示：
         <asp:DropDownList ID="ddl_ItemsPerPage" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddl_ItemsPerPage_SelectedIndexChanged">
@@ -101,8 +101,8 @@
                     <HeaderTemplate>
                     </HeaderTemplate>
                     <ItemTemplate>
-                        <a href='Edit-Employee.aspx?userId=<%# Eval("UserId") %>' class="btn btn-primary"><i class="icon-edit icon-white"></i> 修改</a>
-                        <asp:LinkButton ID="btn_HardDeleteUser" CommandName="hardDelete" CommandArgument='<%# Eval("UserId") %>'  CssClass="btn btn-inverse" runat="server"  Text="<i class='icon-remove icon-white'></i> 强力删除"/>
+                        <a href='Edit-Employee.aspx?userId=<%# Eval("UserId") %>' class="btn btn-primary" title='修改'><i class="icon-pencil icon-white"></i></a>
+                        <asp:LinkButton ID="btn_HardDeleteUser" CommandName="hardDelete" CommandArgument='<%# Eval("UserId") %>'  CssClass="btn btn-inverse" runat="server"  Text="<i class='icon-remove icon-white' title='强力删除'></i>"/>
                     </ItemTemplate>
                     <EditItemTemplate>
                         <asp:LinkButton ID="btn_UpdateUser" CommandName="update"  CssClass="btn primary  btn-success" runat="server" Text="更新"/>
@@ -185,11 +185,13 @@
           var th = $(this).find("th");
           th.find(".caret").remove();
           var arrow = data.direction === "asc" ? "&uarr;" : "&darr;";
-          th.eq(data.column).append('<span class="caret ' + data.direction +'">&nbsp;</span>');
-		  
-	
-	
+          th.eq(data.column).prepend('<span class="caret ' + data.direction +'">&nbsp;</span>');
+		  	
         });
+		table.on('click','tbody tr',function() {
+			$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');
+		});
     });
 	</script>
 </asp:Content>
