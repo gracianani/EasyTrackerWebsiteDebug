@@ -75,7 +75,8 @@
         OnRowCommand="gv_Employee_RowCommand"
         OnRowDataBound="gv_Employee_RowDataBound"
         OnRowUpdating="gv_Employee_RowUpdating"
-        OnRowCreated="gv_Employee_RowCreated">
+        OnRowCreated="gv_Employee_RowCreated"
+         OnPreRender="gv_Employee_PreRender">
             <Columns>
                 <asp:TemplateField HeaderText="#">
                 	<ItemStyle CssClass="indexCol" />
@@ -94,6 +95,7 @@
                 </asp:TemplateField>
                 <asp:BoundField DataField="employeeCode" HeaderText="员工编码" >
                 <HeaderStyle CssClass="string" />
+                
                 </asp:BoundField>
                 <asp:TemplateField>
                     <HeaderTemplate>
@@ -110,7 +112,7 @@
                 
             </Columns>
             <PagerSettings Mode="NumericFirstLast" PreviousPageText="上一页" NextPageText="下一页" Position="Bottom"  />
-                
+            <PagerStyle CssClass="gridview-pager" />
             <EmptyDataTemplate>
                 您现在还没有员工，<a id="btn_CreateUser" href="javascript:void(0)" class="btn btn-info">创建新员工</a>   
             </EmptyDataTemplate>

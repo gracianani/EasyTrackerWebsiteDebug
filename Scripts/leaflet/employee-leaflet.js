@@ -197,7 +197,7 @@ function isSameLocation(Coordinate1, Coordinate2) {
 	var latlng2 = new L.LatLng(Coordinate2.Latitude, Coordinate2.Longitude);
 	
 	var distance = latlng1.distanceTo(latlng2);
-    if (distance < 800) {
+    if (distance < 10) {
         return true;
     }
     return false;
@@ -213,7 +213,7 @@ function sortDataListByLocation(checkInGroupByDate) {
         } else {
 
             var lastPoint = dataList[dataList.length - 1];
-            if (isSameLocation(checkInGroupByDate[i].CheckInCoordinate, lastPoint.CheckInCoordinate)) {
+           /* if (isSameLocation(checkInGroupByDate[i].CheckInCoordinate, lastPoint.CheckInCoordinate)) {
                 if ((checkInGroupByDate.length - 1) == i || checkInGroupByDate[i + 1].CheckInType == 2 || !isSameLocation(checkInGroupByDate[i + 1].CheckInCoordinate, lastPoint.CheckInCoordinate)) {
 
                     var createdAt = checkInGroupByDate[i].CreatedAt + '-' + lastPoint.CreatedAt;
@@ -223,7 +223,8 @@ function sortDataListByLocation(checkInGroupByDate) {
 
             } else {
                 dataList.push(checkInGroupByDate[i]);
-            }
+            }*/
+            dataList.push(checkInGroupByDate[i]);
         }
     }
 
