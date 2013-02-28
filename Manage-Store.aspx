@@ -2,7 +2,7 @@
 <%@ Register Src="~/Controls/Messager.ascx" TagName="Messager" TagPrefix="EasyTracker" %>
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
-    <script src="Scripts/jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
+<script src="Scripts/jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAizK-CoOU44u0bTWzVeUlbMkQ2cHagM9s&amp;sensor=true&amp;language=ch"></script>
     <script src="Public/Libs/Leaflet/leaflet.js"></script>
     <script src="Public/Libs/Leaflet/google.js" type="text/javascript"></script>
@@ -26,51 +26,45 @@
 		 max-width: none;
         }
     </style>
+    <script type="text/javascript" src="Scripts/stupidtable.js?dev"></script>
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
     <asp:ScriptManager ID="scriptManager" runat="server"></asp:ScriptManager>
-    <h2>
-       管理店铺信息
-    </h2>
-    <div class="content">
-    <div id="store" class="tab-pane">
-        <div id="fv_SearchStore">
-            
+   <div id="store">
+   <div class="topContainer clearfix">
+        <h2>
+           管理店铺信息
+        </h2>
+		<div id="fv_SearchStore" class="pull-left form-inline">
                 <asp:MultiView ID="mv_SearchStore" runat="server" ActiveViewIndex="0">
                     <asp:View ID="view_SearchStore" runat="server" >
-                    <div class="row-fluid clearfix well">
-                        
-                        <div class="form-search">
                         <label>检索：</label> 
-                            <asp:TextBox ID="tb_SearchStore" runat="server" CssClass="search-query" ></asp:TextBox>
-                            <asp:Button ID="btn_SearchStore" runat="server" Text="搜索" OnClick="btn_SearchStoreClick" CssClass="btn" />
-                        </div>
-                        </div>
+                            <asp:TextBox ID="tb_SearchStore" runat="server" ></asp:TextBox>
+                            <asp:Button ID="btn_SearchStore" runat="server" Text="搜索" OnClick="btn_SearchStoreClick" CssClass="btn btn-primary" />
                     </asp:View>
                     <asp:View ID="view_SearchStoreResult" runat="server">
-                    <div class="row-fluid clearfix well form-inline">
                         <asp:RequiredFieldValidator ID="rfv_SearchStore" runat="server" ValidationGroup="searchStore" ControlToValidate="tb_SearchStore" ErrorMessage="*"
                              CssClass="label label-warning" Display="Dynamic"></asp:RequiredFieldValidator>
                         <label style="padding-right:20px"><span class="label label-info">搜索词:</span> <%= tb_SearchStore.Text%></label>
 <asp:Button ID="tb_SearchStoreReset" runat="server" Text="还原" OnClick="btn_SearchStoreResetClick" ValidationGroup="searchStore" CssClass="btn" />
-                        </div>
                     </asp:View>
                 </asp:MultiView>
-           </div> 
+        </div> 
         <EasyTracker:Messager id="messager" runat="server" Visible="false" AlertMessage="" />
-        <div class="btn-toolbar">
-            <a id="btn_CreateStore" href="javascript:void(0)" class="btn btn-primary">创建新店铺</a>
-            <a id="btn_ImportStores" data-toggle="modal" class="btn" href="#loginModal" >导入</a>
+        <div class="pull-right">
+            <a id="btn_CreateStore" href="javascript:void(0)" class="btn btn-primary"><i class="icon-plus icon-white"></i> 创建新店铺</a>
+            <a id="btn_ImportStores" data-toggle="modal" class="btn" href="#loginModal" ><i class="icon-arrow-up"></i>上传</a>
+
             <asp:Button ID="btn_ExportStores" runat="server" CssClass="btn" Text="导出" OnClick="btn_ExportStores_Click" />
-            <label></label>
-            <asp:DropDownList ID="ddl_ChangePageCount" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddl_ChangePageCount_SelectedIndexChanged">
+        </div>
+    </div>
+    <p class="pageCount">每页显示： <asp:DropDownList ID="ddl_ChangePageCount" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddl_ChangePageCount_SelectedIndexChanged">
                 <asp:ListItem Text="10" Value="10"></asp:ListItem>
                 <asp:ListItem Text="50" Value="50"></asp:ListItem>
                 <asp:ListItem Text="100" Value="100"></asp:ListItem>
             </asp:DropDownList>
-        </div>
-
-        <asp:GridView ID="gv_Store" runat="server" CssClass="table table-striped table-bordered" 
+     </p>
+        <asp:GridView ID="gv_Store" runat="server" CssClass="table table-condensed table-bordered stupidTable" 
           DataSourceID="ds_Store" OnRowUpdating="gv_Store_RowUpdating" 
           AutoGenerateColumns="false" OnRowCommand="gv_Store_RowCommand" 
           EnableTheming="false" PageSize="10" AllowPaging="true" DataKeyNames="storeId" 
@@ -81,11 +75,13 @@
             
             <Columns>
                 <asp:TemplateField HeaderText="#">
+                	<ItemStyle CssClass="indexCol" />
                     <ItemTemplate>
                         <%# Container.DisplayIndex + 1%>
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField>
+                	<HeaderStyle CssClass="string" />
                     <HeaderTemplate>
                         门店系统
                     </HeaderTemplate>
@@ -93,11 +89,17 @@
                         <%#Eval("ChainStoreName")%>
                     </ItemTemplate>
                 </asp:TemplateField>
-                <asp:BoundField HeaderText="门店编码" DataField="alias" ItemStyle-Wrap="true" ControlStyle-Width="50" />
-                <asp:BoundField HeaderText="门店组号" DataField="storeCode" ItemStyle-Wrap="true" ControlStyle-Width="50" />
-                <asp:BoundField HeaderText="门店" DataField="storeName" ItemStyle-Wrap="true" ControlStyle-Width="100" />
+                <asp:BoundField HeaderText="门店编码" DataField="alias" ItemStyle-Wrap="true" ControlStyle-Width="50" >
+                <HeaderStyle CssClass="string" />
+                </asp:BoundField>
+                <asp:BoundField HeaderText="门店组号" DataField="storeCode" ItemStyle-Wrap="true" ControlStyle-Width="50">
+                <HeaderStyle CssClass="string" />
+                </asp:BoundField>
+                <asp:BoundField HeaderText="门店" DataField="storeName" ItemStyle-Wrap="true" ControlStyle-Width="100" >
+                <HeaderStyle CssClass="string" />
+                </asp:BoundField>
                 <asp:TemplateField>
-                    <HeaderStyle CssClass="h"  />
+                    <HeaderStyle CssClass="string" />
                     <HeaderTemplate>
                         地址
                     </HeaderTemplate>
@@ -107,6 +109,7 @@
                 </asp:TemplateField>
                 
                 <asp:TemplateField>
+                	<HeaderStyle CssClass="string" />
                     <HeaderTemplate>
                         一级经理
                     </HeaderTemplate>
@@ -117,14 +120,15 @@
                 <asp:TemplateField >
                     
                     <ItemTemplate>
-                        <a href='/Edit-Store.aspx?storeId=<%# Eval("StoreId")%>'  class="btn primary btn-info">修改</a>
-                        <asp:LinkButton ID="btn_HardDeleteStore" CommandName="hardDelete" CommandArgument='<%# Eval("StoreId") %>' CssClass="btn btn-inverse" runat="server" style="display:inline-block" Text="强力删除"/>
+                        <a href='/Edit-Store.aspx?storeId=<%# Eval("StoreId")%>'  class="btn btn-primary" title='修改'><i class="icon-pencil icon-white"></i></a>
+                        <asp:LinkButton ID="btn_HardDeleteStore" CommandName="hardDelete" CommandArgument='<%# Eval("StoreId") %>' CssClass="btn btn-inverse" runat="server" style="display:inline-block" Text="<i class='icon-remove icon-white' title='强力删除'></i>"/>
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>
             <PagerSettings Mode="NumericFirstLast" PreviousPageText="上一页" NextPageText="下一页" Position="Bottom" />
+            <PagerStyle CssClass="gridview-pager" />
             <EmptyDataTemplate>
-                您现在还没有店铺，<a id="btn_CreateStore" href="javascript:void(0)" class="btn btn-info">创建新店铺</a>   
+                您现在还没有店铺，<a id="btn_CreateStore" href="javascript:void(0)" class="btn btn-primary" style="font-size:14px;height:16px;line-height:16px;padding:4px 10px">创建新店铺</a>   
             </EmptyDataTemplate>
         </asp:GridView>
         
@@ -198,7 +202,6 @@
             </div>
         </div>
     </div>
-    </div>
 
     <asp:ObjectDataSource ID="ds_Store" runat="server" 
     TypeName="EasyTrackerDomainModel.StoreLogic" SelectMethod="Fetch" UpdateMethod="Update" DeleteMethod="Delete" OldValuesParameterFormatString="{0}" 
@@ -235,5 +238,33 @@
     </asp:ObjectDataSource>
       
     <script type="text/javascript" src="Scripts/manage.js"></script>
+    <script>
+	
+	$(function(){
+		$(".table th[class]").each(function(){
+			$(this).attr('data-sort',$(this).attr('class'));
+		});
+        var hasPager = true;
+		var hasHeader =true;
+		if ($('.gridview-pager').size()< 1) {
+			hasPager = false;
+		}
+		var table = $(".table").stupidtable({},hasHeader,hasPager);
+        table.bind('aftertablesort', function (event, data) {
+          var th = $(this).find("th");
+          th.find(".caret").remove();
+          var arrow = data.direction === "asc" ? "&uarr;" : "&darr;";
+          th.eq(data.column).prepend('<span class="caret ' + data.direction +'">&nbsp;</span>');
+		  	
+        });
+		table.on('click','tbody tr',function() {
+			$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');
+		});
+		
+		DropDownListToPills('.pageCount select');
+		
+    });
+	</script>
 </asp:Content>
 

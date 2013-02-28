@@ -190,6 +190,9 @@ function getTaskData() {
     return data;
 }
 function createInsertDialog(ui_dialog, ui_btn_create, options) {
+	if ( $(ui_dialog).size() < 1 ) {
+		return;
+	}
     $(ui_btn_create).click(function () {
         $(ui_dialog).dialog("open");
         if (typeof (options.has_map) != '' && typeof (options.has_map) != 'undefined') {
@@ -197,7 +200,6 @@ function createInsertDialog(ui_dialog, ui_btn_create, options) {
                 initMap();
         } 
     });
-
     $(ui_dialog).dialog({
         autoOpen: false,
         height: options.height,
@@ -293,7 +295,7 @@ function bindAutoComplete(ui, url_data, append, appendStoresByUser) {
         validate_group: 'insertuser'});
     createInsertDialog('#fv_Store', 'a[id$=btn_CreateStore]' ,{
         width:760, 
-        height:750,
+        height:Math.round($(window).height() * 0.8),
         data: getStoreData,
         data_url: 'Public/Services/Manage.asmx/InsertStore',
         postback_command_name : 'InsertStore',
@@ -480,4 +482,28 @@ function setLatLng(latlng)
 function setLatLngEditing(latlng) {
     $(sprintf(latitude_editing, editing_index)).val(latlng.lat());
     $(sprintf(longitude_editing, editing_index)).val(latlng.lng());
+}
+
+function DropDownListToPills(listSelector) {
+		var dropDown = $(listSelector);
+		var pillsId = dropDown.attr('id') + "-pills";
+		
+		var pills = $('<ul></ul>').attr('class','nav nav-pills').attr('id',pillsId);
+		
+		dropDown.find('option').each(function(){
+			$this = $(this);
+			var liClass = '';
+			if ($this.is(':selected')) {
+				liClass = 'active';
+			}
+			$('<li class="'+ liClass +'"><a href="javascript:void(0)" data-value="'+$this.val()+'">'+ $this.html()+'</a></li>').appendTo(pills);
+		});
+		dropDown.hide();
+		dropDown.after(pills);
+		
+		$('#'+pillsId+' a').click(function (e) {
+		  e.preventDefault();
+		  dropDown.find('option[value="'+$(this).attr('data-value')+'"]').attr('selected',true);
+		  dropDown.change();
+		})
 }

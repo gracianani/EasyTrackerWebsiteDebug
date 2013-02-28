@@ -5,22 +5,6 @@
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
     <script src="Scripts/jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="Scripts/stupidtable.js?dev"></script>
-    <style type="text/css">
-        #employee table input
-        {
-            max-width:100px;
-        }
-
-		.ui-widget-content .btn-info,
-		.ui-widget-content .btn-info:hover {
-		  color: #ffffff;
-		  font-weight:bold;
-		  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-		}
-		#map_canvas img {
-		 max-width: none;
-        }
-    </style>
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
     <asp:ScriptManager ID="scriptManager" runat="server"></asp:ScriptManager>
@@ -51,14 +35,14 @@
                 </asp:MultiView>
         </div><!--fv_SearchEmployee-->
         <div class="pull-right">
-            <button id="btn_CreateUser" href="javascript:void(0)" class="btn btn-primary"><i class="icon-plus icon-white"></i> 创建新员工</button>   
+            <a id="btn_CreateUser" href="javascript:void(0)" class="btn btn-primary"><i class="icon-plus icon-white"></i> 创建新员工</a>   
             <button id="btn_ImportEmployees" class="btn" href="#importEmployee" data-toggle="modal"><i class="icon-arrow-up"></i>上传</button>
             <button id="btn_ExportEmployees" class="btn"><i class="icon-arrow-down"></i>下载</button>
             
         </div><!--.pull-right-->
         </div><!--.clearfix-->
         </div>
-        <p>
+        <p class="pageCount">
         每页显示：
         <asp:DropDownList ID="ddl_ItemsPerPage" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddl_ItemsPerPage_SelectedIndexChanged">
             <asp:ListItem Text="10" Value="10"></asp:ListItem>
@@ -66,7 +50,7 @@
             <asp:ListItem Text="100" Value="100"></asp:ListItem>
         </asp:DropDownList>
         </p>
-        <asp:GridView ID="gv_Employee" runat="server" CssClass="table table-condensed table-bordered" 
+        <asp:GridView ID="gv_Employee" runat="server" CssClass="table table-condensed table-bordered stupidTable" 
         AutoGenerateColumns="false" DataKeyNames="UserId" EnableTheming="False" 
         DataSourceID="ds_Employee" AllowPaging="true" PageSize="10" OnRowEditing="gv_Employee_RowEditing"
         OnRowCancelingEdit="gv_Employee_RowEditing"
@@ -141,7 +125,7 @@
                 <button type="button" class="close" data-dismiss="modal">✕</button>
                 <h3>导入店铺</h3>
             </div>
-                <div class="modal-body" style="text-align:center;">
+            <div class="modal-body" style="text-align:center;">
                 <div class="row-fluid">
                     <div class="span10 offset1">
                         <div id="modalTab">
@@ -150,10 +134,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    </div>
+            </div><!--modal-body-->
+        </div><!--modal-->
+    </div><!--#employee-->
+    </div><!--content-->
 
     <asp:ObjectDataSource ID="ds_Employee" runat="server" SelectMethod="Fetch" 
     TypeName="EasyTrackerDomainModel.UserLogic" UpdateMethod="Update" DeleteMethod="Delete">
@@ -191,6 +175,8 @@
 			$('tr.selected').removeClass('selected');
 			$(this).addClass('selected');
 		});
+		DropDownListToPills('.pageCount select');
+		
     });
 	</script>
 </asp:Content>
