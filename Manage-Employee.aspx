@@ -35,26 +35,25 @@
                 <asp:MultiView ID="mv_SearchEmployee" runat="server" ActiveViewIndex="0">
                     <asp:View ID="view_Search" runat="server" >
                     <div class="form-inline">
-                            <label>检索：</label>
-                            <asp:RequiredFieldValidator ID="rfv_SearchEmployeeName" runat="server" ValidationGroup="searchEmployee" ControlToValidate="tb_SearchEmployeeName" ErrorMessage="*"
-                             CssClass="label label-warning" Display="Dynamic"></asp:RequiredFieldValidator>
+                    <asp:RequiredFieldValidator ID="rfv_SearchEmployeeName" runat="server" ValidationGroup="searchEmployee" ControlToValidate="tb_SearchEmployeeName" ErrorMessage="*请填写检索词"
+                             CssClass=""  Display="Dynamic"></asp:RequiredFieldValidator>
                             <asp:TextBox ID="tb_SearchEmployeeName" runat="server" ></asp:TextBox>
+                            <asp:Button ID="btn_SearchEmployee" runat="server" Text="搜索" ValidationGroup="searchEmployee" OnClick="btn_SearchEmployeeClick" CssClass="btn btn-primary" />
                             
-                            <asp:Button ID="btn_SearchEmployee" runat="server" Text="搜索" ValidationGroup="searchEmployee" OnClick="btn_SearchEmployeeClick" CssClass="btn" />
                         </div>
                     </asp:View>
                     <asp:View ID="view_SearchResult" runat="server">
                     <div class="form-inline">
                         <label style="padding-right:20px;">搜索词: <%= tb_SearchEmployeeName.Text %></label> 
-                        <asp:Button ID="btn_SearchEmployeeReset" runat="server" Text="还原" OnClick="btn_EmployeeResetClick" CssClass="btn" />
+                        <asp:Button ID="btn_SearchEmployeeReset" runat="server" Text="还原" OnClick="btn_EmployeeResetClick" CssClass="btn btn-primary" />
                         </div>
                     </asp:View>
                 </asp:MultiView>
         </div><!--fv_SearchEmployee-->
         <div class="pull-right">
-            <button id="btn_CreateUser" href="javascript:void(0)" class="btn btn-primary">创建新员工</button>   
-            <button id="btn_ImportEmployees" class="btn btn-primary" href="#importEmployee" data-toggle="modal">导入</button>
-            <button id="btn_ExportEmployees" class="btn btn-primary">导出</button>
+            <button id="btn_CreateUser" href="javascript:void(0)" class="btn btn-primary"><i class="icon-plus icon-white"></i> 创建新员工</button>   
+            <button id="btn_ImportEmployees" class="btn" href="#importEmployee" data-toggle="modal"><i class="icon-arrow-up"></i>上传</button>
+            <button id="btn_ExportEmployees" class="btn"><i class="icon-arrow-down"></i>下载</button>
             
         </div><!--.pull-right-->
         </div><!--.clearfix-->
@@ -114,7 +113,7 @@
             <PagerSettings Mode="NumericFirstLast" PreviousPageText="上一页" NextPageText="下一页" Position="Bottom"  />
             <PagerStyle CssClass="gridview-pager" />
             <EmptyDataTemplate>
-                您现在还没有员工，<a id="btn_CreateUser" href="javascript:void(0)" class="btn btn-info">创建新员工</a>   
+                没有符合条件的员工，<a id="btn_CreateUser" href="javascript:void(0)" class="btn btn-primary" style="font-size:14px;height:16px;line-height:16px;padding:4px 10px">创建新员工</a>   
             </EmptyDataTemplate>
 
         </asp:GridView>
