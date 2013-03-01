@@ -127,11 +127,12 @@
 
 
     <div  id="fv_EmployeeTask">
-            <table class="table table-bordered table-condensed" >
+            <table class="table table-condensed" >
 
             <tr>
                 <td align="right">员工姓名</td>
                 <td>
+                <span class="add-on"><i class="icon-search"></i></span>
                 <asp:TextBox ID="tb_EmployeeName" runat="server" CssClass="span2" data-value="" ></asp:TextBox>
                 </td>
             </tr>
@@ -142,7 +143,7 @@
                 <div class="storeNames" style="width:200px;display:block;overflow:hidden;clear:both">
                 </div>
                 <div class="controls">
-                    <span class="add-on" style="margin-right:-5px"><i class="icon-search"></i></span>
+                    <span class="add-on"><i class="icon-search"></i> </span>
                     <asp:TextBox ID="tb_Store" runat="server" CssClass="span2" data-value="" ></asp:TextBox>
                 </div>
                 </td>

@@ -13,10 +13,10 @@
  <link rel="Stylesheet" href="Public/Libs/Leaflet/leaflet.ie.css" />
  <![endif]-->
     <style type="text/css">
-        #employee table input
-        {
-            max-width:100px;
-        }
+	   .table tr:first-child td {
+		   border-top:none;
+	   }
+	
 
 		.ui-widget-content .btn-info,
 		.ui-widget-content .btn-info:hover {
@@ -30,47 +30,48 @@
     </style>
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
-    
+	<a class="btn pull-right" href="/Manage-Store.aspx">返回店铺列表</a>
+    <h2>编辑店铺信息</h2>
+    <hr />
     <EasyTracker:Messager id="messager" runat="server" Visible="false" AlertMessage="" />
-    <div class="well span10">
+    <div class="well">
     <asp:DetailsView ID="dv_EditStore" GridLines="None"  cssClass="table table-condensed table-hover" runat="server" DataSourceID="ds_Store" AutoGenerateRows="false" DefaultMode="Edit"  DataKeyNames="storeId" 
     OnDataBound="dv_EditStore_DataBound" CellPadding="12" OnItemUpdating="dv_EditStore_ItemUpdating" OnItemUpdated="dv_EditStore_ItemUpdated" OnItemCommand="dv_EditStore_ItemCommand"  >
         <EditRowStyle BorderWidth="0" />
-        <HeaderStyle CssClass="span3" />
         <Fields>
-            <asp:BoundField HeaderText="店铺名称" DataField="storeName" ItemStyle-Wrap="true" ControlStyle-Width="100" />
-            <asp:BoundField HeaderText="别名" DataField="alias" ItemStyle-Wrap="true" ControlStyle-Width="50" />
+            <asp:BoundField HeaderText="店铺名称" DataField="storeName" ItemStyle-Wrap="true"  />
+            <asp:BoundField HeaderText="别名" DataField="alias" ItemStyle-Wrap="true" />
             <asp:TemplateField HeaderText="地址">
                 <EditItemTemplate>
                     <table>
-                        <tr><td colspan="2" align="right">街道</td><td colspan="2"><asp:TextBox ID="tb_Street1" runat="server" Text='<%#Bind("addressLine1") %>' CssClass="span1" ></asp:TextBox></td></tr>
-                        <tr><td colspan="2" align="right">门牌号码</td><td colspan="2"><asp:TextBox ID="tb_Street2" runat="server" Text='<%#Bind("addressLine2") %>'  CssClass="span1"></asp:TextBox></td></tr>
-                        <tr><td colspan="2" align="right">区县</td><td colspan="2">
-                            <asp:TextBox ID="tb_District" runat="server"  CssClass="span1" Text='<%#Bind("district") %>' ></asp:TextBox>   
+                        <tr><td>街道</td><td><asp:TextBox ID="tb_Street1" runat="server" Text='<%#Bind("addressLine1") %>'></asp:TextBox></td></tr>
+                        <tr><td>门牌号码</td><td><asp:TextBox ID="tb_Street2" runat="server" Text='<%#Bind("addressLine2") %>'></asp:TextBox></td></tr>
+                        <tr><td>区县</td><td>
+                            <asp:TextBox ID="tb_District" runat="server"  Text='<%#Bind("district") %>' ></asp:TextBox>   
                         </td></tr>
-                        <tr><td colspan="2" align="right">城市</td><td colspan="2"><asp:TextBox ID="tb_City" runat="server" Text='<%#Bind("city") %>'  CssClass="span1" ></asp:TextBox></td></tr>
-                        <tr><td colspan="2" align="right">省份</td><td colspan="2"><asp:TextBox ID="tb_Provience" runat="server" Text='<%#Bind("provience") %>' CssClass="span1"></asp:TextBox></td></tr>
+                        <tr><td>城市</td><td><asp:TextBox ID="tb_City" runat="server" Text='<%#Bind("city") %>' ></asp:TextBox></td></tr>
+                        <tr><td>省份</td><td><asp:TextBox ID="tb_Provience" runat="server" Text='<%#Bind("provience") %>'></asp:TextBox></td></tr>
                     </table>
                 </EditItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="坐标">
                 <EditItemTemplate>
-                    <div class="form-inline" style="width:300px">
-                    <asp:TextBox ID="tb_Latitude" runat="server" CssClass="span1"  Text='<%#Bind("latitude") %>'></asp:TextBox>,
-                    <asp:TextBox ID="tb_Longitude" runat="server" CssClass="span1"  Text='<%#Bind("longitude") %>'></asp:TextBox>
-                    <a type="button" class="btn btn-small btn-info" id="btn_locateStore2" href='javascript:getLatLng("0")' >
+                    <div class="form-inline">
+                    <asp:TextBox ID="tb_Latitude" runat="server" Text='<%#Bind("latitude") %>'></asp:TextBox>,
+                    <asp:TextBox ID="tb_Longitude" runat="server" Text='<%#Bind("longitude") %>'></asp:TextBox>
+                    <a type="button" class="btn btn-small btn-primary" id="btn_locateStore2" href='javascript:getLatLng("0")' >
                     <i class="icon-search icon-white"></i> 定位 </a>
                     <div id="map_canvas" style="width: 100%;height:270px;margin-top:10px;"></div>
                     </div>
                 </EditItemTemplate>
             </asp:TemplateField>
             
-            <asp:BoundField DataField="phoneNumber" InsertVisible="true"  HeaderText="联系电话" ControlStyle-Width="80px"/>
+            <asp:BoundField DataField="phoneNumber" InsertVisible="true"  HeaderText="联系电话"/>
             <asp:TemplateField>
                 <HeaderTemplate>类别</HeaderTemplate>
                 <EditItemTemplate>
                     <asp:HiddenField ID="hf_ImportanceLevel" runat="server" Value='<%# Convert.ToInt32(Eval("ImportanceLevel")) %>' />
-                    <asp:DropDownList ID="ddl_ImportanceLevel"  runat="server" Width="80px">
+                    <asp:DropDownList ID="ddl_ImportanceLevel"  runat="server">
                         <asp:ListItem Text="A类" Value="1"></asp:ListItem>
                         <asp:ListItem Text="B类" Value="2"></asp:ListItem>
                         <asp:ListItem Text="C类" Value="3"></asp:ListItem>
@@ -84,7 +85,7 @@
                 </HeaderTemplate>
                 <EditItemTemplate>
                     <asp:HiddenField ID="hf_ChainStoreId" runat="server" Value='<%# Bind("ChainStoreId") %>' />
-                    <asp:DropDownList ID="ddl_ChainStoreName" runat="server" Width="80px" DataSourceID="ds_ChainStores"  DataTextField="ChainStoreName" 
+                    <asp:DropDownList ID="ddl_ChainStoreName" runat="server" DataSourceID="ds_ChainStores"  DataTextField="ChainStoreName" 
                     DataValueField="ChainStoreId"  >
                     </asp:DropDownList>
                 </EditItemTemplate>
@@ -95,20 +96,20 @@
                 </HeaderTemplate>
                 <EditItemTemplate>
                     <asp:HiddenField ID="hf_ManagerId" runat="server" Value='<%# Bind("ManagerId") %>' />
-                    <asp:DropDownList ID="ddl_ManagerName" runat="server" Width="80px" DataSourceID="ds_Employee" DataTextField="FullName" DataValueField="UserID">
+                    <asp:DropDownList ID="ddl_ManagerName" runat="server" DataSourceID="ds_Employee" DataTextField="FullName" DataValueField="UserID">
                     </asp:DropDownList>
                 </EditItemTemplate>
                 </asp:TemplateField>
             <asp:TemplateField HeaderText="状态">
                     <EditItemTemplate>
-                        <asp:DropDownList ID="ddl_StoreStatusLevel" runat="server" Width="80px">
+                        <asp:DropDownList ID="ddl_StoreStatusLevel" runat="server" >
                             <asp:ListItem Text="有效" Value="1"></asp:ListItem>
                             <asp:ListItem Text="暂停" Value="2"></asp:ListItem>
                             <asp:ListItem Text="删除" Value="3"></asp:ListItem>
                         </asp:DropDownList>
                     </EditItemTemplate>
                 </asp:TemplateField>
-            <asp:CommandField UpdateText="更新" ControlStyle-CssClass="btn btn-success" ShowEditButton="true" CancelText="取消"  />
+            <asp:CommandField UpdateText="更新" ControlStyle-CssClass="btn btn-primary" ShowEditButton="true" CancelText="取消"  />
         </Fields>
     </asp:DetailsView>
     </div>
@@ -142,5 +143,4 @@
     </asp:ObjectDataSource>
       
     <script type="text/javascript" src="Scripts/manage.js"></script>
-    
 </asp:Content>

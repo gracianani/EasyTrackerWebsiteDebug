@@ -177,11 +177,13 @@ th.sorting-asc,th.sorting-desc {
 	border:none;
 	border-radius:0;
 }
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default,
+.ui-dialog .ui-dialog-buttonpane button {
 	background:#187fcb;
 	border:none;
 	border-radius:2px;
 	color:#FFF;
+	padding:4px 8px;
 }
 .ui-widget-content {
 	background:#FFF;

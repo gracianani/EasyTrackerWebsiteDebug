@@ -11,6 +11,7 @@
     </style>
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
+<a class="btn pull-right" href="/Manage-Employee.aspx">返回员工列表</a>
     <h2>编辑员工信息</h2>
     <hr />
     <EasyTracker:Messager id="messager" runat="server" Visible="false" AlertMessage="" />

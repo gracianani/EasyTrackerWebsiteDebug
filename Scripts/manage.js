@@ -190,6 +190,14 @@ function getTaskData() {
     return data;
 }
 function createInsertDialog(ui_dialog, ui_btn_create, options) {
+	if ($(ui_dialog).size() < 1) {
+		return;
+	}
+	var maxHeight = Math.round($(window).height() * 0.8);
+	console.log(maxHeight);
+	if (options.height > maxHeight ) {
+		options.height = maxHeight;
+	}
     $(ui_btn_create).click(function () {
         $(ui_dialog).dialog("open");
         if (typeof (options.has_map) != '' && typeof (options.has_map) != 'undefined') {
