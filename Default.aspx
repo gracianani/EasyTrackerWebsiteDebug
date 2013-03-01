@@ -1,6 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs"  MasterPageFile="~/Site.master"  Inherits="EasyTrackerSolution.Home" %>
-<%@ Register Assembly="EasyTrackerServerControl" TagPrefix="ET" 
-        Namespace="EasyTrackerServerControl"%>
+
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
     <script src="Scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
     <script src="Scripts/bootstrap-tabs.js" type="text/javascript"></script>
