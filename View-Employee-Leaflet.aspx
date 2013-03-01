@@ -4,6 +4,7 @@
     <script src="Public/Libs/Leaflet/leaflet.js"  type="text/javascript"> </script>   
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAizK-CoOU44u0bTWzVeUlbMkQ2cHagM9s&sensor=false&amp;language=ch"  type="text/javascript"></script>  
     <script src="Public/Libs/Leaflet/google.js" type="text/javascript"></script>
+    <link href="Public/Styles/chosen.css" rel="stylesheet" type="text/css" />
     <link rel="Stylesheet" href="Public/Libs/Leaflet/leaflet.css" />
  <!--[if lte IE 8]>
  <link rel="Stylesheet" href="Public/Libs/Leaflet/leaflet.ie.css" />
@@ -103,7 +104,7 @@
     <asp:ScriptManager ID="scriptManager" runat="server"></asp:ScriptManager>
     <div class="row-fluid clearfix well">
         <div class="span3">
-        <asp:DropDownList ID="ddl_Employee" runat="server" CssClass="medium" DataSourceID="ds_Employee" AutoPostBack="true" DataTextField="FullName" DataValueField="UserId">
+        <asp:DropDownList ID="ddl_Employee" runat="server" CssClass="medium chzn-select" DataSourceID="ds_Employee"  AutoPostBack="true" DataTextField="FullName" DataValueField="UserId">
         </asp:DropDownList>
         </div>
         <div class="span7 form-inline">
@@ -224,4 +225,6 @@
     </asp:ObjectDataSource>    
 
       <script type="text/javascript" src="Scripts/leaflet/employee-leaflet.js"></script>
+      <script src="Scripts/chosen.jquery.min.js" type="text/javascript"></script>
+        <script type="text/javascript">     $(".chzn-select").chosen(); $(".chzn-select-deselect").chosen({ allow_single_deselect: true }); </script>
 </asp:Content>

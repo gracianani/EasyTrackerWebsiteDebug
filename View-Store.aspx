@@ -2,8 +2,6 @@
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
     <script src="Scripts/jquery.tmpl.js" type="text/javascript"></script>
-    <script src="Scripts/bootstrap-tabs.js" type="text/javascript"></script>
-    <script src="Scripts/bootstrap-alert.js" type="text/javascript"></script>
     <script src="Scripts/lightbox.js"  type="text/javascript"></script>
     <script src="Scripts/highcharts.js"  type="text/javascript"></script>
     <script src="Scripts/modules/exporting.js"  type="text/javascript"></script>
@@ -13,6 +11,7 @@
     <script src="Public/Libs/Leaflet/google.js" type="text/javascript"></script>
     <link rel="Stylesheet" href="Public/Libs/Leaflet/leaflet.css" />
     <link rel="stylesheet" type="text/css" href="Public/Styles/lightbox.css" />
+    <link href="Public/Styles/chosen.css" rel="stylesheet" type="text/css" />
     <style>
     .img{
 	    float:left;
@@ -82,7 +81,7 @@ height: 34px;}
 
     <div class="row-fluid clearfix well">
     <div class="span4">
-        <asp:DropDownList ID="ddl_stores" runat="server" DataSourceID="ds_Store" DataTextField="StoreName" DataValueField="StoreId" AutoPostBack="true" OnSelectedIndexChanged="ddl_stores_SelectedIndexChanged">
+        <asp:DropDownList ID="ddl_stores" runat="server" DataSourceID="ds_Store" DataTextField="StoreName" DataValueField="StoreId"  class="chzn-select" AutoPostBack="true" OnSelectedIndexChanged="ddl_stores_SelectedIndexChanged">
         </asp:DropDownList>
     </div>
     <div class="span8 form-inline">
@@ -248,4 +247,7 @@ SelectMethod="FetchTaskCheckInByStoreId"
 </asp:ObjectDataSource>
 
 <script src="Scripts/view-store.js"></script>
+    <script src="Scripts/chosen.jquery.min.js" type="text/javascript"></script>
+ <script type="text/javascript">     $(".chzn-select").chosen(); $(".chzn-select-deselect").chosen({ allow_single_deselect: true }); </script>
+ 
 </asp:Content>

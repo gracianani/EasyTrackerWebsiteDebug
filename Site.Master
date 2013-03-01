@@ -4,17 +4,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head runat="server">
     <title></title>
-    <script src="Scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
-    <script src="Scripts/jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
-    <script src="Scripts/jquery.tmpl.js" type="text/javascript"></script>
-    <script src="Scripts/sprintf-0.7-beta1.js" type="text/javascript"></script>
-    <script src="Scripts/json2.js" type="text/javascript"></script>
-    <script src="Scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/Scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="/Scripts/jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
+    <script src="/Scripts/jquery.tmpl.js" type="text/javascript"></script>
+    <script src="/Scripts/sprintf-0.7-beta1.js" type="text/javascript"></script>
+    <script src="/Scripts/json2.js" type="text/javascript"></script>
+    <script src="/Scripts/bootstrap.min.js" type="text/javascript"></script>
+    <!--[if lt IE 9]>
+        <script type="text/javascript" src="/Scripts/excanvas.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="/Scripts/spinners.min.js"></script>
+    
     <style type="text/css">
       body {
         padding-top: 60px;
         padding-bottom: 40px;
-      }</style>
+      }
+     </style>
+
     <asp:ContentPlaceHolder ID="HeadContent" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -24,7 +31,7 @@
                 <div class="container">
                         <ul class="nav">
                             <li>
-                                <a class="brand" href="#"><img src="Public/Images/salogo.png" alt="店铺助手" /></a>
+                                <a class="brand" href="#"><img src="/Public/Images/salogo.png" alt="店铺助手" /></a>
                             </li>
                             <li>
                                 <asp:Menu ID="menu_main" runat="server" CssClass="nav-collapse" StaticMenuStyle-CssClass="nav"  SkipLinkText=""
@@ -86,6 +93,8 @@
             <asp:ContentPlaceHolder ID="MainContent" runat="server"/>
             
         </div>
+        <div id="spinner" style="position: absolute; height: 42px; width: 42px; top: 30%; left: 50%; margin-left: -21px; margin-top: -21px; background-color: transparent">
+        <!-- spinner will go here --><canvas width="82" height="82" style="zoom: 1;"></canvas></div>
 </form>
 </body>
 </html>

@@ -1,0 +1,37 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Account.master.cs" Inherits="EasyTrackerSolution.Account.Account" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head id="Head1" runat="server">
+    <title></title>
+    
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+     </style>
+
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="Form1"  runat="server" >
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                        <ul class="nav">
+                            <li>
+                                <a class="brand" href="#"><img src="../Public/Images/salogo.png" alt="店铺助手" /></a>
+                            </li>
+                        </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+             
+            <asp:ContentPlaceHolder ID="MainContent" runat="server"/>
+            
+        </div>
+    </form>
+</body>
+</html>

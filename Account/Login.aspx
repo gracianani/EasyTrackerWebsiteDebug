@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Log In" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true"
+﻿<%@ Page Title="Log In" Language="C#" MasterPageFile="Account.master" AutoEventWireup="true"
     CodeBehind="Login.aspx.cs" Inherits="EasyTrackerSolution.Account.Login" %>
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
@@ -41,6 +41,7 @@
                 </fieldset>
                 <p class="submitButton">
                     <asp:Button ID="LoginButton" runat="server" CommandName="Login" Text="登陆" ValidationGroup="LoginUserValidationGroup"/>
+                    <asp:LinkButton ID="ForgetPasswordButton" runat="server" PostBackUrl="~/Account/ForgotPassword.aspx" Text="忘记密码?"></asp:LinkButton>
                 </p>
             </div>
         </LayoutTemplate>

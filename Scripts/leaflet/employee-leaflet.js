@@ -295,8 +295,8 @@ function deactivateMarkers(markers) {
 }
 
 $(document).ready(function () {
-	
-	$('.container').removeClass('container').addClass('container-fluid');
+
+    $('.container').removeClass('container').addClass('container-fluid');
 
     initDatepicker();
     initMap();
@@ -308,7 +308,7 @@ $(document).ready(function () {
         clearOverlays();
         $('#locations').html('');
 
-        
+
         var data = {
             'employeeId': $('select[id$=ddl_Employee]').val(),
             'from': $('#txtDateFrom').val(),
@@ -321,9 +321,22 @@ $(document).ready(function () {
             url: 'Public/Services/MapWebService.asmx/GetUserLocationsAll',
             contentType: 'application/json',
             data: JSON.stringify(data),
+            beforeSend: function () {
+                Spinners.create('#spinner', {
+                    radius: 8,
+                    height: 11,
+                    width: 7.4,
+                    dashes: 7,
+                    opacity: 0.8,
+                    padding: 1,
+                    rotation: 650,
+                    color: '#000000'
+                }).play()
+            },
             success: function (msg) {
+                Spinners.get('#spinner').remove();
                 clearOverlays();
-				var response = msg.d;
+                var response = msg.d;
                 if (response.Status == false) {
                     alert(response.LocationResponse);
                     return;
@@ -347,7 +360,7 @@ $(document).ready(function () {
                         list.addClass("collapse_" + index).addClass("collapse");
 
                         var sorted_checkin_list = sortDataListByLocation(checkInGroupByDate.CheckInDetails);
-						var bounds = getBounds(sorted_checkin_list);
+                        var bounds = getBounds(sorted_checkin_list);
 
                         $("#employeeLocationTemplate").tmpl(sorted_checkin_list).appendTo(list);
                         list.appendTo(descirptionLi);
@@ -377,7 +390,7 @@ $(document).ready(function () {
                                 icon = new LeafIcon({ iconUrl: "Public/Libs/Leaflet/images/numbers/blue/marker" + checkInGroupByCoordinate.index + ".png" });
                             }
                             var marker = L.marker([checkInGroupByCoordinate.CheckInCoordinate.Latitude, checkInGroupByCoordinate.CheckInCoordinate.Longitude], { icon: icon });
-							trackLayer.addLayer(marker);
+                            trackLayer.addLayer(marker);
                             cm_mapMarkers.push(marker);
                             marker.bindPopup(html);
                             data_markers.push(marker);
@@ -393,7 +406,7 @@ $(document).ready(function () {
                         if (index == 0) {
                             list.addClass("in");
                             activateMarkers(cm_mapMarkers);
-							map.fitBounds(bounds);
+                            map.fitBounds(bounds);
                         }
                         else {
                             deactivateMarkers(cm_mapMarkers);
@@ -401,7 +414,7 @@ $(document).ready(function () {
 
                         descirptionLi.on('shown', function () {
                             activateMarkers(cm_mapMarkers);
-							map.fitBounds(bounds);
+                            map.fitBounds(bounds);
 
 
                         })
@@ -427,7 +440,7 @@ $(document).ready(function () {
             .openOn(map);
                     });
 
-                    
+
                 }
             }
         });
