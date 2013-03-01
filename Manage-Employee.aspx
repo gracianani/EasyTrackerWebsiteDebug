@@ -39,8 +39,8 @@
             <button id="btn_ImportEmployees" class="btn" href="#importEmployee" data-toggle="modal"><i class="icon-arrow-up"></i>上传</button>
             <button id="btn_ExportEmployees" class="btn"><i class="icon-arrow-down"></i>下载</button> -->
 
-            <a id="btn_CreateUser" href="javascript:void(0)" class="btn btn-primary"><i class="icon-plus icon-white"></i>创建新员工</a>   
-            <button id="btn_ImportEmployees" class="btn btn-primary" href="#importEmployee" data-toggle="modal"><i class="icon-arrow-up"></i>上传</button>
+            <a id="btn_CreateUser" href="javascript:void(0)" class="btn btn-primary"><i class="icon-plus icon-white"></i> 创建新员工</a>   
+            <button id="btn_ImportEmployees" class="btn" href="#importEmployee" data-toggle="modal"><i class="icon-arrow-up"></i>上传</button>
             <asp:Button id="btn_ExportEmployees" runat="server" class="btn btn-primary" Text="下载" OnClick="btn_ExportEmployees_Click" />
             
             
@@ -89,7 +89,7 @@
                     <HeaderTemplate>
                     </HeaderTemplate>
                     <ItemTemplate>
-                        <a href='Edit-Employee.aspx?userId=<%# Eval("UserId") %>' class="btn btn-primary" title='修改'><i class="icon-pencil icon-white"></i></a>
+                        <a href='Edit-Employee.aspx?userId=<%# Eval("UserId") %>' class="btn btn-primary btn-edit" title='修改'><i class="icon-pencil icon-white"></i></a>
                         <asp:LinkButton ID="btn_HardDeleteUser" CommandName="hardDelete" CommandArgument='<%# Eval("UserId") %>'  CssClass="btn btn-inverse" runat="server"  Text="<i class='icon-remove icon-white' title='强力删除'></i>"/>
                     </ItemTemplate>
                     <EditItemTemplate>
@@ -179,6 +179,9 @@
 		table.on('click','tbody tr',function() {
 			$('tr.selected').removeClass('selected');
 			$(this).addClass('selected');
+		});
+		table.on('dblclick','tbody tr',function() {
+			$(this).find('.btn-edit').get(0).click();
 		});
 		DropDownListToPills('.pageCount select');
 		

@@ -2,29 +2,22 @@
 <%@ Register Src="~/Controls/Messager.ascx" TagName="Messager" TagPrefix="EasyTracker" %>
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAizK-CoOU44u0bTWzVeUlbMkQ2cHagM9s&amp;sensor=true&amp;language=ch"></script>
-    <script src="Scripts/map.js" type="text/javascript"></script>
-    <style type="text/css">
-        #employee table input
-        {
-            max-width:100px;
-        }
+    <script type="text/javascript" src="Scripts/stupidtable.js?dev"></script>
 
-		.ui-widget-content .btn-info,
-		.ui-widget-content .btn-info:hover {
-		  color: #ffffff;
-		  font-weight:bold;
-		  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-		}
-		#map_canvas img {
-		 max-width: none;
-        }
+    <style type="text/css">
+
+
+	
 		#employeeTask td .label {
 			font-size:12px;
 			font-weight:normal;
-			padding:5px;
 			margin:5px 0;
+			cursor:pointer;
 			display:inline-block;
+		}
+		#employeeTask .label-info.active {
+			background:#ff7640;
+			color:#FFF;
 		}
 		#employeeTask td .label .icon-remove {
 			cursor:pointer;
@@ -36,7 +29,7 @@
 
     <div class="content">
     <div id="employeeTask" >
-    <div style="background:#f5f5f5;margin:-20px -20px 0;padding:20px 20px 0">
+    <div class="topContainer">
         <h2>
            管理任务
         </h2>
@@ -44,35 +37,31 @@
         <div id="fv_SearchTask" class="pull-left" >
                 <asp:MultiView ID="mv_SearchTask" runat="server" ActiveViewIndex="0">
                     <asp:View ID="view_SearchTask" runat="server" >
-                    <div class="row-fluid clearfix well">
-                     <div class="form-search">   
-                        	<label>检索</label>
-                            <asp:TextBox ID="tb_SearchTask" runat="server" CssClass="search-query" ></asp:TextBox>
-                            <asp:RequiredFieldValidator ID="rfv_SearchTask" runat="server" ValidationGroup="searchTask" ControlToValidate="tb_SearchTask" ErrorMessage="*"
-                             CssClass="label label-warning" Display="Dynamic"></asp:RequiredFieldValidator>
-                            <asp:Button ID="btn_SearchTask" runat="server" Text="搜索" ValidationGroup="searchTask"  OnClick="btn_SearchTaskClick" CssClass="btn" />
-                        </div>
-                        </div>
+                     <div class="form-inline">   
+                            <asp:TextBox ID="tb_SearchTask" runat="server" ></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="rfv_SearchTask" runat="server" ValidationGroup="searchTask" ControlToValidate="tb_SearchTask" ErrorMessage="*请填写检索词"
+                             Display="Dynamic"></asp:RequiredFieldValidator>
+                            <asp:Button ID="btn_SearchTask" runat="server" Text="搜索" ValidationGroup="searchTask"  OnClick="btn_SearchTaskClick" CssClass="btn btn-primary" />
+                     </div>
                     </asp:View>
                     <asp:View ID="view_SearchTaskResult" runat="server">
-                        <div class="row-fluid clearfix well">
-                        <label class="span3"><span class="label label-info">搜索词:</span> <%= tb_SearchTask.Text %></label>
-                        <asp:Button ID="btn_SearchTaskReset" runat="server" Text="还原" OnClick="btn_SearchTaskResetClick" ValidationGroup="searchStore" CssClass="btn span1" />
+                       <div class="form-inline">  
+                       <label style="padding-right:20px;"><span class="label label-info">搜索词:</span> <%= tb_SearchTask.Text %></label>
+                        <asp:Button ID="btn_SearchTaskReset" runat="server" Text="还原" OnClick="btn_SearchTaskResetClick" ValidationGroup="searchStore" CssClass="btn btn-primary" />
                         </div>
                     </asp:View>
                 </asp:MultiView>
         </div><!--fv_SearchTask-->
         <div class="pull-right">
-            <a id="btn_CreateUserTask" href="javascript:void(0)" class="btn" style="display:inline-block">布置新任务</a>
-            <button id="btn_ImportTasks" class="btn btn-primary" href="#importTask" data-toggle="modal">导入</button>
-            <asp:Button id="btn_ExportTasks" runat="server" class="btn btn-primary"  OnClick="btn_ExportTasks_Click" Text="导出"></asp:Button>
+            <a id="btn_CreateUserTask" href="javascript:void(0)" class="btn btn-primary"><i class="icon-plus icon-white"></i> 布置新任务</a>
+            <button id="btn_ImportTasks" class="btn" href="#importTask" data-toggle="modal"><i class="icon-arrow-up"></i>上传</button>
+            <asp:Button id="btn_ExportTasks" runat="server" class="btn"  OnClick="btn_ExportTasks_Click" Text="下载"></asp:Button>
         </div><!--.pull-right-->
         <EasyTracker:Messager id="messager_Task" runat="server" Visible="false" AlertMessage="" />
         </div><!--.clearfix-->
-        <hr />
       </div>
      
-        <asp:GridView ID="gv_UserTaskByUserId" CssClass="table table-striped table-bordered" runat="server" DataKeyNames="UserId" AutoGenerateColumns="false" 
+        <asp:GridView ID="gv_UserTaskByUserId" CssClass="table table-condensed table-bordered stupidTable" runat="server" DataKeyNames="UserId" AutoGenerateColumns="false" 
             OnDataBinding="gv_UserTaskByUserId_DataBinding"
             OnRowEditing="gv_UserTaskByUserId_RowEditing" 
             OnRowCancelingEdit="gv_UserTaskByUserId_RowCancelingEdit" 
@@ -88,10 +77,12 @@
                         <%# Container.DisplayIndex + 1 %>
                     </ItemTemplate>
                 </asp:TemplateField>
-                <asp:BoundField HeaderText="员工姓名" DataField="UserFullName" ReadOnly="true" />
+                <asp:BoundField HeaderText="员工姓名" DataField="UserFullName" ReadOnly="true">
+                <HeaderStyle CssClass="string" />
+                </asp:BoundField>
                 <asp:BoundField Visible="false" DataField="UserId" />
                 <asp:TemplateField HeaderText="店铺列表" >
-                    <HeaderStyle Width="60%" />
+                    <HeaderStyle Width="60%" CssClass="string" />
                     <ItemTemplate>
                         <asp:ListView ID="lv_StoreNames" runat="server"  DataSource='<%# Eval("Stores") %>'>
                             <EmptyDataTemplate>
@@ -122,11 +113,11 @@
                 </asp:TemplateField>
                 <asp:TemplateField>
                     <ItemTemplate>
-                        <asp:LinkButton ID="btn_EditUserTask" CommandName="edit" CssClass="btn primary btn-info  " style="display:inline-block" runat="server"  Text="修改"/>
+                        <asp:LinkButton ID="btn_EditUserTask" CommandName="edit" CssClass="btn-primary btn btn-edit" runat="server"  Text='<i class="icon-pencil icon-white"   title="编辑"></i>' />
                     </ItemTemplate>
                     <EditItemTemplate>
-                        <asp:LinkButton ID="btn_UpdateUserTask" CommandName="update" CssClass="btn primary btn-success" runat="server" style="display:inline-block" Text="更新"/>
-                        <asp:LinkButton ID="btn_CancelUpdateUserTask" CommandName="cancel" CssClass="btn primary " style="display:inline-block" runat="server" Text="取消"/>
+                        <asp:LinkButton ID="btn_UpdateUserTask" CommandName="update" CssClass="btn btn-success" runat="server" Text="<i class='icon-ok icon-white'  title='确认'></i>"/>
+                        <asp:LinkButton ID="btn_CancelUpdateUserTask" CommandName="cancel" CssClass="btn btn-inverse " runat="server" Text="<i class='icon-remove icon-white' title='取消'></i>"/>
                     </EditItemTemplate>
                 </asp:TemplateField>
             </Columns>
@@ -194,4 +185,39 @@
     </SelectParameters>
     </asp:ObjectDataSource>   
     <script type="text/javascript" src="Scripts/manage.js"></script>
+    <script>
+	$(function(){
+		$(".table th[class]").each(function(){
+			$(this).attr('data-sort',$(this).attr('class'));
+		});
+		$(".label-info").each(function(){
+			$(this).attr('data-content',$(this).html().trim());
+		});
+        var hasPager = true;
+		var hasHeader =true;
+		if ($('.gridview-pager').size()< 1) {
+			hasPager = false;
+		}
+		var table = $(".table").stupidtable({},hasHeader,hasPager);
+        table.bind('aftertablesort', function (event, data) {
+          var th = $(this).find("th");
+          th.find(".caret").remove();
+          var arrow = data.direction === "asc" ? "&uarr;" : "&darr;";
+          th.eq(data.column).prepend('<span class="caret ' + data.direction +'">&nbsp;</span>');
+		  	
+        });
+		table.on('click','tbody tr',function(e) {
+			$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');
+		});
+		table.on('dblclick','tbody tr',function(e) {
+			$(this).find('.btn-edit').get(0).click();
+		});
+		table.on('click','.label-info',function(e) {
+			$('.label-info.active').removeClass('active');
+			$('.label-info[data-content="'+$(this).html().trim()+'"]').addClass('active');
+		});
+		
+	});
+	</script>
 </asp:Content>

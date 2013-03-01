@@ -120,7 +120,7 @@
                 <asp:TemplateField >
                     
                     <ItemTemplate>
-                        <a href='/Edit-Store.aspx?storeId=<%# Eval("StoreId")%>'  class="btn btn-primary" title='修改'><i class="icon-pencil icon-white"></i></a>
+                        <a href='/Edit-Store.aspx?storeId=<%# Eval("StoreId")%>'  class="btn btn-primary  btn-edit" title='修改'><i class="icon-pencil icon-white"></i></a>
                         <asp:LinkButton ID="btn_HardDeleteStore" CommandName="hardDelete" CommandArgument='<%# Eval("StoreId") %>' CssClass="btn btn-inverse" runat="server" style="display:inline-block" Text="<i class='icon-remove icon-white' title='强力删除'></i>"/>
                     </ItemTemplate>
                 </asp:TemplateField>
@@ -262,6 +262,9 @@
 			$(this).addClass('selected');
 		});
 		
+		table.on('dblclick','tbody tr',function() {
+			$(this).find('.btn-edit').get(0).click();
+		});
 		DropDownListToPills('.pageCount select');
 		
     });
