@@ -155,7 +155,6 @@
               </tbody>
             </script>
             <h3>历史统计</h3>
-       		<p><a href="" class="btn btn-success">点击获取</a></p>
             <div id="flowchart" style="width:100%"></div>
           </div>
         </div> 
