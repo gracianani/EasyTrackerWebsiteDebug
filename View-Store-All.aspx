@@ -45,23 +45,24 @@
 <asp:HiddenField ID="hf_lastMonth" runat="server" />
 <asp:HiddenField ID="hf_stats" runat="server" />
 
-<div class="row-fluid clearfix well">
+<div class="row-fluid">
+<div class="topContainer">
     <fieldset>
 			<div class="form-inline">
 			<label>类别</label>
-                <asp:DropDownList ID="ddl_ImportanceLevel" runat="server" >
+            <asp:DropDownList ID="ddl_ImportanceLevel" runat="server" >
                     <asp:ListItem Text="全部" Value='0'></asp:ListItem>
                     <asp:ListItem Text="A类" Value='1'></asp:ListItem>
                     <asp:ListItem Text="B类" Value='2'></asp:ListItem>
                     <asp:ListItem Text="C类" Value='3'></asp:ListItem>
                     <asp:ListItem Text="D类" Value='4'></asp:ListItem>
-                </asp:DropDownList>
+            </asp:DropDownList>
 
 			<label>系统</label>
-              <asp:DropDownList ID="ddl_ChainStoreNames" DataTextField="ChainStoreName" DataValueField="ChainStoreId" 
+            <asp:DropDownList ID="ddl_ChainStoreNames" DataTextField="ChainStoreName" DataValueField="ChainStoreId" 
               runat="server" DataSourceID="ds_ChainStores" AppendDataBoundItems="true">
                 <asp:ListItem Text="全部" Value="0"> </asp:ListItem>
-              </asp:DropDownList>
+            </asp:DropDownList>
 
            <label>关键字</label>
               <asp:TextBox ID="tb_SearchMany" runat="server" ></asp:TextBox>
@@ -69,10 +70,10 @@
           
     		</div>
     </fieldset>
-
+</div>
 </div>
 
-<div class="row clearfix">
+<div class="row-fluid clearfix">
     <div class="span3">
 	<h3>店铺列表</h3>
     <div class="well" style="overflow:scroll;height:700px">

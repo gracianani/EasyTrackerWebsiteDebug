@@ -79,14 +79,13 @@ height: 34px;}
 <asp:HiddenField ID="hf_lastMonth" runat="server" />
 <asp:HiddenField ID="hf_stats" runat="server" />
 
-    <div class="row-fluid clearfix well">
+	<div class="topContainer">
+    <div class="row-fluid">
     <div class="span4">
         <asp:DropDownList ID="ddl_stores" runat="server" DataSourceID="ds_Store" DataTextField="StoreName" DataValueField="StoreId"  class="chzn-select" AutoPostBack="true" OnSelectedIndexChanged="ddl_stores_SelectedIndexChanged">
         </asp:DropDownList>
     </div>
     <div class="span8 form-inline">
-        <div style="margin-left:0px" >
-        
             选择日期：
             <input class=" small w8em highlight-days-67 range-low-today" id="txtDateFrom" />
             到
@@ -94,14 +93,14 @@ height: 34px;}
             <asp:Button ID="btnSearch" runat="server"  Text="搜索" CssClass="btn btn-primary" OnClick="btnSearch_Click" />
             <asp:HiddenField ID="hf_txtDateFrom" runat="server" />
             <asp:HiddenField ID="hf_txtDateTo" runat="server" />
-        </div>
+    </div>
     </div>
     </div>
     <div class="alert alert-block hidden">
             <a class="close" data-dismiss="alert" href="#">×</a>
             <strong>有{0}个新店铺信息更新，点击查看</strong>
     </div>
-    <div class="row clearfix">
+    <div class="row-fluid">
         <div class="span4">
 
         <aside>

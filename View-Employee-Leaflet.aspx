@@ -102,7 +102,8 @@
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
     <asp:ScriptManager ID="scriptManager" runat="server"></asp:ScriptManager>
-    <div class="row-fluid clearfix well">
+    <div class="topContainer">
+    <div class="row-fluid">
         <div class="span3">
         <asp:DropDownList ID="ddl_Employee" runat="server" CssClass="medium chzn-select" DataSourceID="ds_Employee"  AutoPostBack="true" DataTextField="FullName" DataValueField="UserId">
         </asp:DropDownList>
@@ -116,6 +117,7 @@
         </div>
 
         
+    </div>
     </div>
     <div class="alert alert-block hidden">
             <a class="close" data-dismiss="alert" href="#">×</a>
