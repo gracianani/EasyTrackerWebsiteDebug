@@ -7,10 +7,60 @@
     <link rel="stylesheet" type="text/css" href="Public/Styles/lightbox.css" />
 
     <style type="text/css">
-        #employee table input
-        {
-            max-width:100px;
-        }
+		body {
+			padding-top:40px;
+		}
+		.container-fluid {
+			padding:0!important;
+		}
+		#dashboard {
+		}
+		#dashboard.row-fluid [class*="span"] {
+			margin-left:0;
+		}
+		#dashboard.row-fluid .span3 {
+			width:25%;
+		}
+		#dashboard.row-fluid .span6 {
+			width:50%;
+		}
+		#storeFilter,#storeSearch,#storeList {
+			padding:20px;
+			border-right:1px solid #dedede;
+			border-bottom:1px solid #dedede;
+		}
+		#storeFilter {
+			background:#f5f5f5;
+		}
+		#storeList {
+			margin-left:0;
+			padding:0;
+		}
+		#storeList li {
+			list-style:none;
+		}
+		.storeItem {
+			position:relative;
+			padding:10px 10px;
+			border-bottom:1px solid #dedede;
+		}
+		.storeName,.storeClass,.storeEmployee {
+			margin-bottom:0.5em;
+		}
+		.storeName {
+			font-size:1.2em;
+		}
+		.statusLight {
+			width:14px;
+			height:14px;
+			background:#3b9530;
+			position:absolute;
+			right:20px;
+			top:20px;
+			-ms-border-radius:7px;
+			-moz-border-radius:7px;
+			border-radius:7px;
+		}
 		.latest_block {
 			margin:10px 0;
 			padding:15px 150px 15px 15px;
@@ -65,9 +115,50 @@
     </script>
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
+<div class="row-fluid" id="dashboard">
+<div class="span3">
+    <div id="storeFilter">
+        <select>
+        <option>全部类别<option>
+        </select>
+        <select>
+        <option>全部系统<option>
+        </select>
+    </div>
+    <div id="storeSearch">
+    	<p>在以下 305 个店铺中查找</p>
+        <div class="form-inline" >
+        <input type="text" />
+        <a class="btn btn-primary"><i class="icon-search icon-white"></i></a>
+        </div>
+    </div>
+    <ul id="storeList">
+    <li class="storeItem">
+    <div class="storeName">官员花鸟鱼虫市场</div>
+    <div class="storeDesc"><a href="">A类</a> - <a href="">物美</a> | 负责人：<a href="">赵雅琪</a></div>
+    <div class="statusLight status-online"></div>
+    </li>
+    <li class="storeItem">
+    <div class="storeName">新街口物美</div>
+    <div class="storeDesc"><a href="">A类</a> - <a href="">物美</a> | 负责人：<a href="">赵雅琪</a></div>
+    <div class="statusLight status-online"></div>
+    </li>
+    <li class="storeItem">
+    <div class="storeName">上地华联</div>
+    <div class="storeDesc"><a href="">A类</a> - <a href="">物美</a> | 负责人：<a href="">赵雅琪</a></div>
+    <div class="statusLight status-online"></div>
+    </li>
+    </ul>
+</div>
+<div class="span6">
+Map
+</div>
+<div class="span3">
+Employee
+</div>
+</div>
 <div class="row clearfix">
 	<div class="span6" id="latest">
-    	<h2>最新动态</h2>
         <asp:Repeater ID="rpt_Latest1" runat="server" OnItemDataBound="rpt_Latest_ItemDataBound" >
             <ItemTemplate>
             <div class="latest_block checkin">
@@ -86,17 +177,7 @@
         </ItemTemplate>
         </asp:Repeater>
     </div>
-    <div class="span6">
-        <div class="well">
-            <p><big>快捷操作</big></p>
-            <hr />
-            <div>
-            <a href="Manage-Employee.aspx" class="btn"><i class="icon-user"></i> 员工管理</a>
-            <a href="Manage-Store.aspx" class="btn"><i class="icon-home"></i> 店铺管理</a>
-            <a href="Manage-Task.aspx" class="btn"><i class="icon-list-alt"></i> 任务管理</a>
-            </div>
-        </div>
-    </div>
+    
     <div class="span6">
         <div class="well">
            <p><big>相关下载</big></p>
