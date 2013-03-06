@@ -1,11 +1,16 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs"  MasterPageFile="~/Site.master"  Inherits="EasyTrackerSolution.Home" %>
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
-    <script src="Scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
-    <script src="Scripts/bootstrap-tabs.js" type="text/javascript"></script>
     <script src="Scripts/lightbox.js"></script>
+    <script src="Scripts/jquery.tmpl.js"></script>
+    <script src="Public/Libs/Leaflet/leaflet.js"  type="text/javascript"> </script>   
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAizK-CoOU44u0bTWzVeUlbMkQ2cHagM9s&sensor=false&amp;language=ch"  type="text/javascript"></script>  
+    <script src="Public/Libs/Leaflet/google.js" type="text/javascript"></script>
+    <link rel="Stylesheet" href="Public/Libs/Leaflet/leaflet.css" />
     <link rel="stylesheet" type="text/css" href="Public/Styles/lightbox.css" />
-
+     <!--[if lte IE 8]>
+     <link rel="Stylesheet" href="Public/Libs/Leaflet/leaflet.ie.css" />
+     <![endif]-->
     <style type="text/css">
 		body {
 			padding-top:40px;
@@ -21,28 +26,35 @@
 		#dashboard.row-fluid .span3 {
 			width:25%;
 		}
-		#dashboard.row-fluid .span6 {
-			width:50%;
+		#dashboard.row-fluid .span7 {
+			width:58.33333333%;
+		}
+		#dashboard.row-fluid .span2 {
+			width:16.66666667%;
 		}
 		#storeFilter,#storeSearch,#storeList {
 			padding:20px;
 			border-right:1px solid #dedede;
 			border-bottom:1px solid #dedede;
 		}
+		#employeeList {
+			border-left:1px solid #dedede;
+		}
 		#storeFilter {
 			background:#f5f5f5;
 		}
-		#storeList {
+		#storeList,#employeeList {
 			margin-left:0;
 			padding:0;
 		}
-		#storeList li {
-			list-style:none;
-		}
-		.storeItem {
+		.storeItem,.employeeItem {
 			position:relative;
 			padding:10px 10px;
 			border-bottom:1px solid #dedede;
+			list-style:none;
+		}
+		.employeeItem {
+			padding-left:30px;
 		}
 		.storeName,.storeClass,.storeEmployee {
 			margin-bottom:0.5em;
@@ -51,15 +63,32 @@
 			font-size:1.2em;
 		}
 		.statusLight {
-			width:14px;
-			height:14px;
-			background:#3b9530;
+			width:12px;
+			height:12px;
 			position:absolute;
-			right:20px;
-			top:20px;
-			-ms-border-radius:7px;
-			-moz-border-radius:7px;
-			border-radius:7px;
+			left:10px;
+			top:12px;
+			-ms-border-radius:6px;
+			-moz-border-radius:6px;
+			border-radius:6px;
+			background:whitesmoke
+		}
+		.employeeIcons,.storeIcons{
+			position:absolute;
+			top:10px;
+			right:10px;
+		}
+		#map_canvas img {
+            max-width: none;
+        }
+		#map_canvas input {
+			display:inline;
+		}
+		.status-active {
+			background:#3b9530;
+		}
+		.status-online {
+			background:#ffc801;
 		}
 		.latest_block {
 			margin:10px 0;
@@ -118,12 +147,27 @@
 <div class="row-fluid" id="dashboard">
 <div class="span3">
     <div id="storeFilter">
-        <select>
-        <option>全部类别<option>
-        </select>
-        <select>
-        <option>全部系统<option>
-        </select>
+    <select id="ImportanceLevel">
+        <option selected="selected" value="0">全部</option>
+        <option value="1">A类</option>
+        <option value="2">B类</option>
+        <option value="3">C类</option>
+        <option value="4">D类</option>
+    
+    </select>
+    <select id="ChainStoreNames">
+	<option selected="selected" value="0">全部</option>
+	<option value="1">物美</option>
+	<option value="2">京客隆</option>
+	<option value="3">乐购</option>
+	<option value="4">永辉</option>
+	<option value="5">华普</option>
+	<option value="6">天虹</option>
+	<option value="7">世纪联华</option>
+	<option value="8">华润万家</option>
+	<option value="9">7-Eleven</option>
+	<option value="10">超市发</option>
+    </select>
     </div>
     <div id="storeSearch">
     	<p>在以下 305 个店铺中查找</p>
@@ -133,30 +177,72 @@
         </div>
     </div>
     <ul id="storeList">
-    <li class="storeItem">
-    <div class="storeName">官员花鸟鱼虫市场</div>
-    <div class="storeDesc"><a href="">A类</a> - <a href="">物美</a> | 负责人：<a href="">赵雅琪</a></div>
-    <div class="statusLight status-online"></div>
-    </li>
-    <li class="storeItem">
-    <div class="storeName">新街口物美</div>
-    <div class="storeDesc"><a href="">A类</a> - <a href="">物美</a> | 负责人：<a href="">赵雅琪</a></div>
-    <div class="statusLight status-online"></div>
-    </li>
-    <li class="storeItem">
-    <div class="storeName">上地华联</div>
-    <div class="storeDesc"><a href="">A类</a> - <a href="">物美</a> | 负责人：<a href="">赵雅琪</a></div>
-    <div class="statusLight status-online"></div>
-    </li>
     </ul>
 </div>
-<div class="span6">
-Map
-</div>
-<div class="span3">
-Employee
+<div class="span7">
+<div id="map_canvas" style="width: 100%;height:500px">
 </div>
 </div>
+<div class="span2">
+	<ul id="employeeList">
+    </ul>
+</div>
+</div>
+<script id="employeeListTemplate" type="text/x-jquery-tmpl">
+<li class="employeeItem"
+{{if !show}}
+ 	style="display:none"
+{{/if}}
+>
+{{if status>0 }}
+<div class="statusLight status-active"></div>
+{{else check>0 }}
+<div class="statusLight status-online"></div>
+{{else}}
+<div class="statusLight status-offline"></div>
+{{/if}}
+<div class="employeeName">${name}</div>
+<div class="employeeIcons">
+	{{if check>0}}
+		<i class="icon-ok"></i> 
+	{{/if}}
+	{{if photo>0}}
+		<i class="icon-picture"></i> 
+	{{/if}}
+	{{if msg>0}}
+		<i class="icon-comment"></i> 
+	{{/if}}
+	</div>
+</li>
+</script>
+<script id="storeListTemplate" type="text/x-jquery-tmpl">
+<li class="storeItem"
+{{if !show}}
+ 	style="display:none"
+{{/if}}
+>
+    <div class="storeName">${name}</div>
+    <div class="storeDesc"><a href="">${lvl}</a> | <a href="">${chn}</a> | 
+	{{each manager}}
+	<a href="">${name}</a> 
+	{{/each}}
+	</div>
+	<div class="storeIcons">
+	{{if check>0}}
+		<i class="icon-ok"></i> 
+	{{/if}}
+	{{if photo>0}}
+		<i class="icon-picture"></i> 
+	{{/if}}
+	{{if msg>0}}
+		<i class="icon-comment"></i> 
+	{{/if}}
+	</div>
+</li>
+</script>
+<script type="text/javascript" src="Scripts/default.js"></script>
+<script type="text/javascript" src="Scripts/leaflet/default-leaflet.js"></script>
+
 <div class="row clearfix">
 	<div class="span6" id="latest">
         <asp:Repeater ID="rpt_Latest1" runat="server" OnItemDataBound="rpt_Latest_ItemDataBound" >
@@ -178,16 +264,6 @@ Employee
         </asp:Repeater>
     </div>
     
-    <div class="span6">
-        <div class="well">
-           <p><big>相关下载</big></p>
-            <hr />
-            <div>
-                <strong> Android 客户端程序 </strong>
-                <p>更新日期 : 2012年10月17日</p>
-                <asp:LinkButton ID="btn_download" runat="server" CssClass="btn btn-primary btn-large"  OnClick="btn_download_Click"><i class="icon-download-alt icon-white"></i>立即下载</asp:LinkButton>
-            </div>
-        </div>
-    </div>
+    
 </div>
 </asp:Content>
