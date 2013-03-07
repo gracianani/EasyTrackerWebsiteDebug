@@ -53,6 +53,7 @@
 			padding:10px 10px;
 			border-bottom:1px solid #dedede;
 			list-style:none;
+			cursor:pointer;
 		}
 		.employeeItem {
 			padding-left:30px;
@@ -136,6 +137,9 @@
 			font-size:0.6666em;
 			color:#999;
 		}
+		.highLight {
+			background:#ecf4fa;
+		}
     </style>
 
     <script>
@@ -186,7 +190,7 @@
 </div>
 </div>
 <script id="employeeListTemplate" type="text/x-jquery-tmpl">
-<li class="employeeItem">
+<li class="employeeItem" data-id="${id}">
 {{if status>0 }}
 <div class="statusLight status-active"></div>
 {{else check>0 }}
@@ -197,19 +201,19 @@
 <div class="employeeName">${name}</div>
 <div class="employeeIcons">
 	{{if check>0}}
-		<i class="icon-ok"></i> 
+		<i class="icon-ok" title="已签到${check}次"></i> 
 	{{/if}}
 	{{if photo>0}}
-		<i class="icon-picture"></i> 
+		<i class="icon-picture" title="已提交${photo}张图片"></i> 
 	{{/if}}
 	{{if msg>0}}
-		<i class="icon-comment"></i> 
+		<i class="icon-comment" title="已提交${comment}条评论"></i> 
 	{{/if}}
 	</div>
 </li>
 </script>
 <script id="storeListTemplate" type="text/x-jquery-tmpl">
-<li class="storeItem">
+<li class="storeItem" data-id="${id}">
     <div class="storeName">${name}</div>
     <div class="storeDesc"><a href="">${lvl}</a> | <a href="">${chn}</a> | 
 	{{each manager}}

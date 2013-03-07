@@ -12,21 +12,26 @@
 		}
 	}
 	
-	this.renderSingle = function( index, data ) {
-		var item = this.dom.find('.employeeItem')[index];
-		item.html(this.template.tmpl(data).html());
-	}
-	
 	this.addShowAllButton = function() {
 		$('<li class="employeeItem">' + '<h4>店铺负责人</h4>' + '</li>').prependTo(this.dom);
 		$('<li class="employeeItem">' + '<a class="btn btn-primary" id="showAll">显示全部员工</a>' + '</li>').appendTo(this.dom);
 	}
 	
-	var that = this;
-	this.dom.on({
-		'click #showAll':function(){
-			that.controller.showAll();
+	this.highLightItems = function(idArray) {
+		this.dom.find('.highLight').removeClass('highLight');
+		for (var i in idArray) {
+			this.dom.find('[data-id="'+ idArray[i] + '"]').addClass('highLight');
 		}
+	}
+	
+	var that = this;
+	this.dom.on('click', '#showAll',function(){
+			that.controller.showAll();
+	});
+	this.dom.on('click', '.employeeItem',function(){
+		that.dom.find('.highLight').removeClass('highLight');
+		$(this).addClass('highLight');
+		that.controller.highLightRelatedStores( $(this).attr('data-id') );
 	});
 	
 };
@@ -38,11 +43,9 @@ function EmployeeModel( data ){
 		this.data = data;
 	}
 	this.showData = this.data;
-	
 	this.filter = [];
 	
 	this.applyFilter = function() {
-		
 		this.revert();
 		var queryStr = "";
 		for (var i in this.filter) {
@@ -51,7 +54,6 @@ function EmployeeModel( data ){
 			}
 			queryStr += "(@." +'id' + "==" + this.filter[i] +")";
 		}
-		
 		this.showData = jsonPath(this.showData, "$..[?(" + queryStr + ")]");
 		if ( false == this.showData ) {
 				this.showData = [];
@@ -62,6 +64,10 @@ function EmployeeModel( data ){
 		this.showData = this.data;
 	}
 	
+	this.findRelatedStore = function(managerId) {
+		return jsonPath(this.showData, "$..[?(@.id=="+managerId+")].store.*");
+	}
+	
 	
 };
 
@@ -69,6 +75,7 @@ function EmployeeController( model, view ){
 	this.model = model;
 	this.view = view;
 	this.view.controller = this;
+	this.storeController = null;
 	
 	this.init = function( ) {
 		this.update();
@@ -78,6 +85,11 @@ function EmployeeController( model, view ){
 		this.view.render(this.model.showData);
 	};
 	
+	this.reload = function(data) {
+		this.model.data = data;
+		this.model.revert();
+		this.update();
+	}
 	
 	this.onStoreListChange = function(managerIdArray) {
 		this.model.filter = managerIdArray;	
@@ -89,6 +101,14 @@ function EmployeeController( model, view ){
 		this.model.revert();
 		this.update();
 	}
+	this.highLightEmployees = function(employeeIdArray) {
+		this.view.highLightItems(employeeIdArray);
+	}
+	this.highLightRelatedStores = function(managerId) {
+		var storeIdArray = this.model.findRelatedStore(managerId);
+		this.storeController.highLightStores(storeIdArray);
+	}
+	
 	this.init();
 	
 };
@@ -96,6 +116,7 @@ function EmployeeController( model, view ){
 function StoreView( domId ){
 	this.dom = $('#' + domId);
 	this.template = $("#storeListTemplate");
+	this.controller = null;
 	
 	this.render = function( data ) {
 		this.dom.html('');
@@ -105,6 +126,18 @@ function StoreView( domId ){
 			this.template.tmpl(data).appendTo(this.dom);
 		}
 	}
+	this.highlightItems = function(idArray) {
+		this.dom.find('.highLight').removeClass('highLight');
+		for (var i in idArray) {
+			this.dom.find('[data-id="'+ idArray[i] + '"]').addClass('highLight');
+		}
+	}
+	var that = this;
+	this.dom.on('click', '.storeItem',function(){
+		that.dom.find('.highLight').removeClass('highLight');
+		$(this).addClass('highLight');
+		that.controller.highLightRelatedEmployee( $(this).attr('data-id') );
+	});
 };
 function StoreModel( data ){
 	if ( data == null ) {
@@ -132,10 +165,14 @@ function StoreModel( data ){
 	this.revert = function() {
 		this.showData = this.data;
 	}
+	this.findAllRelatedEmployee = function(storeId) {
+		return jsonPath(this.showData, "$..[?(@.id=="+storeId+")].manager..id");
+	}
 };
 function StoreController( model, view ){
 	this.model = model;
 	this.view = view;
+	this.view.controller = this;
 	this.employeeController = null;
 	
 	this.init = function( ) {
@@ -145,6 +182,12 @@ function StoreController( model, view ){
 	this.update = function() {
 		this.view.render(this.model.showData);
 	};
+	
+	this.reload = function(data) {
+		this.model.data = data;
+		this.model.revert();
+		this.update();
+	}
 	
 	this.removeFilter = function(key) {
 		delete this.model.filter[key];
@@ -166,29 +209,40 @@ function StoreController( model, view ){
 		if ( managers == false ) {
 			managers = [];
 		}
-		employeeController.onStoreListChange(managers);
+		this.employeeController.onStoreListChange(managers);
+	}
+	this.highLightStores = function(storeIdArray) {
+		this.view.highlightItems(storeIdArray);
+	}
+	this.highLightRelatedEmployee = function( storeId ) {
+		var employeeIdArray = this.model.findAllRelatedEmployee(storeId);
+		this.employeeController.highLightEmployees(employeeIdArray);
 	}
 	this.init();
 };
 
+
 $(function(){
-	
-	
-	var storeFilter = [];
 	$.ajax({
 		dataType: "json",
 		url: "Scripts/data.js?" + (new Date().getTime()),
 		success: function( data ) {
 			employeeController = new EmployeeController(new EmployeeModel(data.employees), new EmployeeView('employeeList') );
-			storeController = new StoreController(new StoreModel(data.stores), new StoreView('storeList'));			
+			storeController = new StoreController(new StoreModel(data.stores), new StoreView('storeList'));	
+					
 			storeController.employeeController = employeeController;
+			employeeController.storeController = storeController;
 			
+			generateTestShops(data.stores);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) { 
              alert("Status: " + textStatus); alert("Error: " + errorThrown); 
         }		
 		
 	});
+	
+	initMap();
+	
 	
 	$('#ImportanceLevel').change(function(){
 		var id = $(this).find(':selected').val();

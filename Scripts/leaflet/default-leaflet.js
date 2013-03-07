@@ -35,28 +35,18 @@ function initMap() {
 
 function generateTestShops(data) {
 
-    $.ajax({
-        type: 'POST',
-        dataType: 'json',
-        url: 'Public/Services/MapWebService.asmx/GetCheckInStats',
-        contentType: 'application/json',
-        data: JSON.stringify(data),
-        success: function (msg) {
-            shops = [];
-            var stats = $.parseJSON(msg.d);
-            $.each(stats, function (index, stat) {
+    
+            $.each(data, function (index, stat) {
                 shops.push({
-                    'id': stat.StoreId,
-                    'name': stat.StoreName,
-                    'latlng': [stat.Latitude, stat.Longitude],
-                    'checkincount': stat.CheckInCount,
-                    'photocount': stat.PhotoCount,
-                    'records': stat.Records
+                    'id': stat.id,
+                    'name': stat.name,
+                    'latlng': stat.latlng,
+                    'checkincount': stat.check,
+                    'photocount': stat.photo
                 });
             });
             initShopMarkers(shops);
-        }
-    });
+        
 	
 	
 }
@@ -114,7 +104,8 @@ function initShopMarkers(shopList) {
                 var props = [];
                 props.name = shop['name'];
                 props.checkincount = shop['checkincount'];
-                props.records = shop['records'];
+                //props.records = shop['records'];
+				props.records = [];
                 info.update(props);
             }
         });
@@ -165,33 +156,6 @@ function getTrackingsUpdate( ) {
     }
 }
 
-function initDatepicker() {
-    var today = new Date();
-    var tomorrow = new Date(today.getTime() + (24 * 60 * 60 * 1000));
-    var yesterday = new Date(today.getTime() - (5 * 24 * 60 * 60 * 1000));
-    var todayDateText = tomorrow.getFullYear() + '-' + (tomorrow.getMonth() + 1) + '-' + tomorrow.getDate();
-    var yesterdateDateText = yesterday.getFullYear() + '-' + (yesterday.getMonth() + 1) + '-' + yesterday.getDate();
-    var dates = $("#txtDateFrom, #txtDateTo").datepicker({
-        defaultDate: "+1w",
-        changeMonth: true,
-        numberOfMonths: 1,
-        dateFormat: 'yy-mm-dd',
-        onSelect: function (selectedDate) {
-            var option = this.id == "txtDateFrom" ? "minDate" : "maxDate",
-					instance = $(this).data("datepicker"),
-					date = $.datepicker.parseDate(
-						instance.settings.dateFormat ||
-						$.datepicker._defaults.dateFormat,
-						selectedDate, instance.settings);
-            dates.not(this).datepicker("option", option, date);
-        }
-    });
-    dates.first().val(yesterdateDateText).trigger('change');
-    dates.last().val(todayDateText).trigger('change');
-}
-
-
-
 
 function isSameLocation(Coordinate1, Coordinate2) {
 	var latlng1 = new L.LatLng(Coordinate1.Latitude, Coordinate1.Longitude);
@@ -208,25 +172,7 @@ function sortDataListByLocation(checkInGroupByDate) {
     var dataList = new Array();
 
     for (var i = 0; i < checkInGroupByDate.length; i++) {
-        if (0 == i || checkInGroupByDate[i].CheckInType == 2 || checkInGroupByDate[i - 1].CheckInType == 2) {
-            //第一条纪录，是签到的纪录，直接创建一个新的点
-            dataList.push(checkInGroupByDate[i]);
-        } else {
-
-            var lastPoint = dataList[dataList.length - 1];
-           /* if (isSameLocation(checkInGroupByDate[i].CheckInCoordinate, lastPoint.CheckInCoordinate)) {
-                if ((checkInGroupByDate.length - 1) == i || checkInGroupByDate[i + 1].CheckInType == 2 || !isSameLocation(checkInGroupByDate[i + 1].CheckInCoordinate, lastPoint.CheckInCoordinate)) {
-
-                    var createdAt = checkInGroupByDate[i].CreatedAt + '-' + lastPoint.CreatedAt;
-                    lastPoint.CreatedAt = createdAt;
-
-                }
-
-            } else {
-                dataList.push(checkInGroupByDate[i]);
-            }*/
-            dataList.push(checkInGroupByDate[i]);
-        }
+		 dataList.push(checkInGroupByDate[i]);       
     }
 
     for (var i = 0; i < dataList.length; i++) {
@@ -300,7 +246,6 @@ $(document).ready(function () {
     //$('.container').removeClass('container').addClass('container-fluid');
 
     //initDatepicker();
-    initMap();
     //enterTime = new Date().getTime();
     //window.setInterval(getTrackingsUpdate, 60 * 1000 * 3);
 
