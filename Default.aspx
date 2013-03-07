@@ -6,6 +6,7 @@
     <script src="Public/Libs/Leaflet/leaflet.js"  type="text/javascript"> </script>   
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAizK-CoOU44u0bTWzVeUlbMkQ2cHagM9s&sensor=false&amp;language=ch"  type="text/javascript"></script>  
     <script src="Public/Libs/Leaflet/google.js" type="text/javascript"></script>
+    <script src="Scripts/jsonpath-0.8.0.js"></script>
     <link rel="Stylesheet" href="Public/Libs/Leaflet/leaflet.css" />
     <link rel="stylesheet" type="text/css" href="Public/Styles/lightbox.css" />
      <!--[if lte IE 8]>
@@ -55,6 +56,9 @@
 		}
 		.employeeItem {
 			padding-left:30px;
+		}
+		.employeeItem h4 {
+			color:#333;
 		}
 		.storeName,.storeClass,.storeEmployee {
 			margin-bottom:0.5em;
@@ -169,13 +173,6 @@
 	<option value="10">超市发</option>
     </select>
     </div>
-    <div id="storeSearch">
-    	<p>在以下 305 个店铺中查找</p>
-        <div class="form-inline" >
-        <input type="text" />
-        <a class="btn btn-primary"><i class="icon-search icon-white"></i></a>
-        </div>
-    </div>
     <ul id="storeList">
     </ul>
 </div>
@@ -189,11 +186,7 @@
 </div>
 </div>
 <script id="employeeListTemplate" type="text/x-jquery-tmpl">
-<li class="employeeItem"
-{{if !show}}
- 	style="display:none"
-{{/if}}
->
+<li class="employeeItem">
 {{if status>0 }}
 <div class="statusLight status-active"></div>
 {{else check>0 }}
@@ -216,11 +209,7 @@
 </li>
 </script>
 <script id="storeListTemplate" type="text/x-jquery-tmpl">
-<li class="storeItem"
-{{if !show}}
- 	style="display:none"
-{{/if}}
->
+<li class="storeItem">
     <div class="storeName">${name}</div>
     <div class="storeDesc"><a href="">${lvl}</a> | <a href="">${chn}</a> | 
 	{{each manager}}
