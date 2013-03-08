@@ -101,7 +101,9 @@ function initShopMarkers(shopList) {
                 //props.records = shop['records'];
 				props.records = [];
                 info.update(props);
-            }
+            },
+			click:function (e) {
+			}
         });
     });
 	
@@ -139,8 +141,9 @@ function getTrackingsUpdate( ) {
 
 function getPopupHtml(shop) {
 	var html = "<h4>" + shop['name'] + "</h4>";
-	html += '<p>签到' + shop['checkincount'] + '次'+ ', 照片' + shop['photocount'] + '张' + ', 报告' + shop['commentcount'] + '条</p>';
-	html += '<p><a class="btn btn-primary" href="/View-Store.aspx?StoreId=' + shop['id'] + '">查看店铺详情</a></p>';
+	html += '<p>今日：签到' + shop['checkincount'] + '次'+ ', 照片' + shop['photocount'] + '张' + ', 报告' + shop['commentcount'] + '条</p>';
+	html += '<div id="popup-storeDetail"><img src="Public/Styles/images/loading.gif"> 正在获取最新数据</div>';
+	html += '<p><a class="btn btn-primary" href="/View-Store.aspx?StoreId=' + shop['id'] + '" title="查看店铺详细信息"><i class="icon-list-alt icon-white"></i></a> <a class="btn btn-inverse" href="/Edit-Store.aspx?storeId=' + shop['id'] + '"  title="编辑店铺" target="_blank"><i class="icon-pencil icon-white"></i></a></p>';
 	return html;
 	
 	
@@ -199,3 +202,17 @@ function highLightMakersByIndex(markerIndexes) {
 	}
 }
 
+function getStoreLatestInfo(storeId) {
+	$.ajax({
+		dataType: "json",
+		url: "Scripts/data.js?" + (new Date().getTime()),
+		success: function( data ) {
+			
+			
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) { 
+             alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+        }		
+		
+	});
+}

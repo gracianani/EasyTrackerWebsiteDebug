@@ -251,6 +251,9 @@ $(function(){
 			storeView.onFilterChange({'chnId':id});
 		}
 	});
-		
+	
+	$('#map_canvas').height($(window).height() - 40);	
+	$('#employeeContainer').height($(window).height()-40);
+	$('#storeList').height($(window).height()-155);
 	
 });

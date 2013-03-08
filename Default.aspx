@@ -14,15 +14,30 @@
      <![endif]-->
     <style type="text/css">
 		body {
-			padding-top:40px;
+			padding-top:0;
+			padding-bottom:0;
+		}
+		form {
+			margin-bottom:0!important;
 		}
 		.container-fluid {
 			padding:0!important;
+		}
+		body,.container-fluid,.row-fluid {
+			min-width:1000px;
+		}
+		.navbar-fixed-top {
+			position:static!important;
+			margin-bottom:0!important;
+		}
+		#employeeContainer,#storeContainer {
+			overflow-y:scroll;
 		}
 		#dashboard {
 		}
 		#dashboard.row-fluid [class*="span"] {
 			margin-left:0;
+			float:left;
 		}
 		#dashboard.row-fluid .span3 {
 			width:25%;
@@ -179,7 +194,7 @@
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
 <div class="row-fluid" id="dashboard">
-<div class="span3">
+<div class="span3" id="storeContainer">
     <div id="storeFilter">
     <select id="ImportanceLevel">
         <option selected="selected" value="0">全部</option>
@@ -229,7 +244,7 @@
         </asp:Repeater>
 </div>
 </div>
-<div class="span2">
+<div class="span2" id="employeeContainer">
 	<ul id="employeeList">
     </ul>
 </div>
