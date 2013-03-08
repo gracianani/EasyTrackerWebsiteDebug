@@ -198,59 +198,62 @@ function StoreModel( data ){
 };
 
 
-$(function(){
-	var storeView = new StoreView('storeList');
-	var employeeView = new EmployeeView('employeeList');
-	storeView.employeeView = employeeView;
-	employeeView.storeView = storeView;
-	initMap();
-	
-	$.ajax({
-		dataType: "json",
-		url: "Scripts/data.js?" + (new Date().getTime()),
-		beforeSend: function () {
-                Spinners.create('#spinner', {
-                    radius: 8,
-                    height: 11,
-                    width: 7.4,
-                    dashes: 7,
-                    opacity: 0.8,
-                    padding: 1,
-                    rotation: 650,
-                    color: '#000000'
-                }).play()
+$(function () {
+    var storeView = new StoreView('storeList');
+    var employeeView = new EmployeeView('employeeList');
+    storeView.employeeView = employeeView;
+    employeeView.storeView = storeView;
+    initMap();
+
+    $.ajax({
+        type: 'POST',
+        dataType: "json",
+        url: "Public/Services/MapWebService.asmx/GetLatestUpdates",
+        contentType: 'application/json',
+        beforeSend: function () {
+            Spinners.create('#spinner', {
+                radius: 8,
+                height: 11,
+                width: 7.4,
+                dashes: 7,
+                opacity: 0.8,
+                padding: 1,
+                rotation: 650,
+                color: '#000000'
+            }).play()
         },
-		success: function( data ) {
-			storeView.init(data.stores);
-			employeeView.init(data.employees);
-			
-			Spinners.get('#spinner').remove();
-		},
-		error: function(XMLHttpRequest, textStatus, errorThrown) { 
-             alert("Status: " + textStatus); alert("Error: " + errorThrown); 
-        }		
-		
-	});
-	
-	
-	
-	
-	$('#ImportanceLevel').change(function(){
-		var id = $(this).find(':selected').val();
-		if ( id == '0' ) {
-			storeView.onFilterRevert('lvlId');
-		} else {
-			storeView.onFilterChange({'lvlId':id});
-		}
-	});
-	$('#ChainStoreNames').change(function(){
-		var id = $(this).find(':selected').val();
-		if ( id == '0' ) {
-			storeView.onFilterRevert('chnId');
-		} else {
-			storeView.onFilterChange({'chnId':id});
-		}
-	});
-		
-	
+        success: function (data) {
+            var stats = $.parseJSON(data.d);
+            storeView.init(stats.stores);
+            employeeView.init(stats.employees);
+
+            Spinners.get('#spinner').remove();
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert("Status: " + textStatus); alert("Error: " + errorThrown);
+        }
+
+    });
+
+
+
+
+    $('#ImportanceLevel').change(function () {
+        var id = $(this).find(':selected').val();
+        if (id == '0') {
+            storeView.onFilterRevert('lvlId');
+        } else {
+            storeView.onFilterChange({ 'lvlId': id });
+        }
+    });
+    $('#ChainStoreNames').change(function () {
+        var id = $(this).find(':selected').val();
+        if (id == '0') {
+            storeView.onFilterRevert('chnId');
+        } else {
+            storeView.onFilterChange({ 'chnId': id });
+        }
+    });
+
+
 });
