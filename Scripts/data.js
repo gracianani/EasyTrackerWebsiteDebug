@@ -7,11 +7,10 @@
 			"store":["1","3"], 
 			"check":1, 
 			"photo":1, 
-			"msg":0, 
-			"complete":0
+			"msg":0
 		},
-		{"id":"2", "name":"赵雅琪", "status":0, "store":["2","4"], "check":1, "photo":1, "msg":0, "complete":0},
-		{"id":"3", "name":"余虹", "status":0, "store":[], "check":0, "photo":1, "msg":0, "complete":0}
+		{"id":"2", "name":"赵雅琪", "status":0, "store":["2","4"], "check":1, "photo":1, "msg":0},
+		{"id":"3", "name":"余虹", "status":0, "store":[], "check":0, "photo":1, "msg":0}
 	],
 	"stores" : [
 		{

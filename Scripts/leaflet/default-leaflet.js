@@ -1,12 +1,8 @@
 ﻿var map;
-var data_markers = [];
-
-
 var enterTime;
 var currentTime;
 
-
-var shopIcon;
+var shopIcon,highLightIcon;
 var shopLayer;
 var trackLayer;
 
@@ -28,43 +24,43 @@ function initMap() {
 	shopLayer = new L.layerGroup().addTo(map);
 	initShopDetailWindow();
 	trackLayer = new L.layerGroup().addTo(map);
-    map.addControl(new L.Control.Layers({ 'Mapnik': mpn, 'MapQuest': qst, 'Google': new L.Google() },{'店铺':shopLayer,'行程':trackLayer}));
+    //map.addControl(new L.Control.Layers({ 'Mapnik': mpn, 'MapQuest': qst, 'Google': new L.Google() },{'店铺':shopLayer,'行程':trackLayer}));
 }
 
 
 
-function generateTestShops(data) {
-
-    
+function mapLoadShopData(data) {
+			clearOverlays();
+			shops = [];
             $.each(data, function (index, stat) {
                 shops.push({
                     'id': stat.id,
                     'name': stat.name,
                     'latlng': stat.latlng,
                     'checkincount': stat.check,
-                    'photocount': stat.photo
+                    'photocount': stat.photo,
+					'commentcount':stat.msg
                 });
             });
-            initShopMarkers(shops);
-        
-	
-	
+			var bounds = getBounds(shops);
+            initShopMarkers(shops);	
+			map.fitBounds(bounds);
 }
 function initShopIcon() {
-	shopIcon = L.icon({
-		iconUrl: 'Public/Styles/images/shop.png',
-		shadowUrl: 'Public/Styles/images/shop-shadow.png',
-		iconSize:     [32, 32], // size of the icon
-		shadowSize:   [42, 13], // size of the shadow
-		iconAnchor:   [16, 16], // point of the icon which will correspond to marker's location
-		shadowAnchor: [11, -2],  // the same for the shadow
-		popupAnchor:  [-4, -16] // point from which the popup should open relative to the iconAnchor
+	shopIcon = new L.Icon.Default();	
+	highLightIcon = L.icon({
+		iconUrl: 'Public/Styles/images/flag.png',
+		shadowUrl: 'Public/Styles/images/flagshadow.png',
+		iconSize:     [48, 48], // size of the icon
+		shadowSize:   [48, 48], // size of the shadow
+		iconAnchor:   [10, 48], // point of the icon which will correspond to marker's location
+		shadowAnchor: [10, 48]  // the same for the shadow
 	});	
 }
 
 function initShopDetailWindow() {
 	info = L.control();
-	info.setPosition('bottomright');
+	info.setPosition('bottomleft');
 	info.onAdd = function (map) {
 		this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
 		this.update();
@@ -88,15 +84,13 @@ function initShopDetailWindow() {
 			trackRecords
 			: '请在地图中选择一个商店');
 	};
-	
 	info.addTo(map);
 }
 
 function initShopMarkers(shopList) {
-
     $.each(shopList, function (index, shop) {
 
-        var shopMarker = L.marker(shop['latlng'], { icon: shopIcon }).bindPopup(shop['name'] + '<br>签到' + shop['checkincount'] + '次');
+        var shopMarker = L.marker(shop['latlng'], { icon: shopIcon }).bindPopup(getPopupHtml(shop));
         shopLayer.addLayer(shopMarker);
         shop_markers.push(shopMarker);
         shopMarker.on({
@@ -115,20 +109,7 @@ function initShopMarkers(shopList) {
 
 
 function clearOverlays() {
-
-
-    for (index in data_markers) {
-        var marker = data_markers[index];
-        marker.setOpacity(0.0);
-        marker.unbindPopup();
-    }
-    data_markers = [];
-
-    for (index in shop_markers) {
-        var marker = shop_markers[index];
-        marker.setOpacity(0.0);
-        marker.unbindPopup();
-    }
+    shopLayer.clearLayers();
     shop_markers = [];
 }
 
@@ -156,37 +137,22 @@ function getTrackingsUpdate( ) {
     }
 }
 
-
-function isSameLocation(Coordinate1, Coordinate2) {
-	var latlng1 = new L.LatLng(Coordinate1.Latitude, Coordinate1.Longitude);
-	var latlng2 = new L.LatLng(Coordinate2.Latitude, Coordinate2.Longitude);
+function getPopupHtml(shop) {
+	var html = "<h4>" + shop['name'] + "</h4>";
+	html += '<p>签到' + shop['checkincount'] + '次'+ ', 照片' + shop['photocount'] + '张' + ', 报告' + shop['commentcount'] + '条</p>';
+	html += '<p><a class="btn btn-primary" href="/View-Store.aspx?StoreId=' + shop['id'] + '">查看店铺详情</a></p>';
+	return html;
 	
-	var distance = latlng1.distanceTo(latlng2);
-    if (distance < 10) {
-        return true;
-    }
-    return false;
-}
-
-function sortDataListByLocation(checkInGroupByDate) {
-    var dataList = new Array();
-
-    for (var i = 0; i < checkInGroupByDate.length; i++) {
-		 dataList.push(checkInGroupByDate[i]);       
-    }
-
-    for (var i = 0; i < dataList.length; i++) {
-        dataList[i].index = dataList.length - i;
-    }
-    return dataList;
+	
 }
 
 function getBounds(dataList) {
 	var southWest = new L.LatLng(180, 0);
 	var northEast = new L.LatLng(0, 180);
+	console.log(dataList);
 	for ( var i = 0; i < dataList.length; i++) {
-		lat = dataList[i].CheckInCoordinate.Latitude;
-		lng = dataList[i].CheckInCoordinate.Longitude;
+		lat = dataList[i].latlng[0];
+		lng = dataList[i].latlng[1];
 		
 		if (southWest.lat > lat ) {
 			southWest.lat = lat
@@ -201,17 +167,9 @@ function getBounds(dataList) {
 			northEast.lng = lng
 		}
 	}
-	
 	bounds = new L.LatLngBounds(southWest, northEast);
-
 	return bounds;
 	
-}
-function getRegularCheckInInfoWindowHtml(checkIn) {
-    var outStr = '<div class="checkInIndex">' + checkIn.index + '</div> <div><i class="icon-time"></i> 时间:' + checkIn.CreatedAt + '<br />' +
-				'<i class="icon-map-marker"></i> 坐标:( ' + checkIn.CheckInCoordinate.Latitude + ', ' + checkIn.CheckInCoordinate.Longitude + ' )</div>';
-
-    return outStr;
 }
 
 
@@ -223,33 +181,21 @@ function getStoreCheckInInfoWindowHtml(storeId, storeName, createdAt) {
         return "<div><i class='icon-home'></i> <a href='View-Store.aspx?storeId=" + storeId + "'>" + storeName + "</a>  </div>";
     }
 }
-
-function activateMarkers(markers) {
-    for (index in markers) {
-        var marker = markers[index];
-        marker['status'] = 'active';
-        marker.setOpacity(1.0);
-    }
-}
-
-function deactivateMarkers(markers) {
-
-    for (index in markers) {
-        var marker = markers[index];
+function highLightMakersByIndex(markerIndexes) {
+	for (index in shop_markers) {
+        var marker = shop_markers[index];
+		if ( marker['status'] == 'active') {
         marker['status'] = 'inactive';
-        marker.setOpacity(0.0);
+        marker.setIcon(shopIcon);
+		}
     }
+	for (index in markerIndexes) {
+		var marker = shop_markers[markerIndexes[index]];
+		marker['status'] = 'active';
+		marker.setIcon(highLightIcon);
+	}
+	if ( markerIndexes.length == 1 ) {
+		shop_markers[ markerIndexes[0] ].openPopup();
+	}
 }
 
-$(document).ready(function () {
-
-    //$('.container').removeClass('container').addClass('container-fluid');
-
-    //initDatepicker();
-    //enterTime = new Date().getTime();
-    //window.setInterval(getTrackingsUpdate, 60 * 1000 * 3);
-
-
-
-
-});

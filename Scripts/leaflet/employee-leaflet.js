@@ -52,7 +52,6 @@ function generateTestShops(data) {
                     'photocount': stat.PhotoCount,
                     'records': stat.Records
                 });
-				console.log(stat.Latitude+", "+stat.Longitude);
             });
             initShopMarkers(shops);
         }

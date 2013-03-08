@@ -95,22 +95,33 @@
 		.status-online {
 			background:#ffc801;
 		}
+		#latest {
+			position:absolute;
+			right:5px;
+			top:5px;
+			z-index:9999;
+			width:30%;
+			height:450px;
+			overflow:hidden;
+		}
+		#latest .alert-block {
+			margin-bottom:0;
+		}
 		.latest_block {
-			margin:10px 0;
-			padding:15px 150px 15px 15px;
-			background:whiteSmoke;
+			margin:5px 0;
+			padding:5px;
+			background:rgba(255,255,255,0.9);
 			position:relative;
 			overflow:hidden;
 			border:1px solid #eee;
 		  	-webkit-border-radius: 4px;
 			 -moz-border-radius: 4px;
-				  border-radius: 4px;
+			 border-radius: 4px;
 		}
 		.latest_block:nth-child(odd) {
-			background:#F9F9F9;
+			background:rgba(255,255,255,0.8);
 		}
 		.latest_block p {
-			font-size:1.2em;
 		}
 		.latestPhoto_img {
 			float:right;
@@ -140,6 +151,21 @@
 		.highLight {
 			background:#ecf4fa;
 		}
+		.leaflet-container a.btn-primary {
+			color:#FFF;
+		}
+.info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
     </style>
 
     <script>
@@ -180,8 +206,27 @@
     <ul id="storeList">
     </ul>
 </div>
-<div class="span7">
-<div id="map_canvas" style="width: 100%;height:500px">
+<div class="span7" style="position:relative">
+<div id="map_canvas" style="width: 100%;height:500px"></div>
+<div id="latest">
+<div class="alert alert-block">有3条新数据</div>
+        <asp:Repeater ID="rpt_Latest1" runat="server" OnItemDataBound="rpt_Latest_ItemDataBound" >
+            <ItemTemplate>
+            <div class="latest_block checkin">
+        	    <p>
+                <asp:Literal ID="lt_icon" runat="server" Mode="PassThrough" Text='<i class="icon-flag"></i>'></asp:Literal> 
+                <a href='View-Employee-Leaflet.aspx?EmployeeId=<%#Eval("UserId")%>'><%#Eval("UserFullName")%></a> 
+                <asp:Literal ID="lt_description1" runat="server" ClientIDMode="Static" Text=" 在 "></asp:Literal>
+                <a href='View-Store.aspx?StoreId=<%#Eval("StoreId")%>'><%#Eval("StoreName")%></a>
+                <asp:Literal ID="lt_description2" runat="server" ClientIDMode="Static" Text=" 踩点 "></asp:Literal>
+                <span class="time"><%#Eval("CreatedAt")%></span>
+                </p>
+                <asp:LinkButton ID="photo" runat="server" ClientIDMode="Static" rel="lightBox" PostBackUrl='<%#Eval("PhotoUrl") %>' Visible="false" CssClass="lnk_StorePhotos" >
+                    <img class="latestPhoto_img" src='<%#Eval("PhotoUrl") %>' />
+                </asp:LinkButton>
+            </div>
+        </ItemTemplate>
+        </asp:Repeater>
 </div>
 </div>
 <div class="span2">
@@ -237,25 +282,7 @@
 <script type="text/javascript" src="Scripts/leaflet/default-leaflet.js"></script>
 
 <div class="row clearfix">
-	<div class="span6" id="latest">
-        <asp:Repeater ID="rpt_Latest1" runat="server" OnItemDataBound="rpt_Latest_ItemDataBound" >
-            <ItemTemplate>
-            <div class="latest_block checkin">
-        	    <p>
-                <asp:Literal ID="lt_icon" runat="server" Mode="PassThrough" Text='<i class="icon-flag"></i>'></asp:Literal> 
-                <a href='View-Employee-Leaflet.aspx?EmployeeId=<%#Eval("UserId")%>'><%#Eval("UserFullName")%></a> 
-                <asp:Literal ID="lt_description1" runat="server" ClientIDMode="Static" Text=" 在 "></asp:Literal>
-                <a href='View-Store.aspx?StoreId=<%#Eval("StoreId")%>'><%#Eval("StoreName")%></a>
-                <asp:Literal ID="lt_description2" runat="server" ClientIDMode="Static" Text=" 踩点 "></asp:Literal>
-                <span class="time"><%#Eval("CreatedAt")%></span>
-                </p>
-                <asp:LinkButton ID="photo" runat="server" ClientIDMode="Static" rel="lightBox" PostBackUrl='<%#Eval("PhotoUrl") %>' Visible="false" CssClass="lnk_StorePhotos" >
-                    <img class="latestPhoto_img" src='<%#Eval("PhotoUrl") %>' />
-                </asp:LinkButton>
-            </div>
-        </ItemTemplate>
-        </asp:Repeater>
-    </div>
+	
     
     
 </div>
