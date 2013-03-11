@@ -29,5 +29,22 @@
 		},
 		{"id":"2", "name":"西直门华联", "status":0, "manager":[{"id":"1","name":"随先生"},{"id":"2","name":"赵雅琪"}], "check":1, "photo":1, "msg":1,"lvl":"B类", "lvlId":"2","chn":"快客","chnId":"2","latlng":["39.942", "116.3092" ]},
 		{"id":"3", "name":"物美大卖场", "status":0, "manager":[{"id":"1","name":"随先生"},{"id":"2","name":"赵雅琪"}], "check":0, "photo":1, "msg":0,"lvl":"C类", "lvlId":"3","chn":"物美","chnId":"3","latlng":["39.940", "116.310" ]}
-	]
+	],
+	"trackRecords": [
+		{
+			"name":"赵雅琪",
+			"time":"15:30 2013-03-08"
+		},
+		{
+			"name":"余虹",
+			"time":"14:30 2013-03-08"
+		}
+	],
+	"photos":[
+		{
+			"src":"Public/Images/5_56_2_20130307163556.jpg"
+		},
+		{
+			"src":"Public/Images/5_56_2_20130307163556.jpg"
+		}]
 }

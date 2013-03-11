@@ -22,7 +22,6 @@ function initMap() {
 	
 	initShopIcon();
 	shopLayer = new L.layerGroup().addTo(map);
-	initShopDetailWindow();
 	trackLayer = new L.layerGroup().addTo(map);
     //map.addControl(new L.Control.Layers({ 'Mapnik': mpn, 'MapQuest': qst, 'Google': new L.Google() },{'店铺':shopLayer,'行程':trackLayer}));
 }
@@ -42,9 +41,13 @@ function mapLoadShopData(data) {
 					'commentcount':stat.msg
                 });
             });
-			var bounds = getBounds(shops);
             initShopMarkers(shops);	
-			map.fitBounds(bounds);
+			map.fitBounds(getBounds(shop_markers));
+			if ( info ) {
+				info.update();
+			} else {
+			initShopDetailWindow();
+			}
 }
 function initShopIcon() {
 	shopIcon = new L.Icon.Default();	
@@ -69,20 +72,20 @@ function initShopDetailWindow() {
 	
 	// method that we will use to update the control based on feature properties passed
 	info.update = function (props) {
-	    var trackRecords = "";
-	    if (props) {
-	        if (props.records) {
-	            for (var i = 0; i < props.records.length; i++) {
-	                console.log(props.records[i]);
-	                trackRecords += (i + 1) + '. ' + props.records[i].EmployeeName + "&nbsp;" + props.records[i].Time + '<br>';
-	            }
-	        }
-	    }
-	    this._div.innerHTML = '<h4>' + (props ?
-			'<b>' + props.name + '</b> <br>踩点总数' + props.checkincount
-			: '店铺明细') + '</h4>' + (props ?
-			trackRecords
-			: '请在地图中选择一个商店');
+		var str = "";
+		if (props) {
+			if ( props.title ) {
+				str+= '<h4>' + props.title + '</h4>';
+			}
+			if ( props.count ) {
+				str+= '<p>选中：' + props.count + '个</p>';
+				str += '<p><a class="btn btn-primary" href="javascript:resetFitBounds();">重置缩放</a>';
+			}
+		} else {
+			str += '<h4>您未选择任何店铺</h4><p>店铺总数' + shops.length + '个</p>';
+		}
+		
+	    this._div.innerHTML = str;
 	};
 	info.addTo(map);
 }
@@ -94,15 +97,8 @@ function initShopMarkers(shopList) {
         shopLayer.addLayer(shopMarker);
         shop_markers.push(shopMarker);
         shopMarker.on({
-            mouseover: function (e) {
-                var props = [];
-                props.name = shop['name'];
-                props.checkincount = shop['checkincount'];
-                //props.records = shop['records'];
-				props.records = [];
-                info.update(props);
-            },
 			click:function (e) {
+				getStoreLatestInfo('1');
 			}
         });
     });
@@ -152,10 +148,9 @@ function getPopupHtml(shop) {
 function getBounds(dataList) {
 	var southWest = new L.LatLng(180, 0);
 	var northEast = new L.LatLng(0, 180);
-	console.log(dataList);
 	for ( var i = 0; i < dataList.length; i++) {
-		lat = dataList[i].latlng[0];
-		lng = dataList[i].latlng[1];
+		lat = dataList[i]._latlng.lat;
+		lng = dataList[i]._latlng.lng;
 		
 		if (southWest.lat > lat ) {
 			southWest.lat = lat
@@ -192,22 +187,37 @@ function highLightMakersByIndex(markerIndexes) {
         marker.setIcon(shopIcon);
 		}
     }
+	map.closePopup();
+	var activeMarkers = [];
 	for (index in markerIndexes) {
 		var marker = shop_markers[markerIndexes[index]];
 		marker['status'] = 'active';
 		marker.setIcon(highLightIcon);
+		activeMarkers.push(marker);
 	}
 	if ( markerIndexes.length == 1 ) {
 		shop_markers[ markerIndexes[0] ].openPopup();
 	}
+	var prop = {};
+	if ( markerIndexes.length > 0 ) {
+		map.fitBounds(getBounds(activeMarkers));
+		prop.count =  markerIndexes.length;
+		info.update(prop);
+	} else {
+		map.fitBounds(getBounds(shop_markers));
+		info.update();
+	}
+	
 }
-
+function resetFitBounds(){
+	map.fitBounds(getBounds(shop_markers));
+}
 function getStoreLatestInfo(storeId) {
 	$.ajax({
 		dataType: "json",
-		url: "Scripts/data.js?" + (new Date().getTime()),
+		url: "Scripts/data.js?"+ 'storeId='+storeId+'&'+(new Date().getTime()),
 		success: function( data ) {
-			
+			showStoreLatestInfo(data);
 			
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) { 
@@ -215,4 +225,26 @@ function getStoreLatestInfo(storeId) {
         }		
 		
 	});
+}
+function showStoreLatestInfo(data) {
+	var str = "";
+	if ( data.trackRecords ) {
+		for ( var i in data.trackRecords) {
+			str += '<p>'+ data.trackRecords[i].name + ' 签到 ' + '<span class="time">' + data.trackRecords[i].time +'</span>' + '</p>';
+		}
+	} else {
+		str += '<p>无踩点纪录</p>';
+	}
+	if ( data.photos ) {
+		str += '<p id="popup-storeDetail-photos">';
+		for ( var i in data.photos) {
+			str += '<a rel="lightBox"  href="' + data.photos[i].src +'" ><img src="'+ data.photos[i].src + '" height="60" /></a>';
+		}
+		str += '</p>';
+	} else {
+		str += '<p>最近无照片</p>';
+	}
+	
+	$('#popup-storeDetail').html(str);
+	$('#popup-storeDetail [rel="lightBox"]').lightBox();
 }
