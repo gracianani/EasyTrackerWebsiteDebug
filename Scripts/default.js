@@ -221,7 +221,7 @@ function getTrackingsUpdate( ) {
             data: JSON.stringify(data),
             success: function (msg) {
                 if (parseInt(msg.d) > 0) {
-                    $(".alert").addClass("alert-block").html('<strong><a href="/View-Employee-Leaflet.aspx?EmployeeId=' + employeeId + '">有' + msg.d + '个新位置更新，点击查看</a></strong>').show();
+                    $(".alert").addClass("alert-block").html('<strong><a href="/Default.aspx">有' + msg.d + '个新位置更新，点击查看</a></strong>').show();
                 }
             }
         });

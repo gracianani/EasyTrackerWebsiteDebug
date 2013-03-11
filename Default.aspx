@@ -281,13 +281,13 @@ body, .container-fluid, .row-fluid {
 {{if status>1 }}
 <div class="statusLight status-active"></div>
 {{else check>0 }}
-<div class="statusLight status-online"></div>
+<div class="statusLight status-active"></div>
 {{else}}
 <div class="statusLight status-offline"></div>
 {{/if}}
 <div class="employeeName">${name}</div>
 <div class="employeeDetail">
-<p>今日踩点${check}次，提交图片${photo}张，评论${msg}条</p>
+<p>今日踩点${check}次，提交图片${photo}张</p>
 <p>负责店铺：${store.length} 个</p>
 <p><a href="/View-Employee-Leaflet.aspx?EmployeeId=${id}" class="btn btn-primary"><i class="icon-list-alt icon-white"></i></a> <a href="/Edit-Employee.aspx?userId=${id}" class="btn btn-inverse"><i class="icon-pencil icon-white"></i></a> <a href="/Manage-Task.aspx" class="btn btn-inverse"><i class="icon-plus icon-white" title="添加任务"></i></a></p>
 </div>
