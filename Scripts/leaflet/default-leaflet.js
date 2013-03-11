@@ -98,7 +98,7 @@ function initShopMarkers(shopList) {
         shop_markers.push(shopMarker);
         shopMarker.on({
 			click:function (e) {
-				getStoreLatestInfo('1');
+				getStoreLatestInfo(shop['id']);
 			}
         });
     });
@@ -111,35 +111,13 @@ function clearOverlays() {
     shop_markers = [];
 }
 
-function getTrackingsUpdate( ) {
-    if ($('select[id$=ddl_Employee]').length > 0) {
-        var employeeId = $('select[id$=ddl_Employee]').val();
-        currentTime = new Date().getTime();
-        var data = {
-            'elasp': currentTime - enterTime,
-            'employeeId': employeeId
-        };
 
-        $.ajax({
-            type: 'POST',
-            dataType: 'json',
-            url: 'Public/Services/MapWebService.asmx/GetTrackingUpdate',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: function (msg) {
-                if (parseInt(msg.d) > 0) {
-                    $(".alert").removeClass("hidden").html('<strong><a href="/View-Employee-Leaflet.aspx?EmployeeId=' + employeeId + '">有' + msg.d + '个新位置更新，点击查看</a></strong>');
-                }
-            }
-        });
-    }
-}
 
 function getPopupHtml(shop) {
 	var html = "<h4>" + shop['name'] + "</h4>";
 	html += '<p>今日：签到' + shop['checkincount'] + '次'+ ', 照片' + shop['photocount'] + '张' + ', 报告' + shop['commentcount'] + '条</p>';
-	html += '<div id="popup-storeDetail"><img src="Public/Styles/images/loading.gif"> 正在获取最新数据</div>';
-	html += '<p><a class="btn btn-primary" href="/View-Store.aspx?StoreId=' + shop['id'] + '" title="查看店铺详细信息"><i class="icon-list-alt icon-white"></i></a> <a class="btn btn-inverse" href="/Edit-Store.aspx?storeId=' + shop['id'] + '"  title="编辑店铺" target="_blank"><i class="icon-pencil icon-white"></i></a></p>';
+	html += '<div id="popup-storeDetail" data-id="'+shop['id'] +'"><img src="Public/Styles/images/loading.gif"> 正在获取最新数据</div>';
+	html += '<p><a class="btn btn-primary" href="/View-Store.aspx?StoreId=' + shop['id'] + '" title="查看店铺详细信息"><i class="icon-list-alt icon-white"></i></a> <a class="btn btn-inverse" href="/Edit-Store.aspx?storeId=' + shop['id'] + '"  title="编辑店铺" target="_blank"><i class="icon-pencil icon-white"></i></a> <a href="/Manage-Task.aspx" class="btn btn-inverse"><i class="icon-plus icon-white" title="添加任务"></i></a></p>';
 	return html;
 	
 	
@@ -197,6 +175,7 @@ function highLightMakersByIndex(markerIndexes) {
 	}
 	if ( markerIndexes.length == 1 ) {
 		shop_markers[ markerIndexes[0] ].openPopup();
+		getStoreLatestInfo();
 	}
 	var prop = {};
 	if ( markerIndexes.length > 0 ) {
@@ -213,6 +192,9 @@ function resetFitBounds(){
 	map.fitBounds(getBounds(shop_markers));
 }
 function getStoreLatestInfo(storeId) {
+	if (!storeId) {
+		storeId = $('#popup-storeDetail').attr('data-id');
+	}
 	$.ajax({
 		dataType: "json",
 		url: "Scripts/data.js?"+ 'storeId='+storeId+'&'+(new Date().getTime()),
@@ -221,7 +203,7 @@ function getStoreLatestInfo(storeId) {
 			
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) { 
-             alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+             //alert("Status: " + textStatus); alert("Error: " + errorThrown); 
         }		
 		
 	});
@@ -246,5 +228,4 @@ function showStoreLatestInfo(data) {
 	}
 	
 	$('#popup-storeDetail').html(str);
-	$('#popup-storeDetail [rel="lightBox"]').lightBox();
 }

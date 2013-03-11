@@ -202,6 +202,16 @@ body, .container-fluid, .row-fluid {
 	border:2px solid #FFF;
 	box-shadow:0 0 4px #999;
 }
+.employeeDetail {
+	margin-top:5px;
+	display:none;
+}
+.highLight .employeeDetail {
+	display:block;
+}
+.employeeDetail p {
+	margin-bottom:5px;
+}
 </style>
   <script>
 
@@ -276,25 +286,30 @@ body, .container-fluid, .row-fluid {
 <div class="statusLight status-offline"></div>
 {{/if}}
 <div class="employeeName">${name}</div>
+<div class="employeeDetail">
+<p>今日踩点${check}次，提交图片${photo}张，评论${msg}条</p>
+<p>负责店铺：${store.length} 个</p>
+<p><a href="/View-Employee-Leaflet.aspx?EmployeeId=${id}" class="btn btn-primary"><i class="icon-list-alt icon-white"></i></a> <a href="/Edit-Employee.aspx?userId=${id}" class="btn btn-inverse"><i class="icon-pencil icon-white"></i></a> <a href="/Manage-Task.aspx" class="btn btn-inverse"><i class="icon-plus icon-white" title="添加任务"></i></a></p>
+</div>
 <div class="employeeIcons">
 	{{if check>0}}
-		<i class="icon-ok" title="已签到${check}次"></i> 
+		<i class="icon-ok" title="已踩点${check}次"></i> 
 	{{/if}}
 	{{if photo>0}}
 		<i class="icon-picture" title="已提交${photo}张图片"></i> 
 	{{/if}}
 	{{if msg>0}}
-		<i class="icon-comment" title="已提交${comment}条评论"></i> 
+		<i class="icon-comment" title="已提交${msg}条评论"></i> 
 	{{/if}}
-	</div>
+</div>
 </li>
 </script>
 <script id="storeListTemplate" type="text/x-jquery-tmpl">
 <li class="storeItem" data-id="${id}">
     <div class="storeName">${name}</div>
-    <div class="storeDesc"><a href="">${lvl}</a> | <a href="">${chn}</a> | 
+    <div class="storeDesc">${lvl} | ${chn} | 
 	{{each manager}}
-	<a href="">${name}</a> 
+	<a href="/View-Employee-Leaflet.aspx?EmployeeId="${id}>${name}</a> 
 	{{/each}}
 	</div>
 	<div class="storeIcons">

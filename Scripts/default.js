@@ -203,8 +203,35 @@ function slideLatest() {
 	latest.last().insertBefore(latest.first()).slideDown();
 }
 
+var enterTime = new Date().getTime();
+function getTrackingsUpdate( ) {
+        var employeeId = '56';
+        currentTime = new Date().getTime();
+        var data = {
+            'elasp': currentTime - enterTime,
+            'employeeId': employeeId
+        };
+		console.log(employeeId);
+
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: 'Public/Services/MapWebService.asmx/GetTrackingUpdate',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (msg) {
+                if (parseInt(msg.d) > 0) {
+                    $(".alert").addClass("alert-block").html('<strong><a href="/View-Employee-Leaflet.aspx?EmployeeId=' + employeeId + '">有' + msg.d + '个新位置更新，点击查看</a></strong>').show();
+                }
+            }
+        });
+ }
 
 $(function () {
+	$('#map_canvas').height($(window).height() - 40);	
+	$('#employeeContainer').height($(window).height()-40);
+	$('#storeList').height($(window).height()-155);
+	
     var storeView = new StoreView('storeList');
     var employeeView = new EmployeeView('employeeList');
     storeView.employeeView = employeeView;
@@ -262,9 +289,6 @@ $(function () {
         }
     });
 	
-	$('#map_canvas').height($(window).height() - 40);	
-	$('#employeeContainer').height($(window).height()-40);
-	$('#storeList').height($(window).height()-155);
 
     $('.lnk_StorePhotos').each(function () {
 		var imgSrc = $(this).children("img").attr('src');
@@ -273,6 +297,7 @@ $(function () {
 	
 	$($('.latest_block').get(1)).nextAll().hide();
 	setInterval(slideLatest,5000);
+	setInterval(getTrackingsUpdate,10000);
 	$('#latest').on('selectstart',function(e){
 		e.preventDefault();
 		return false;
