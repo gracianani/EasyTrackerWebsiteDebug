@@ -197,6 +197,12 @@ function StoreModel( data ){
 	}
 };
 
+function slideLatest() {
+	var latest = $('.latest_block');
+	latest.filter(':visible').last().hide();
+	latest.last().insertBefore(latest.first()).slideDown();
+}
+
 
 $(function () {
     var storeView = new StoreView('storeList');
@@ -260,4 +266,15 @@ $(function () {
 	$('#employeeContainer').height($(window).height()-40);
 	$('#storeList').height($(window).height()-155);
 
+    $('.lnk_StorePhotos').each(function () {
+		var imgSrc = $(this).children("img").attr('src');
+		$(this).attr('href', imgSrc);
+	});
+	
+	$($('.latest_block').get(1)).nextAll().hide();
+	setInterval(slideLatest,5000);
+	$('#latest').on('selectstart',function(e){
+		e.preventDefault();
+		return false;
+	});
 });
