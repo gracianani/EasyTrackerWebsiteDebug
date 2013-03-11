@@ -194,13 +194,17 @@ function resetFitBounds(){
 function getStoreLatestInfo(storeId) {
 	if (!storeId) {
 		storeId = $('#popup-storeDetail').attr('data-id');
-	}
+    }
+    var storedata = { storeId: storeId };
 	$.ajax({
-		dataType: "json",
-		url: "Scripts/data.js?"+ 'storeId='+storeId+'&'+(new Date().getTime()),
-		success: function( data ) {
-			showStoreLatestInfo(data);
-			
+	    type: 'POST',
+	    dataType: 'json',
+	    url: 'Public/Services/MapWebService.asmx/GetLastestStoreUpdates',
+	    contentType: 'application/json',
+	    data: JSON.stringify(storedata),
+		success: function (data) {
+		    var stats = $.parseJSON(data.d);
+			showStoreLatestInfo(stats);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) { 
              //alert("Status: " + textStatus); alert("Error: " + errorThrown); 
