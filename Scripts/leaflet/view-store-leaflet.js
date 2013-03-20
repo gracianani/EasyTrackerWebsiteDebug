@@ -12,6 +12,7 @@ var stats = 'input[id$=hf_stats]';
 var enterTime;
 var currentTime;
 var map;
+var shop_markers=[];
 
 function getStoreUpdate() {
     if ($('select[id$=ddl_stores]').length > 0) {
@@ -75,6 +76,19 @@ function getInfoWindowHtmlByStoreName(content, link) {
     var main_content = $('<div></div>').html(content);
     return main_content.html();
 }
+
+function bindStorePopup() {
+    $.each($(".storeList-item"), function (index, shopListItem) {
+
+        $(shopListItem).click(function () {
+            var shop = $.parseJSON($(this).find('shopjson').html());
+            shop_markers[index].openPopup();
+            getStoreLatestInfo(shop['id']);
+            map.panTo([shop['lat'], shop['lng']]);
+        });
+    });
+}
+
 $(document).ready(function () {
     initDatepicker();
     enterTime = new Date().getTime();
@@ -101,7 +115,7 @@ $(document).ready(function () {
     } else {
         initMap();
     }
-
+    bindStorePopup();
     $('#summaryTemplate').tmpl({ Today: $(today).val(), Yesterday: $(yesterday).val(), ThisMonth: $(thisMonth).val(), LastMonth: $(lastMonth).val(), ThisWeek: $(thisWeek).val(),
         LastWeek: $(lastWeek).val(), Last7Days: $(last7days).val(), ThisMonth: $(thisMonth).val(), LastMonth: $(lastMonth).val(), Last30Days: $(lastMonth).val()
     }).appendTo('#summary'); ;
@@ -162,17 +176,72 @@ $(document).ready(function () {
 
 
 
-
-    var cm_mapMarkers = [];
     var storesCoordinate = [];
 
     $('p.hidden').each(function (index) {
-        storesCoordinate.push({ Latitude: parseFloat($(this).find('lat').html()), Longitude: parseFloat($(this).find('lng').html()) });
-        var marker = L.marker([storesCoordinate[index].Latitude, storesCoordinate[index].Longitude]).addTo(map);
-        var html = getInfoWindowHtmlByStoreName($(this).siblings().has('i').find('a').html(), $(this).siblings().has('i').find('a').attr('href'));
-        marker.bindPopup(html);
+        var shop = $.parseJSON($(this).find('shopjson').html());
+        storesCoordinate.push({ Latitude: parseFloat(shop['lat']), Longitude: parseFloat( shop['lng'] ) });
+        var marker = L.marker([shop['lat'], shop['lng']]).addTo(map);
+        marker.bindPopup(getPopupHtml(shop));
+        shop_markers.push(marker);
+        marker.on({
+            click: function (e) {
+                getStoreLatestInfo(shop['id']);
+            }
+        });
     });
 
 
 });
- 
+
+function getPopupHtml(shop) {
+    var html = "<h4>" + shop['name'] + "</h4>";
+    html += '<div id="popup-storeDetail" data-id="' + shop['id'] + '"><img src="Public/Styles/images/loading.gif"> 正在获取最新数据</div>';
+    html += '<p><a class="btn btn-primary" href="/View-Store.aspx?StoreId=' + shop['id'] + '" title="查看店铺详细信息"><i class="icon-list-alt icon-white"></i></a> <a class="btn btn-inverse" href="/Edit-Store.aspx?storeId=' + shop['id'] + '"  title="编辑店铺" target="_blank"><i class="icon-pencil icon-white"></i></a> <a href="/Manage-Task.aspx" class="btn btn-inverse"><i class="icon-plus icon-white" title="添加任务"></i></a></p>';
+    return html;
+
+
+}
+function getStoreLatestInfo(storeId) {
+    if (!storeId) {
+        storeId = $('#popup-storeDetail').attr('data-id');
+    }
+    var storedata = { storeId: storeId };
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: 'Public/Services/MapWebService.asmx/GetLastestStoreUpdates',
+        contentType: 'application/json',
+        data: JSON.stringify(storedata),
+        success: function (data) {
+            var stats = $.parseJSON(data.d);
+            showStoreLatestInfo(stats);
+
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            //alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+        }
+
+    });
+}
+function showStoreLatestInfo(data) {
+    var str = "";
+    if (data.trackRecords) {
+        for (var i in data.trackRecords) {
+            str += '<p>' + data.trackRecords[i].name + ' 签到 ' + '<span class="time">' + data.trackRecords[i].time + '</span>' + '</p>';
+        }
+    } else {
+        str += '<p>无踩点纪录</p>';
+    }
+    if (data.photos ) {
+        str += '<p id="popup-storeDetail-photos">';
+        for (var i in data.photos) {
+            str += '<a rel="lightBox"  href="' + data.photos[i].src + '" ><img src="' + data.photos[i].src + '" height="60" /></a>';
+        }
+        str += '</p>';
+    } else {
+        str += '<p>最近无照片</p>';
+    }
+    $('#popup-storeDetail').html(str);
+} 
+

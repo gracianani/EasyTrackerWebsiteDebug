@@ -44,7 +44,7 @@
                                 <Items>
                                     <asp:MenuItem NavigateUrl="~/Default.aspx"  Text="主页" ></asp:MenuItem>
                                     <asp:MenuItem NavigateUrl="~/View-Employee-Leaflet.aspx" Text="员工信息" ></asp:MenuItem>
-                                    <asp:MenuItem NavigateUrl="~/View-Store.aspx" Text="店铺信息">
+                                    <asp:MenuItem NavigateUrl="~/View-Store-All.aspx" Text="店铺信息">
                                         <asp:MenuItem NavigateUrl="~/View-Store-All.aspx" Text="查看所有店铺"  ></asp:MenuItem>
                                         <asp:MenuItem NavigateUrl="~/View-Store.aspx" Text="查看单个店铺"></asp:MenuItem>
                                     </asp:MenuItem>
@@ -52,6 +52,7 @@
                                         <asp:MenuItem NavigateUrl="~/Manage-Employee.aspx" Text="管理员工"  ></asp:MenuItem>
                                         <asp:MenuItem NavigateUrl="~/Manage-Store.aspx" Text="管理店铺"></asp:MenuItem>
                                         <asp:MenuItem NavigateUrl="~/Manage-Task.aspx" Text="管理任务"></asp:MenuItem>
+                                        <asp:MenuItem NavigateUrl="~/Manage-Single-CheckIns.aspx" Text="待解决的问题"></asp:MenuItem>
                                     </asp:MenuItem>
                                 </Items>
                                 

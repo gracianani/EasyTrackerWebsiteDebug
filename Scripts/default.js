@@ -205,18 +205,14 @@ function slideLatest() {
 
 var enterTime = new Date().getTime();
 function getTrackingsUpdate( ) {
-        var employeeId = '56';
         currentTime = new Date().getTime();
         var data = {
-            'elasp': currentTime - enterTime,
-            'employeeId': employeeId
+            'elasp': currentTime - enterTime
         };
-		console.log(employeeId);
-
         $.ajax({
             type: 'POST',
             dataType: 'json',
-            url: 'Public/Services/MapWebService.asmx/GetTrackingUpdate',
+            url: 'Public/Services/MapWebService.asmx/GetLatestUpdatesCount',
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: function (msg) {

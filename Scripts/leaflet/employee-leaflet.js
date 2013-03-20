@@ -27,7 +27,8 @@ function initMap() {
 	shopLayer = new L.layerGroup().addTo(map);
 	initShopDetailWindow();
 	trackLayer = new L.layerGroup().addTo(map);
-    map.addControl(new L.Control.Layers({ 'Mapnik': mpn, 'MapQuest': qst, 'Google': new L.Google() },{'店铺':shopLayer,'行程':trackLayer}));
+	map.addControl(new L.Control.Layers({ 'Mapnik': mpn, 'MapQuest': qst, 'Google': new L.Google() }, { '店铺': shopLayer, '行程': trackLayer }));
+	
 }
 
 
@@ -104,7 +105,7 @@ function initShopDetailWindow() {
 function initShopMarkers(shopList) {
 
     $.each(shopList, function (index, shop) {
-
+        
         var shopMarker = L.marker(shop['latlng'], { icon: shopIcon }).bindPopup(shop['name'] + '<br>签到' + shop['checkincount'] + '次');
         shopLayer.addLayer(shopMarker);
         shop_markers.push(shopMarker);
@@ -258,8 +259,34 @@ function getBounds(dataList) {
 	bounds = new L.LatLngBounds(southWest, northEast);
 
 	return bounds;
-	
+
 }
+
+function getShopBounds(dataList) {
+    var southWest = new L.LatLng(180, 0);
+    var northEast = new L.LatLng(0, 180);
+    for (var i = 0; i < dataList.length; i++) {
+        lat = dataList[i]._latlng.lat;
+        lng = dataList[i]._latlng.lng;
+
+        if (southWest.lat > lat) {
+            southWest.lat = lat
+        }
+        if (southWest.lng < lng) {
+            southWest.lng = lng
+        }
+        if (northEast.lat < lat) {
+            northEast.lat = lat
+        }
+        if (northEast.lng > lng) {
+            northEast.lng = lng
+        }
+    }
+    bounds = new L.LatLngBounds(southWest, northEast);
+    return bounds;
+
+}
+
 function getRegularCheckInInfoWindowHtml(checkIn) {
     var outStr = '<div class="checkInIndex">' + checkIn.index + '</div> <div><i class="icon-time"></i> 时间:' + checkIn.CreatedAt + '<br />' +
 				'<i class="icon-map-marker"></i> 坐标:( ' + checkIn.CheckInCoordinate.Latitude + ', ' + checkIn.CheckInCoordinate.Longitude + ' )</div>';
@@ -293,11 +320,29 @@ function deactivateMarkers(markers) {
         marker.setOpacity(0.0);
     }
 }
+function bindStoresPopup() {
+    $('#viewAllShops').click(function () {
+        map.fitBounds(getShopBounds(shop_markers));
+    } );
+    $('table[id$=gv_UserTask] tr').click(function () {
+        var storeId = $(this).find('input[id$=StoreId]');
+        var latitude = $(this).find('input[id$=Latitude]');
+        var longitude = $(this).find('input[id$=Longitude]');
+        var storeName = $(this).find('td:eq(0)').html();
 
+        var html = getStoreCheckInInfoWindowHtml(storeId.val(), storeName);
+        var popup = L.popup().setLatLng([latitude.val(), longitude.val()])
+                                    .setContent(html)
+                                    .openOn(map);
+        map.panTo([latitude.val(), longitude.val()]);
+    });
+}
 $(document).ready(function () {
 
     $('.container').removeClass('container').addClass('container-fluid');
-
+    $("#map_canvas").height($(window).height() - 68 - 20 - 43);
+    $("#locationsContainer").height($(window).height() - 39 - 68 - 20 - 43);
+    $("#userTaskContainer").height($(window).height() - 68 - 20 - 43);
     initDatepicker();
     initMap();
     enterTime = new Date().getTime();
@@ -335,7 +380,6 @@ $(document).ready(function () {
             },
             success: function (msg) {
                 Spinners.get('#spinner').remove();
-                clearOverlays();
                 var response = msg.d;
                 if (response.Status == false) {
                     alert(response.LocationResponse);
@@ -349,12 +393,12 @@ $(document).ready(function () {
 
                         var tempDate = new Date(checkInGroupByDate.CheckInDate);
                         var dateStr = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
-                        var descirptionLi = $('<li class="nav-header" data-toggle="collapse" ></li>');
+                        var descriptionLi = $('<li class="nav-header accordion-group"  ></li>');
                         var descriptionA = $('<a  data-toggle="collapse" ></a>').html(dateStr);
                         descriptionA.attr("data-target", ".collapse_" + index);
                         descriptionA.attr("data-parent", "#locations");
-                        descriptionA.appendTo(descirptionLi);
-                        descirptionLi.appendTo("#locations");
+                        descriptionA.appendTo(descriptionLi);
+                        descriptionLi.appendTo("#locations");
 
                         var list = $('<ul class="nav nav-list" style="max-height:475px;overflow-x:hidden;overflow-y:auto;"></ul>');
                         list.addClass("collapse_" + index).addClass("collapse");
@@ -363,9 +407,8 @@ $(document).ready(function () {
                         var bounds = getBounds(sorted_checkin_list);
 
                         $("#employeeLocationTemplate").tmpl(sorted_checkin_list).appendTo(list);
-                        list.appendTo(descirptionLi);
+                        list.appendTo(descriptionLi);
                         var cm_mapMarkers = [];
-
 
                         $.each(sorted_checkin_list, function (index_c, checkInGroupByCoordinate) {
                             var LeafIcon = L.Icon.extend({
@@ -412,13 +455,13 @@ $(document).ready(function () {
                             deactivateMarkers(cm_mapMarkers);
                         }
 
-                        descirptionLi.on('shown', function () {
+                        descriptionLi.on('shown', function () {
                             activateMarkers(cm_mapMarkers);
                             map.fitBounds(bounds);
 
 
                         })
-                        descirptionLi.on('hidden', function () {
+                        descriptionLi.on('hidden', function () {
                             deactivateMarkers(cm_mapMarkers);
                         });
 
@@ -428,17 +471,9 @@ $(document).ready(function () {
                     $('#locations').collapse({
                         toggle: true
                     });
-                    $('table[id$=gv_UserTask] tr').click(function () {
-                        var storeId = $(this).find('input[id$=StoreId]');
-                        var latitude = $(this).find('input[id$=Latitude]');
-                        var longitude = $(this).find('input[id$=Longitude]');
-                        var storeName = $(this).find('td:eq(0)').html();
-                        var html = getStoreCheckInInfoWindowHtml(storeId.val(), storeName);
-                        var popup = L.popup()
-            .setLatLng([latitude.val(), longitude.val()])
-            .setContent(html)
-            .openOn(map);
-                    });
+
+                    bindStoresPopup();
+                    
 
 
                 }
@@ -452,3 +487,4 @@ $(document).ready(function () {
 
 
 });
+

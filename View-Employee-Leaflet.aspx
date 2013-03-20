@@ -10,6 +10,19 @@
  <link rel="Stylesheet" href="Public/Libs/Leaflet/leaflet.ie.css" />
  <![endif]-->
     <style type="text/css">
+        html {
+	height:100%;
+	overflow:hidden;
+}
+    form {
+	margin-bottom:0!important;
+}body {
+	padding-bottom:0;
+}
+#locations 
+{
+    height:auto !important;
+}
     	#locations .nav-header {
 
 			cursor:pointer;
@@ -17,7 +30,8 @@
 			font-size:14px;
 
 			padding:3px 0;
-
+            border:none;
+            
 		}
 
 		#locations .nav-header:hover {
@@ -66,7 +80,7 @@
 
 	        float: left;
 
-	        width: 30px;
+	        width: 40px;
 
 	        height: 40px;
 
@@ -97,6 +111,16 @@
     margin: 0 0 5px;
     color: #777;
 }
+ 
+ #userTaskContainer 
+ {
+     border: 1px solid #ddd;
+ }
+ #userTask td
+ {
+     border-bottom: 1px solid #ddd;
+     padding:10px;
+ }
 
     </style>
 </asp:Content>
@@ -123,8 +147,8 @@
             <a class="close" data-dismiss="alert" href="#">×</a>
             <strong>有{0}个新位置更新，点击查看</strong>
     </div>
-    <div class="row-fluid clearfix">
-        <div class="span3">
+    <div class="row-fluid clearfix" >
+        <div class="span3" >
             <script id="employeeLocationTemplate" type="text/x-jquery-tmpl">
 
                 <li><a href="javascript:void(0)">
@@ -137,45 +161,45 @@
 				{{/if}}
             </script>
             
-        <div class="well">
-            <ul id="locations" class="nav nav-list">
+        <div class="well " id="locationsContainer">
+            <ul id="locations" class="nav nav-list  accordion">
                     
             </ul>
         </div>
 
         </div>
-        <div class="span6">
+        <div class="span7">
             <div id="map_canvas"  style="width: 100%;height:500px"></div>
         </div>
-        <div class="span3">
+        <div class="span2  ">
                     <asp:UpdatePanel ID="upd_tasks" runat="server">
                 <ContentTemplate>
-                  <div class="accordion-group">
+                  <div  id="userTaskContainer">
                      <div class="accordion-heading">
-                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#userTask">
+                         <a class="accordion-toggle" id="viewAllShops" >
                            该员工负责的店铺
                          </a>
                       </div>
-                  <div id="userTask" class="accordion-body in collapse" style="max-height: 600px; overflow-y:scroll;overflow-x:hidden; ">
+                  <div id="userTask" class="accordion-body in collapse" >
                     <div >
                       
-                     <asp:GridView ID="gv_UserTask" CssClass="table table-striped table-bordered" EnableTheming="false" runat="server" DataSourceID="ds_UserTask"
-                     DataKeyNames="TaskId" AutoGenerateColumns="false" AllowPaging="true" PageSize="10" ShowHeader="false" style="margin-bottom:0px">
+                     <asp:GridView ID="gv_UserTask" CssClass="table " EnableTheming="false" runat="server" DataSourceID="ds_UserTask" CellPadding="10" CellSpacing="10"
+                     DataKeyNames="TaskId" OnDataBound="gv_UserTask_DataBound" AutoGenerateColumns="false" AllowPaging="true" PageSize="20" ShowHeader="false" style="margin-bottom:0px; border-left:0px transparent; border-right:0px transparent; border-bottom:0px trasparent"  >
                         <EmptyDataTemplate>
                             您还没有给该员工布置任务. 
                         </EmptyDataTemplate>
                         <Columns>
-                            <asp:BoundField HeaderText="店铺名称" DataField="StoreName" ReadOnly="true" ItemStyle-Width="40%"/>
-                            <asp:BoundField HeaderText="任务描述" DataField="Description" />
-                            <asp:TemplateField Visible="false">
+                            <asp:TemplateField HeaderText="店铺名称" >
                                 <ItemTemplate>
-                                    <asp:HiddenField ID="hd_StoreId" runat="server" Value='<%# Eval("StoreId") %>' />
-                                    <asp:HiddenField ID="hd_StoreLatitude" runat="server" Value='<%# Eval("Latitude") %>'/>
-                                    <asp:HiddenField ID="hd_StoreLongitude" runat="server" Value='<%# Eval("Longitude") %>'/>
-                                    
+                                <%# Eval("StoreName") %>
+                                <asp:HiddenField ID="hd_StoreDescription" runat="server" Value='<%# Eval("Description") %>' />
+                                <asp:HiddenField ID="hd_StoreId" runat="server" Value='<%# Eval("StoreId") %>' />
+                                <asp:HiddenField ID="hd_StoreLatitude" runat="server" Value='<%# Eval("Latitude") %>'/>
+                                <asp:HiddenField ID="hd_StoreLongitude" runat="server" Value='<%# Eval("Longitude") %>'/>
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
+                        <RowStyle />
                     </asp:GridView>
                     </div>
                   </div>

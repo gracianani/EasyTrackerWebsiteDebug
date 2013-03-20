@@ -31,6 +31,16 @@
     #map_canvas img {
             max-width: none;
         }
+    .storeList 
+    {
+        list-style:none;
+        margin: 0 0 9px 9px;
+    }
+    .storeList-item
+    {
+        border-bottom: 1px solid #dedede;
+        margin-bottom: 10px;
+    }
     </style>
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
@@ -78,18 +88,26 @@
 	<h3>店铺列表</h3>
     <div class="well" style="overflow:scroll;height:700px">
     <asp:Literal ID="lt_searchResultDescription" runat="server" Text="没有符合您搜索条件的店铺" Visible="false"></asp:Literal>
+    
     <asp:Repeater ID="rpt_storesMany" runat="server" >
+        <HeaderTemplate>
+        <ul class="storeList">
+        </HeaderTemplate>
         <ItemTemplate>
-            <ul class="storeList">
-    	        <li class="storeList-item">
-        	        <p><big><a href='View-Store.aspx?StoreId=<%#Eval("StoreId") %>'><i class="icon-home"></i> <%# Eval("StoreName") %></a></big></p>
-                    <p class="gray">类别:<a href=""> <%# Eval("ImportanceLevelDescription")%> </a> 系统:<a href='View-Store.aspx?StoreId=<%#Eval("StoreId") %>'><%# Eval("ChainStoreName")%></a> </p>
-                    <p class="gray"> 负责人:<a href="View-Employee.aspx?UserId=<%#Eval("ManagerId") %>"><%# Eval("ManagerName") %></a> </p>
-                    <p class="hidden"> <lat><%# Eval("Latitude") %></lat><lng><%# Eval("Longitude") %></lng></p>
-                </li>
-            </ul>
+    	    <li class="storeList-item">
+        	    <p><big><a href='View-Store.aspx?StoreId=<%#Eval("StoreId") %>'><i class="icon-home"></i> <%# Eval("StoreName") %></a></big></p>
+                <p class="gray">类别:<a href="javascript:void(0)"> <%# Eval("ImportanceLevelDescription")%> </a> 系统:<a href='View-Store.aspx?StoreId=<%#Eval("StoreId") %>'><%# Eval("ChainStoreName")%></a> </p>
+                <p class="gray"> 负责人:<a href="View-Employee.aspx?UserId=<%#Eval("ManagerId") %>"><%# Eval("ManagerName") %></a> </p>
+                <p class="hidden">  <storeid><%# Eval("StoreId") %></storeid> 
+                    <shopjson>{"id": <%# Eval("StoreId") %>, "name" : "<%# Eval("StoreName") %>", "lat" :<%# Eval("Latitude") %>, "lng":<%# Eval("Longitude")%> }</shopjson>
+                </p>
+            </li>
         </ItemTemplate>
+        <FooterTemplate>
+        </ul>
+        </FooterTemplate>
     </asp:Repeater>
+    
     </div>
     </div>
     <div class="span9">

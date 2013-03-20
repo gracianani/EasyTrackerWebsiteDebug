@@ -1,17 +1,20 @@
 ﻿<%@ Page Title="Log In" Language="C#" MasterPageFile="Account.master" AutoEventWireup="true"
     CodeBehind="Login.aspx.cs" Inherits="EasyTrackerSolution.Account.Login" %>
-
+<%@ Register Src="~/Controls/Messager.ascx" TagName="Messager" TagPrefix="EasyTracker" %>
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
+    
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
 <div id="login" style="opacity:1">
-        <div class="inner">
-        
+
+    <div class="inner">
+    <EasyTracker:Messager ID="Messager" runat="server" />
     <h2>
         登陆系统
     </h2>
     <div class="formLogin" >
-    <asp:Login ID="LoginUser" runat="server" EnableViewState="false" RenderOuterTable="false" OnLoggedIn="LoginUser_LoggedIn" >
+    
+    <asp:Login ID="LoginUser" runat="server" EnableViewState="false" RenderOuterTable="false" OnLoggedIn="LoginUser_LoggedIn"  >
         <LayoutTemplate>
             <span class="failureNotification">
                 <asp:Literal ID="FailureText" runat="server"></asp:Literal>

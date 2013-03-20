@@ -241,6 +241,7 @@ body, .container-fluid, .row-fluid {
 	<option value="8">华润万家</option>
 	<option value="9">7-Eleven</option>
 	<option value="10">超市发</option>
+    <option value="11">美廉美</option>
     </select>
     </div>
     <ul id="storeList">

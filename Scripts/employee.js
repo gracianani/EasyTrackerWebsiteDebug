@@ -93,6 +93,7 @@ function isSameLocation(Coordinate1, Coordinate2) {
 
 }
 function sortDataListByLocation(checkInGroupByDate) {
+ 
     var dataList = new Array();
 
     for (var i = 0; i < checkInGroupByDate.length; i++) {
@@ -102,6 +103,7 @@ function sortDataListByLocation(checkInGroupByDate) {
         } else {
 
             var lastPoint = dataList[dataList.length - 1];
+            
             if (isSameLocation(checkInGroupByDate[i].CheckInCoordinate, lastPoint.CheckInCoordinate)) {
 
 	        
@@ -134,8 +136,6 @@ $(document).ready(function () {
     window.setInterval(getTrackingsUpdate, 60 * 1000 * 3);
 
     $('#btnSearch').click(function () {
-
-
         $('#locations').html('');
         var data = {
             'employeeId': $('select[id$=ddl_Employee]').val(),
@@ -151,14 +151,14 @@ $(document).ready(function () {
             success: function (msg) {
                 clearOverlays(data_markers, data_boundaries);
                 var location_data_list = $.parseJSON(msg.d);
-
+                
 
                 if (location_data_list.length < 1) {
                     $('#locations').text('在选定时段内，该员工无踩点纪录');
                 } else {
                     $.each(location_data_list, function (index, checkInGroupByDate) {
                         console.log(checkInGroupByDate);
-
+                        
                         var tempDate = new Date(checkInGroupByDate.CheckInDate);
                         var dateStr = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
 

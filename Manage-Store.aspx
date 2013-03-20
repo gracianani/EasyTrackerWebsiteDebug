@@ -193,9 +193,13 @@
                 <div class="row-fluid">
                     <div class="span10 offset1">
                         <div id="modalTab">
-                            <p><asp:FileUpload ID="fu_UploadStore" runat="server"  /></p>
-                            <asp:Button ID="btn_UploadStore" runat="server" OnClick="btn_UploadStore_Click" Text="上传" CssClass="btn btn-primary" /> 
-                            <asp:Button ID="btn_UploadStoreFromExcel" runat="server" OnClick="btn_UploadStoreFromExcel_Click" Text="上传.xlsx文件" CssClass="btn btn-primary"  />
+                            <p><asp:FileUpload ID="fu_UploadStore" runat="server"  />
+                            <asp:RequiredFieldValidator ID="rfvFileUploader" runat="server"  ControlToValidate="fu_UploadStore" ValidationGroup="upload" ErrorMessage="请选择要上传的文件" Display="Dynamic"></asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator ID="revFileUploader" runat="server" ControlToValidate="fu_UploadStore" ValidationGroup="upload"  ValidationExpression="^.*\.xlsx$" ErrorMessage="请选择.xlsx后缀的文件" Display="Dynamic"></asp:RegularExpressionValidator>
+                            
+                            </p>
+                            <asp:Button ID="btn_UploadStoreFromExcel" runat="server" OnClick="btn_UploadStoreFromExcel_Click" ValidationGroup="upload"  OnClientClick="" Text="上传.xlsx文件" CssClass="btn btn-primary"  />
+                            <asp:LinkButton ID="lnk_DownloadSample" runat="server" Text="下载示例" PostBackUrl="Download-Sample.aspx?type=store" ></asp:LinkButton>
                         </div>
                     </div>
                 </div>
