@@ -340,9 +340,9 @@ function bindStoresPopup() {
 $(document).ready(function () {
 
     $('.container').removeClass('container').addClass('container-fluid');
-    $("#map_canvas").height($(window).height() - 68 - 20 - 43);
-    $("#locationsContainer").height($(window).height() - 39 - 68 - 20 - 43);
-    $("#userTaskContainer").height($(window).height() - 68 - 20 - 43);
+    $("#map_canvas").height($(window).height() - 68 - 2 - 43);
+    $("#locationsContainer").height($(window).height() - 68 - 2 - 43);
+    $("#userTaskContainer").height($(window).height() - 68 - 2 - 43);
     initDatepicker();
     initMap();
     enterTime = new Date().getTime();
