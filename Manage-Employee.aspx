@@ -109,16 +109,16 @@
         <div id="fv_Employee">
         
         <table cellpadding="10" CssClass="table table-striped table-bordered span3" >
-            <tr><td align="right">名字</td><td><asp:TextBox ID="tb_FirstName" ValidationGroup="insertuser" runat="server" CssClass="span2" Text='<%#Bind("FirstName")%>'></asp:TextBox>
-            <asp:RequiredFieldValidator ID="rfv_FirstName" ValidationGroup="insertuser" runat="server" ControlToValidate="tb_FirstName" ErrorMessage="*" SetFocusOnError="true" CssClass="label label-important" EnableClientScript="true" Display="Dynamic"></asp:RequiredFieldValidator>
+            <tr><td align="right">名字</td><td><asp:TextBox ID="tb_FullName" ValidationGroup="insertuser" runat="server" CssClass="span2"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="rfv_FirstName" ValidationGroup="insertuser" runat="server" ControlToValidate="tb_FullName" ErrorMessage="*" SetFocusOnError="true" CssClass="label label-important" EnableClientScript="true" Display="Dynamic"></asp:RequiredFieldValidator>
             </td></tr>
-            <tr><td align="right">姓氏</td><td><asp:TextBox ID="tb_LastName" ValidationGroup="insertuser" runat="server" CssClass="span2" Text='<%#Bind("LastName")%>'></asp:TextBox>
-            <asp:RequiredFieldValidator ID="rfv_LastName" ValidationGroup="insertuser" runat="server" ControlToValidate="tb_LastName" ErrorMessage="*" SetFocusOnError="true" CssClass="label label-important" EnableClientScript="true" Display="Dynamic"></asp:RequiredFieldValidator>
+            <tr><td align="right">员工编码</td><td><asp:TextBox ID="tb_EmployeeCode" ValidationGroup="insertuser" runat="server" CssClass="span2" ></asp:TextBox>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="insertuser" runat="server" ControlToValidate="tb_EmployeeCode" ErrorMessage="*" SetFocusOnError="true" CssClass="label label-important" EnableClientScript="true" Display="Dynamic"></asp:RequiredFieldValidator>
             </td></tr>
-            <tr><td align="right">联系方式</td><td><asp:TextBox ID="tb_PhoneNumber" ValidationGroup="insertuser" runat="server" CssClass="span2" Text='<%#Bind("PhoneNumber") %>'></asp:TextBox>
+            <tr><td align="right">联系方式</td><td><asp:TextBox ID="tb_PhoneNumber" ValidationGroup="insertuser" runat="server" CssClass="span2" ></asp:TextBox>
             <asp:RequiredFieldValidator ID="rfv_PhoneNumber" ValidationGroup="insertuser" runat="server" ControlToValidate="tb_PhoneNumber" ErrorMessage="*" SetFocusOnError="true" CssClass="label label-important" EnableClientScript="true" Display="Dynamic"></asp:RequiredFieldValidator>
             </td></tr>
-            <tr><td align="right">登录名</td><td><asp:TextBox ID="tb_UserName" ValidationGroup="insertuser" runat="server" CssClass="span2" Text='<%#Bind("UserName") %>'></asp:TextBox>
+            <tr><td align="right">登录名</td><td><asp:TextBox ID="tb_UserName" ValidationGroup="insertuser" runat="server" CssClass="span2"></asp:TextBox>
             <asp:RequiredFieldValidator ID="rfv_UserName" ValidationGroup="insertuser" runat="server" ControlToValidate="tb_UserName" ErrorMessage="*" SetFocusOnError="true" CssClass="label label-important" EnableClientScript="true" Display="Dynamic"></asp:RequiredFieldValidator>
             <asp:CustomValidator ID="cv_UserName" ValidationGroup="insertuser" runat="server" ControlToValidate="tb_UserName" ErrorMessage="这个登录名已经存在了" SetFocusOnError="true" CssClass="label label-important" Display="Dynamic" style="color: white;"></asp:CustomValidator>
             </td></tr>
