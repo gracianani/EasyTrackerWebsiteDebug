@@ -63,7 +63,7 @@ function initShopIcon() {
 
 function initShopDetailWindow() {
 	info = L.control();
-	info.setPosition('bottomleft');
+	info.setPosition('bottomright');
 	info.onAdd = function (map) {
 		this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
 		this.update();
@@ -79,7 +79,7 @@ function initShopDetailWindow() {
 			}
 			if ( props.count ) {
 				str+= '<p>选中：' + props.count + '个</p>';
-				str += '<p><a class="btn btn-primary" href="javascript:resetFitBounds();">重置缩放</a>';
+				str += '<p><a class="btn btn-primary" href="javascript:resetFitBounds();"><i class="icon-zoom-out icon-white"></i></a> <a class="btn btn-primary" href="javascript:resetSelection();">取消选择</a></p>';
 			}
 		} else {
 			str += '<h4>您未选择任何店铺</h4><p>店铺总数' + shops.length + '个</p>';
@@ -207,24 +207,24 @@ function getStoreLatestInfo(storeId) {
 			showStoreLatestInfo(stats);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) { 
-             //alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+             console.log("Status: " + textStatus); alert("Error: " + errorThrown); 
         }		
 		
 	});
 }
 function showStoreLatestInfo(data) {
 	var str = "";
-	if ( data.trackRecords ) {
+	if ( data.trackRecords && (data.trackRecords.length > 0) ) {
 		for ( var i in data.trackRecords) {
 			str += '<p>'+ data.trackRecords[i].name + ' 签到 ' + '<span class="time">' + data.trackRecords[i].time +'</span>' + '</p>';
 		}
 	} else {
 		str += '<p>无踩点纪录</p>';
 	}
-	if ( data.photos ) {
+	if ( data.photos && (data.photos.length > 0) ) {
 		str += '<p id="popup-storeDetail-photos">';
 		for ( var i in data.photos) {
-			str += '<a rel="lightBox"  href="' + data.photos[i].src +'" ><img src="'+ data.photos[i].src + '" height="60" /></a>';
+			str += '<a rel="lightBox"  href="' + data.photos[i].src +'" ><img src="'+ data.photos[i].src + '" height="60" width="25%" /></a>';
 		}
 		str += '</p>';
 	} else {

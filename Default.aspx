@@ -222,7 +222,7 @@ body, .container-fluid, .row-fluid {
 <div class="span3" id="storeContainer">
     <div id="storeFilter">
     <select id="ImportanceLevel">
-        <option selected="selected" value="0">全部</option>
+        <option selected="selected" value="0">全部类别</option>
         <option value="1">A类</option>
         <option value="2">B类</option>
         <option value="3">C类</option>
@@ -230,7 +230,7 @@ body, .container-fluid, .row-fluid {
     
     </select>
     <select id="ChainStoreNames">
-	<option selected="selected" value="0">全部</option>
+	<option selected="selected" value="0">全部系统</option>
 	<option value="1">物美</option>
 	<option value="2">京客隆</option>
 	<option value="3">乐购</option>
@@ -288,13 +288,13 @@ body, .container-fluid, .row-fluid {
 {{/if}}
 <div class="employeeName">${name}</div>
 <div class="employeeDetail">
-<p>今日踩点${check}次，提交图片${photo}张</p>
+<p>今日地理位置${check}个，提交图片${photo}张</p>
 <p>负责店铺：${store.length} 个</p>
-<p><a href="/View-Employee-Leaflet.aspx?EmployeeId=${id}" class="btn btn-primary"><i class="icon-list-alt icon-white"></i></a> <a href="/Edit-Employee.aspx?userId=${id}" class="btn btn-inverse"><i class="icon-pencil icon-white"></i></a> <a href="/Manage-Task.aspx" class="btn btn-inverse"><i class="icon-plus icon-white" title="添加任务"></i></a></p>
+<p><a href="/View-Employee-Leaflet.aspx?EmployeeId=${id}" class="btn btn-primary"  title="详细信息"><i class="icon-list-alt icon-white"></i></a> <a href="/Edit-Employee.aspx?userId=${id}" class="btn btn-inverse" title="编辑资料"><i class="icon-pencil icon-white"></i></a> <a href="/Manage-Task.aspx" class="btn btn-inverse" title="添加任务"><i class="icon-plus icon-white"></i></a></p>
 </div>
 <div class="employeeIcons">
 	{{if check>0}}
-		<i class="icon-ok" title="已踩点${check}次"></i> 
+		<i class="icon-ok" title="足迹${check}个"></i> 
 	{{/if}}
 	{{if photo>0}}
 		<i class="icon-picture" title="已提交${photo}张图片"></i> 
