@@ -31,6 +31,7 @@
 {
 	margin:0;
 	padding:0;
+	overflow:visible;
 
 }
     	#locations .nav-header {
@@ -39,7 +40,7 @@
 
 			font-size:14px;
 
-			padding:10px 10px;
+			padding:0;
 			margin:0;
             border:none;
 			border-bottom:1px solid #dedede;
@@ -50,6 +51,16 @@
 
 			color:#333;
 
+		}
+		#locations .nav-header>a {
+			padding:10px;
+			margin:0;
+			text-shadow:none;
+		}
+		#locations .nav-header>a:hover {
+			background:#187fcb;
+			color:#FFF;
+			text-shadow:none!important;
 		}
 
 		#locations .nav-header .nav-list {
