@@ -225,4 +225,8 @@ border-radius: 15px;
     margin:auto;
     text-align:left;
 }
-
+.wrapper-fluid {
+	margin-left:-20px;
+	margin-right:-20px;
+	margin-top:-20px;
+}

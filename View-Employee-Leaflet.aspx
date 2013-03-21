@@ -19,9 +19,19 @@
 }body {
 	padding-bottom:0;
 }
+#locationsContainer {
+	overflow-y:scroll;
+	margin:0;
+	padding:0;
+	border-width:1px 1px 0px 0;
+	border-style:solid;
+	border-color:#dedede;
+}
 #locations 
 {
-    height:auto !important;
+	margin:0;
+	padding:0;
+
 }
     	#locations .nav-header {
 
@@ -29,8 +39,10 @@
 
 			font-size:14px;
 
-			padding:3px 0;
+			padding:10px 10px;
+			margin:0;
             border:none;
+			border-bottom:1px solid #dedede;
             
 		}
 
@@ -65,7 +77,9 @@
 			padding-right:0;
 
 		}
-
+	#map_canvas {
+		border-top:1px solid #dedede;
+	}
 		#map_canvas img {
 
             max-width: none;
@@ -115,12 +129,30 @@
  #userTaskContainer 
  {
      border: 1px solid #ddd;
+	 overflow-y:scroll;
+	 border-bottom:none;
  }
  #userTask td
  {
      border-bottom: 1px solid #ddd;
      padding:10px;
  }
+.wrapper-fluid .row-fluid [class*="span"] {
+ margin-left:0;
+ float:left;
+}
+.wrapper-fluid .row-fluid .span3 {
+	width:25%;
+}
+.wrapper-fluid .row-fluid .span7 {
+	width:58.33333333%;
+}
+.wrapper-fluid .row-fluid .span2 {
+	width:16.66666667%;
+}
+.alert-block {
+	margin-bottom:0;
+}
 
     </style>
 </asp:Content>
@@ -132,7 +164,7 @@
         <asp:DropDownList ID="ddl_Employee" runat="server" CssClass="medium chzn-select" DataSourceID="ds_Employee"  AutoPostBack="true" DataTextField="FullName" DataValueField="UserId">
         </asp:DropDownList>
         </div>
-        <div class="span7 form-inline">
+        <div class="span9 form-inline">
         选择日期：
         <input class="small w8em highlight-days-67 range-low-today" type="text" id="txtDateFrom" maxlength="10"/>
         到
@@ -143,6 +175,7 @@
         
     </div>
     </div>
+    <div class="wrapper-fluid">
     <div class="alert alert-block hidden">
             <a class="close" data-dismiss="alert" href="#">×</a>
             <strong>有{0}个新位置更新，点击查看</strong>
@@ -161,7 +194,7 @@
 				{{/if}}
             </script>
             
-        <div class="well " id="locationsContainer">
+        <div id="locationsContainer">
             <ul id="locations" class="nav nav-list  accordion">
                     
             </ul>
@@ -210,6 +243,7 @@
                 </Triggers>
             </asp:UpdatePanel>
          </div>
+    </div>
     </div>
 
     <script id="infoWindowTemplate" type="text/x-jquery-tmpl">
