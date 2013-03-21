@@ -40,7 +40,8 @@
         <EditRowStyle BorderWidth="0" />
         <Fields>
             <asp:BoundField HeaderText="店铺名称" DataField="storeName" ItemStyle-Wrap="true"  />
-            <asp:BoundField HeaderText="别名" DataField="alias" ItemStyle-Wrap="true" />
+            <asp:BoundField HeaderText="门店编码" DataField="alias" ItemStyle-Wrap="true" />
+            <asp:BoundField HeaderText="门店组号" DataField="storeCode" ItemStyle-Wrap="true" />
             <asp:TemplateField HeaderText="地址">
                 <EditItemTemplate>
                     <table>

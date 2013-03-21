@@ -23,7 +23,7 @@
         </asp:DropDownList>
         </p>
         <asp:GridView ID="gv_SingleCheckIn" runat="server" CssClass="table table-condensed table-bordered " 
-        OnDataBinding="gv_SingleCheckIn_DataBinding" AutoGenerateColumns="false">
+        OnDataBinding="gv_SingleCheckIn_DataBinding" AutoGenerateColumns="false" OnRowCommand="gv_SingleCheckIn_RowCommand">
             <Columns>
                 <asp:TemplateField HeaderText="#">
                 	<ItemStyle CssClass="indexCol" />
@@ -45,7 +45,6 @@
                     </HeaderTemplate>
                     <ItemTemplate>
                         <asp:LinkButton ID="btn_AddToTask" CommandName="addToTask" CommandArgument='<%# Eval("checkInId") %>' CssClass="btn btn-primary btn-edit" runat="server" Text="<i class='icon-pencil icon-white' title='加入任务列表'></i>" ></asp:LinkButton>
-
                         <asp:LinkButton ID="btn_Delete" CommandName="Delete" CommandArgument='<%# Eval("checkInId") %>'  CssClass="btn btn-inverse" runat="server"  Text="<i class='icon-remove icon-white' title='删除'></i>"/>
                     </ItemTemplate>
                 </asp:TemplateField>
