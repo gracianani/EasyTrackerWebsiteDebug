@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="EasyTrackerWebServices.Global" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="EasyTrackerSolution.Global" Language="C#" %>
