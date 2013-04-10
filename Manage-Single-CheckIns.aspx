@@ -5,6 +5,7 @@
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
     <script src="Scripts/jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="Scripts/stupidtable.js?dev"></script>
+    <link href="Public/Styles/jquery-ui-1.8.18.custom.css" rel="stylesheet" type="text/css" />
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
     <asp:ScriptManager ID="scriptManager" runat="server"></asp:ScriptManager>

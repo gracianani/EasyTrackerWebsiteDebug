@@ -3,7 +3,7 @@
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
     <script type="text/javascript" src="Scripts/stupidtable.js?dev"></script>
-
+    <link href="Public/Styles/jquery-ui-1.8.18.custom.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
 
 

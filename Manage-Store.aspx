@@ -7,6 +7,7 @@
     <script src="Public/Libs/Leaflet/leaflet.js"></script>
     <script src="Public/Libs/Leaflet/google.js" type="text/javascript"></script>
     <link rel="Stylesheet" href="Public/Libs/Leaflet/leaflet.css" />
+    <link href="Public/Styles/jquery-ui-1.8.18.custom.css" rel="stylesheet" type="text/css" />
  <!--[if lte IE 8]>
  <link rel="Stylesheet" href="Public/Libs/Leaflet/leaflet.ie.css" />
  <![endif]-->

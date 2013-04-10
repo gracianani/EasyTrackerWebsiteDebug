@@ -32,7 +32,7 @@
             <asp:BoundField DataField="userName" HeaderText="登陆名" />
             <asp:BoundField DataField="email" HeaderText="电子邮箱" />
             <asp:BoundField DataField="phoneNumber" HeaderText="电话号码" />
-            <asp:BoundField DataField="deviceId" HeaderText="设备号" ReadOnly="true" />
+            <asp:BoundField DataField="deviceId" HeaderText="设备号" />
             <asp:CommandField ButtonType="Button" ShowEditButton="true" UpdateText="更新" Visible="true"  CancelText="取消" />
         </Fields>
     </asp:DetailsView>

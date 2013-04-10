@@ -13,6 +13,8 @@ var fullName = 'input[id$=tb_FullName]';
 var employeeCode = 'input[id$=tb_EmployeeCode]';
 var email = 'input[id$=tb_Email]';
 var userPhoneNumber = 'input[id$=tb_PhoneNumber]';
+var deviceId = 'input[id$=tb_DeviceId]';
+
 var importanceLevel = 'select[id$=ddl_ImportanceLevel]';
 var chainStoreId = 'select[id$=ddl_ChainStoreId]';
 var managerId = 'select[id$=ManagerId]';
@@ -156,7 +158,7 @@ function insert(getdata, data_url, post_back_command_name, ui_dialog) {
 function getUserData() {
     data = {
         'fullName': $(fullName).val(),
-        'employeeCode': $(employeeCode).val(),
+        'deviceId': $(deviceId).val(),
         'phoneNumber': $(userPhoneNumber).val(),
         'userName': $(userName).val()
     };
