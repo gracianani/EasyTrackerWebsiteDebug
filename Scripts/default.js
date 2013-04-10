@@ -92,6 +92,9 @@ function EmployeeModel( data ){
 		return jsonPath(this.filteredData, "$..[?(@.id=="+managerId+")].store.*");
 	}
 	
+	this.getLength = function() {
+		return data.length;
+	}
 	
 };
 
@@ -225,18 +228,8 @@ function getTrackingsUpdate( ) {
 function resetSelection(){
 	$('#ImportanceLevel').change();
 }
-$(function () {
-	$('#map_canvas').height($(window).height() - 40);	
-	$('#employeeContainer').height($(window).height()-40);
-	$('#storeList').height($(window).height()-155);
-	
-    var storeView = new StoreView('storeList');
-    var employeeView = new EmployeeView('employeeList');
-    storeView.employeeView = employeeView;
-    employeeView.storeView = storeView;
-    initMap();
-
-    $.ajax({
+function loadData(employeeView, storeView){
+$.ajax({
         type: 'POST',
         dataType: "json",
         url: "Public/Services/MapWebService.asmx/GetLatestUpdates",
@@ -267,17 +260,30 @@ $(function () {
         }
 
     });
-
-
+}
+$(function () {
+	$('#map_canvas').height($(window).height() - 40);	
+	$('#employeeContainer').height($(window).height()-40);
+	$('#storeList').height($(window).height()-155);
+	
+    var storeView = new StoreView('storeList');
+    var employeeView = new EmployeeView('employeeList');
+    storeView.employeeView = employeeView;
+    employeeView.storeView = storeView;
+    initMap();
+	
+	loadData(employeeView, storeView);
 
 
     $('#ImportanceLevel').change(function () {
-        var id = $(this).find(':selected').val();
-        if (id == '0') {
-            storeView.onFilterRevert('lvlId');
-        } else {
-            storeView.onFilterChange({ 'lvlId': id });
-        }
+		if ( storeView.model.data.length > 0 ) {
+			var id = $(this).find(':selected').val();
+			if (id == '0') {
+				storeView.onFilterRevert('lvlId');
+			} else {
+				storeView.onFilterChange({ 'lvlId': id });
+			}
+		}
     });
     $('#ChainStoreNames').change(function () {
         var id = $(this).find(':selected').val();
