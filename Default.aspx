@@ -258,9 +258,9 @@ body, .container-fluid, .row-fluid {
             	<div class="time"><%#Eval("CreatedAt")%></div>
         	    <p>
                 <asp:Literal ID="lt_icon" runat="server" Mode="PassThrough" Text='<i class="icon-flag"></i>'></asp:Literal> 
-                <a href='View-Employee-Leaflet.aspx?EmployeeId=<%#Eval("UserId")%>'><%#Eval("UserFullName")%></a> 
+                <a target="_blank" href='View-Employee-Leaflet.aspx?EmployeeId=<%#Eval("UserId")%>'><%#Eval("UserFullName")%></a> 
                 <asp:Literal ID="lt_description1" runat="server" ClientIDMode="Static" Text=" 在 "></asp:Literal>
-                <a href='View-Store.aspx?StoreId=<%#Eval("StoreId")%>'><%#Eval("StoreName")%></a>
+                <a target="_blank" href='View-Store.aspx?StoreId=<%#Eval("StoreId")%>'><%#Eval("StoreName")%></a>
                 <asp:Literal ID="lt_description2" runat="server" ClientIDMode="Static" Text=" 踩点 "></asp:Literal>
                 </p>
                 <asp:LinkButton ID="photo" runat="server" ClientIDMode="Static" rel="lightBox" PostBackUrl='<%#Eval("PhotoUrl") %>' Visible="false" CssClass="lnk_StorePhotos" >
@@ -290,7 +290,7 @@ body, .container-fluid, .row-fluid {
 <div class="employeeDetail">
 <p>今日地理位置${check}个，提交图片${photo}张</p>
 <p>负责店铺：${store.length} 个</p>
-<p><a href="/View-Employee-Leaflet.aspx?EmployeeId=${id}" class="btn btn-primary"  title="详细信息"><i class="icon-list-alt icon-white"></i></a> <a href="/Edit-Employee.aspx?userId=${id}" class="btn btn-inverse" title="编辑资料"><i class="icon-pencil icon-white"></i></a> <a href="/Manage-Task.aspx" class="btn btn-inverse" title="添加任务"><i class="icon-plus icon-white"></i></a></p>
+<p><a href="/View-Employee-Leaflet.aspx?EmployeeId=${id}" class="btn btn-primary"  target="_blank" title="详细信息"><i class="icon-list-alt icon-white"></i></a> <a href="/Edit-Employee.aspx?userId=${id}" target="_blank" class="btn btn-inverse" title="编辑资料"><i class="icon-pencil icon-white"></i></a> <a href="/Manage-Task.aspx" class="btn btn-inverse" target="_blank" title="添加任务"><i class="icon-plus icon-white"></i></a></p>
 </div>
 <div class="employeeIcons">
 	{{if check>0}}
@@ -298,9 +298,6 @@ body, .container-fluid, .row-fluid {
 	{{/if}}
 	{{if photo>0}}
 		<i class="icon-picture" title="已提交${photo}张图片"></i> 
-	{{/if}}
-	{{if msg>0}}
-		<i class="icon-comment" title="已提交${msg}条评论"></i> 
 	{{/if}}
 </div>
 </li>
@@ -310,7 +307,7 @@ body, .container-fluid, .row-fluid {
     <div class="storeName">${name}</div>
     <div class="storeDesc">${lvl} | ${chn} | 
 	{{each manager}}
-	<a href="/View-Employee-Leaflet.aspx?EmployeeId="${id}>${name}</a> 
+	<a href="/View-Employee-Leaflet.aspx?EmployeeId=${id}" target="_blank">${name}</a> 
 	{{/each}}
 	</div>
 	<div class="storeIcons">
@@ -319,9 +316,6 @@ body, .container-fluid, .row-fluid {
 	{{/if}}
 	{{if photo>0}}
 		<i class="icon-picture"></i> 
-	{{/if}}
-	{{if msg>0}}
-		<i class="icon-comment"></i> 
 	{{/if}}
 	</div>
 </li>
