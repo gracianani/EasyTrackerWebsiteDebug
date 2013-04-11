@@ -17,11 +17,8 @@
 	    float:left;
 	    text-align:center;
 border: 1px solid #E5E5E5;
-box-shadow: 0 0 5px rgba(0, 0, 0, .1);
--moz-box-shadow: 0 0 5px rgba(0, 0, 0, .1);
--webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .1);
-margin: 9px 0px;
-padding: 9px;
+	margin: 0 0px 5px;
+	padding:0 5px;
 
 	}
     .img img{
@@ -29,14 +26,14 @@ padding: 9px;
 	    border:1px solid #fff;
     }
     .img:hover{
-	    -webkit-box-shadow:0px 0px 30px #ccc;
+	    box-shadow:0px 0px 4px #ccc;
     }
     .img .from
     {
         color: #484848;
         display: block;
         line-height: normal;
-        padding: 11px 0 0;
+        padding: 5px 0 0;
     }
     .img .time
     {
@@ -65,6 +62,22 @@ color: #777;
 display: block;
 padding: 0 15px;
 height: 34px;}
+.wrapper-fluid {
+	padding:20px;
+}
+.wrapper-fluid .row-fluid [class*="span"] {
+ margin-left:0;
+ float:left;
+}
+.wrapper-fluid .row-fluid .span3 {
+	width:25%;
+}
+.wrapper-fluid .row-fluid .span7 {
+	width:58%;
+}
+.wrapper-fluid .row-fluid .span2 {
+	width:16.66666667%;
+}
     </style>
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
@@ -96,21 +109,21 @@ height: 34px;}
     </div>
     </div>
     </div>
+    <div class="wrapper-fluid">
     <div class="alert alert-block hidden">
             <a class="close" data-dismiss="alert" href="#">×</a>
             <strong>有{0}个新店铺信息更新，点击查看</strong>
     </div>
     <div class="row-fluid">
-        <div class="span4">
+        <div class="span3">
 
         <aside>
-        <h3 class="nav-head"> <span> 店铺信息 </span> </h3>
+        <h3>店铺信息</h3>
         <asp:DetailsView ID="dv_StoreDetails" runat="server" DataSourceID="ds_StoreDetail" AutoGenerateRows="false"
         CssClass="table table-striped table-bordered table-condensed" >
             <Fields>
-                <asp:BoundField DataField="StoreName" HeaderText="店铺名称" />
-                <asp:TemplateField HeaderText="负责员工">
-
+                <asp:BoundField DataField="StoreName" HeaderText="名称" />
+                <asp:TemplateField HeaderText="负责人">
                     <ItemTemplate>
                         <asp:Repeater ID="rp_userNames" runat="server" DataSource='<%# Eval("AssignedEmployees") %>' >
                             <ItemTemplate>
@@ -124,7 +137,7 @@ height: 34px;}
                         地址
                     </HeaderTemplate>
                     <ItemTemplate>
-                        <strong><%# Eval("StoreAddressFirst.City")%>, <%#Eval("StoreAddressFirst.District")%>, <%#Eval("StoreAddressFirst.AddressLine1")%>, <%#Eval("StoreAddressFirst.AddressLine2")%></strong>  
+                        <%# Eval("StoreAddressFirst.City")%>, <%#Eval("StoreAddressFirst.District")%>, <%#Eval("StoreAddressFirst.AddressLine1")%>, <%#Eval("StoreAddressFirst.AddressLine2")%>  
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:BoundField DataField="latitude" ShowHeader="false" ItemStyle-CssClass="hidden lat" />
@@ -137,48 +150,28 @@ height: 34px;}
                 
             </Fields>
         </asp:DetailsView>
+        <a href="/Edit-Store.aspx?storeId=" target="_blank" class="btn btn-primary"><i class="icon-pencil icon-white" title="修改店铺信息"></i> 编辑店铺信息</a>
         </aside>
         <br />
 
-        <aside>
-            <h3 class="nav-head"> <span> 员工签到信息 </span> </h3>
-            <asp:GridView ID="gv_CheckInHistory" runat="server" OnDataBinding="gv_CheckInHistory_DataBinding" CssClass="table table-bordered table-striped" AutoGenerateColumns="false">
-                <Columns>
-                    <asp:BoundField DataField="UserFullName" HeaderText="员工姓名" />
-                    <asp:BoundField DataField= "Count" HeaderText="报道次数" />
-                </Columns>
-            </asp:GridView>
-        </aside>
-        <br />
-
-        <aside>
-            <h3 class="nav-head"> <span> 留言板 </span> </h3>
-            <asp:GridView ID="gv_Notes" runat="server" ShowHeader="false" CssClass="table table-bordered table-striped" DataSourceID="ds_TaskNotes" AutoGenerateColumns="false" AllowPaging="true" PageSize="5">
-            
-            <Columns>
-                <asp:BoundField DataField="UserFullName" DataFormatString="{0}说:" />
-                <asp:BoundField DataField="Notes" DataFormatString=" '{0}'" />
-                <asp:BoundField DataField="CreatedAt" DataFormatString=" <i>{0}</i> " HtmlEncode="false" />
-            </Columns>
-            <HeaderStyle CssClass="success" />
-            </asp:GridView>
-        </aside>
+        
              
         </div>
-        <div class="span8">
+        <div class="span7">
         
         <asp:DataList  ID="dl_StorePhotos" runat="server" DataSourceID="ds_StorePhotos" AutoGenerateColumns="false"  RepeatColumns="4" GridLines="None" CellPadding="4"  >
             <ItemTemplate>
                 <div class="img">
                 <a class="lnk_StorePhotos" rel="lightbox">
-                <asp:Image ID="img" runat="server" ImageUrl='<%#  Eval("ImageURL") %>' Width="150" Height="150"  BorderColor="Transparent" BorderWidth="1" />
+                <asp:Image ID="img" runat="server" ImageUrl='<%#  Eval("ImageURL") %>' Width="130" Height="130"  BorderColor="Transparent" BorderWidth="1" />
                 </a>
-                    <span class="from">来自： <%#Eval("Employee.FullName") %></span>
-                    <span class="time">拍摄时间： <em><%#Eval("CreatedAt")%></em> </span>
+                    <span class="from"><%#Eval("Employee.FullName") %></span>
+                    <span class="time"><em><%#Eval("CreatedAt")%></em> </span>
+                    <p><a class="btn btn-small" target="_blank" href='<%#  Eval("ImageURL") %>'><i class="icon-download-alt" title="下载"></i></a> <a class="removeImg btn btn-small"><i class="icon-remove"></i></a></p>
                     
                 </div>
             </ItemTemplate>
-            <ItemStyle Width="220" Wrap="false"/>
+            <ItemStyle Width="177" Wrap="true"/>
    
         </asp:DataList>
 
@@ -195,6 +188,32 @@ height: 34px;}
             </li>
         </ul>
         
+    </div>
+    <div class="span2">
+    <aside>
+            <h3>签到</h3>
+            <asp:GridView ID="gv_CheckInHistory" runat="server" OnDataBinding="gv_CheckInHistory_DataBinding" CssClass="table table-bordered table-striped" AutoGenerateColumns="false">
+                <Columns>
+                    <asp:BoundField DataField="UserFullName" HeaderText="员工" />
+                    <asp:BoundField DataField= "Count" HeaderText="次数" />
+                </Columns>
+            </asp:GridView>
+        </aside>
+        <br />
+
+        <aside>
+            <h3>留言板</h3>
+            <asp:GridView ID="gv_Notes" runat="server" ShowHeader="false" CssClass="table table-bordered table-striped" DataSourceID="ds_TaskNotes" AutoGenerateColumns="false" AllowPaging="true" PageSize="5">
+            
+            <Columns>
+                <asp:BoundField DataField="UserFullName" DataFormatString="{0}说:" />
+                <asp:BoundField DataField="Notes" DataFormatString=" '{0}'" />
+                <asp:BoundField DataField="CreatedAt" DataFormatString=" <i>{0}</i> " HtmlEncode="false" />
+            </Columns>
+            <HeaderStyle CssClass="success" />
+            </asp:GridView>
+        </aside>
+    </div>
     </div>
     </div>
 

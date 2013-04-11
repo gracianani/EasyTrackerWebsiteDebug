@@ -201,9 +201,16 @@ lightbox = new Lightbox options
       preloader = new Image;
       preloader.onload = function() {
         $image.attr('src', _this.album[imageNumber].link);
-        $image.width = preloader.width;
-        $image.height = preloader.height;
-        return _this.sizeContainer(preloader.width, preloader.height);
+		var maxWidth = parseInt($(window).width()) * 0.8;
+		var maxHeight = parseInt($(window).height()) * 0.8;
+		
+		$image.height = Math.min( maxHeight , parseInt(preloader.height));
+		
+		var ratio = preloader.width / preloader.height;
+		
+		$image.width = ratio * $image.height;
+        
+        return _this.sizeContainer($image.width, $image.height);
       };
       preloader.src = this.album[imageNumber].link;
       this.currentImageIndex = imageNumber;
