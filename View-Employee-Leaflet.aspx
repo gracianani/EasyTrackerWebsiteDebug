@@ -237,18 +237,28 @@
                     <div >
                       
                      <asp:GridView ID="gv_UserTask" CssClass="table " EnableTheming="false" runat="server" DataSourceID="ds_UserTask" CellPadding="10" CellSpacing="10"
-                     DataKeyNames="TaskId" OnDataBound="gv_UserTask_DataBound" AutoGenerateColumns="false" AllowPaging="true" PageSize="20" ShowHeader="false" style="margin-bottom:0px; border-left:0px transparent; border-right:0px transparent; border-bottom:0px trasparent"  >
+                     DataKeyNames="StoreId" OnDataBound="gv_UserTask_DataBound" AutoGenerateColumns="false" ShowHeader="false" 
+                     style="margin-bottom:0px; border-left:0px transparent; border-right:0px transparent; border-bottom:0px trasparent"
+                        >
                         <EmptyDataTemplate>
                             您还没有给该员工布置任务. 
                         </EmptyDataTemplate>
                         <Columns>
                             <asp:TemplateField HeaderText="店铺名称" >
                                 <ItemTemplate>
+                                <div class="storeName">
                                 <%# Eval("StoreName") %>
-                                <asp:HiddenField ID="hd_StoreDescription" runat="server" Value='<%# Eval("Description") %>' />
+                                </div>
+                                <div class="storeIcons" >
+                                    <i class="icon-ok" style='<%# Convert.ToInt32(Eval("CheckInCount") ) > 0 ? "display:inline-block" : "display:none" %>'></i>
+                                    <i class="icon-picture" style='<%# Convert.ToInt32(Eval("PhotoCount") ) > 0 ? "display:inline-block" : "display:none" %>'></i>
+                                </div>
+                                       
                                 <asp:HiddenField ID="hd_StoreId" runat="server" Value='<%# Eval("StoreId") %>' />
                                 <asp:HiddenField ID="hd_StoreLatitude" runat="server" Value='<%# Eval("Latitude") %>'/>
                                 <asp:HiddenField ID="hd_StoreLongitude" runat="server" Value='<%# Eval("Longitude") %>'/>
+
+                                
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
@@ -298,9 +308,11 @@
     </asp:ObjectDataSource>
 
     <asp:ObjectDataSource ID="ds_UserTask" runat="server" 
-    TypeName="EasyTrackerDomainModel.TaskLogic" SelectMethod="FetchByUserId" UpdateMethod="Update" >
+    TypeName="EasyTrackerDomainModel.TaskLogic" SelectMethod="GetStats" >
         <SelectParameters>
             <asp:ControlParameter ControlID="ddl_Employee" Name="UserId" Type="Int32" PropertyName="SelectedValue" />
+            <asp:Parameter DefaultValue="2013-2-10" Type="DateTime" Name="fromDate" />
+            <asp:Parameter DefaultValue="2013-5-10" Type="DateTime" Name="toDate" />
         </SelectParameters>
     </asp:ObjectDataSource>    
 

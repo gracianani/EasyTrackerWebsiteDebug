@@ -398,6 +398,11 @@ $(document).ready(function () {
                         descriptionA.attr("data-target", ".collapse_" + index);
                         descriptionA.attr("data-parent", "#locations");
                         descriptionA.appendTo(descriptionLi);
+                        var descritpionDiv = $("<div></div>").html(
+                            " 任务踩点:" + checkInGroupByDate.TaskCheckInCount +
+                            " 店铺踩点:" + checkInGroupByDate.StoreCheckInCount +
+                            " 拍摄照片:" + checkInGroupByDate.PhotosCount);
+                        descritpionDiv.appendTo(descriptionA);
                         descriptionLi.appendTo("#locations");
 
                         var list = $('<ul class="nav nav-list" style="max-height:475px;overflow-x:hidden;overflow-y:auto;"></ul>');
@@ -473,7 +478,7 @@ $(document).ready(function () {
                     });
 
                     bindStoresPopup();
-                    
+
 
 
                 }
