@@ -3,8 +3,6 @@
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
     <script src="Scripts/jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
-    <script src="Scripts/bootstrap-tabs.js" type="text/javascript"></script>
-    <script src="Scripts/bootstrap-dropdown.js" type="text/javascript"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAizK-CoOU44u0bTWzVeUlbMkQ2cHagM9s&amp;sensor=true&amp;language=ch"></script>
     <script src="Public/Libs/Leaflet/leaflet.js"></script>
     <script src="Public/Libs/Leaflet/google.js" type="text/javascript"></script>

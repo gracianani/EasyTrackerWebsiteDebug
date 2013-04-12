@@ -150,7 +150,7 @@ height: 34px;}
                 
             </Fields>
         </asp:DetailsView>
-        <a href="/Edit-Store.aspx?storeId=" target="_blank" class="btn btn-primary"><i class="icon-pencil icon-white" title="修改店铺信息"></i> 编辑店铺信息</a>
+        <a href="/Edit-Store.aspx?storeId=<%=ddl_stores.SelectedValue %>" target="_blank" class="btn btn-primary"><i class="icon-pencil icon-white" title="修改店铺信息"></i> 编辑店铺信息</a>
         </aside>
         <br />
 
@@ -159,7 +159,7 @@ height: 34px;}
         </div>
         <div class="span7">
         
-        <asp:DataList  ID="dl_StorePhotos" runat="server" DataSourceID="ds_StorePhotos" AutoGenerateColumns="false"  RepeatColumns="4" GridLines="None" CellPadding="4"  >
+        <asp:DataList  ID="dl_StorePhotos" runat="server" DataSourceID="ds_StorePhotos" AutoGenerateColumns="false" RepeatDirection="Horizontal"  RepeatColumns="4" GridLines="None" CellPadding="4"  >
             <ItemTemplate>
                 <div class="img">
                 <a class="lnk_StorePhotos" rel="lightbox">
@@ -167,7 +167,13 @@ height: 34px;}
                 </a>
                     <span class="from"><%#Eval("Employee.FullName") %></span>
                     <span class="time"><em><%#Eval("CreatedAt")%></em> </span>
-                    <p><a class="btn btn-small" target="_blank" href='<%#  Eval("ImageURL") %>'><i class="icon-download-alt" title="下载"></i></a> <a class="removeImg btn btn-small"><i class="icon-remove"></i></a></p>
+                    <p>
+                        <asp:LinkButton ID="lnk_DownloadPhoto" runat="server" CssClass="btn btn-small" OnCommand="lnk_DownloadPhoto_Click" CommandName='DownloadPhoto'
+                         CommandArgument='<%# Eval("ImageURL") %>'><i class="icon-download-alt" title="下载"></i></asp:LinkButton>
+
+                         <asp:LinkButton ID="lnk_RemovePhoto" runat="server" CssClass="removeImg btn btn-small" OnCommand="lnk_RemovePhoto_Click" CommandName='<%# Eval("photoId") %>'
+                         CommandArgument='<%# Eval("ImageURL") %>'><i class="icon-remove" title="删除"></i></asp:LinkButton>
+                    </p>
                     
                 </div>
             </ItemTemplate>

@@ -113,7 +113,8 @@
                 </asp:TemplateField>
                 <asp:TemplateField>
                     <ItemTemplate>
-                        <asp:LinkButton ID="btn_EditUserTask" CommandName="edit" CssClass="btn-primary btn btn-edit" runat="server"  Text='<i class="icon-pencil icon-white"   title="编辑"></i>' />
+                        <a href='Edit-Task.aspx?userId=<%#Eval("UserId") %>' class="btn-primary btn btn-edit"><i class="icon-pencil icon-white"   title="编辑"></i></a>
+                        <asp:LinkButton ID="btn_EditUserTask"  CommandName="edit" CssClass="btn-primary btn btn-edit" runat="server"  Text='<i class="icon-pencil icon-white"   title="编辑"></i>' />
                     </ItemTemplate>
                     <EditItemTemplate>
                         <asp:LinkButton ID="btn_UpdateUserTask" CommandName="update" CssClass="btn btn-success" runat="server" Text="<i class='icon-ok icon-white'  title='确认'></i>"/>
