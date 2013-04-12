@@ -164,7 +164,20 @@
 .alert-block {
 	margin-bottom:0;
 }
-
+#locations .nav-header .nav-list li:last-child {
+	border-bottom:none;
+}
+#locations .nav-header>a {
+	background:#ededed;
+	color:#333;
+}
+#locations .nav-header>a i {
+	margin-top:3px;
+	margin-left:5px;
+}
+#locations .nav-header>a:hover i {
+	background-image:url("App_Themes/img/glyphicons-halflings-white.png");
+}
     </style>
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
@@ -219,11 +232,7 @@
                     <asp:UpdatePanel ID="upd_tasks" runat="server">
                 <ContentTemplate>
                   <div  id="userTaskContainer">
-                     <div class="accordion-heading">
-                         <a class="accordion-toggle" id="viewAllShops" >
-                           该员工负责的店铺
-                         </a>
-                      </div>
+                  <p><a class="btn btn-primary" href="/Edit-Task.aspx?userId=" target="_blank"><i class="icon-pencil icon-white" title="编辑任务"></i></a><a id="viewAllShops" class="btn btn-inverse" ><i title="在地图中显示全部店铺" class=" icon-resize-full icon-white"></i></a></p>
                   <div id="userTask" class="accordion-body in collapse" >
                     <div >
                       

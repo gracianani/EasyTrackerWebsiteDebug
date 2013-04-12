@@ -290,7 +290,7 @@ body, .container-fluid, .row-fluid {
 <div class="employeeDetail">
 <p>今日地理位置${check}个，提交图片${photo}张</p>
 <p>负责店铺：${store.length} 个</p>
-<p><a href="/View-Employee-Leaflet.aspx?EmployeeId=${id}" class="btn btn-primary"  target="_blank" title="详细信息"><i class="icon-list-alt icon-white"></i></a> <a href="/Edit-Employee.aspx?userId=${id}" target="_blank" class="btn btn-inverse" title="编辑资料"><i class="icon-pencil icon-white"></i></a> <a href="/Manage-Task.aspx" class="btn btn-inverse" target="_blank" title="添加任务"><i class="icon-plus icon-white"></i></a></p>
+<p><a href="/View-Employee-Leaflet.aspx?EmployeeId=${id}" class="btn btn-primary"  target="_blank" title="详细信息"><i class="icon-list-alt icon-white"></i></a> <a href="/Edit-Employee.aspx?userId=${id}" target="_blank" class="btn btn-inverse" title="编辑资料"><i class="icon-pencil icon-white"></i></a> <a href="/Edit-Task.aspx?userId=${id}" class="btn btn-inverse" target="_blank" title="编辑任务"><i class="icon-plus icon-white"></i></a></p>
 </div>
 <div class="employeeIcons">
 	{{if check>0}}

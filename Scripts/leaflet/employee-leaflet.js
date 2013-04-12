@@ -394,7 +394,7 @@ $(document).ready(function () {
                         var tempDate = new Date(checkInGroupByDate.CheckInDate);
                         var dateStr = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
                         var descriptionLi = $('<li class="nav-header accordion-group"  ></li>');
-                        var descriptionA = $('<a  data-toggle="collapse" ></a>').html(dateStr);
+                        var descriptionA = $('<a  data-toggle="collapse" ></a>').html("<i class='icon-plus-sign'></i>" + dateStr);
                         descriptionA.attr("data-target", ".collapse_" + index);
                         descriptionA.attr("data-parent", "#locations");
                         descriptionA.appendTo(descriptionLi);

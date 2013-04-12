@@ -117,7 +117,7 @@ function getPopupHtml(shop) {
 	var html = "<h4>" + shop['name'] + "</h4>";
 	html += '<p>今日：签到' + shop['checkincount'] + '次'+ ', 照片' + shop['photocount'] + '张' + ', 报告' + shop['commentcount'] + '条</p>';
 	html += '<div id="popup-storeDetail" data-id="'+shop['id'] +'"><img src="Public/Styles/images/loading.gif"> 正在获取最新数据</div>';
-	html += '<p><a class="btn btn-primary" href="/View-Store.aspx?StoreId=' + shop['id'] + '" title="查看店铺详细信息" target="_blank"><i class="icon-list-alt icon-white"></i></a> <a class="btn btn-inverse" href="/Edit-Store.aspx?storeId=' + shop['id'] + '" target="_blank" title="编辑店铺" target="_blank"><i class="icon-pencil icon-white"></i></a> <a href="/Manage-Task.aspx" class="btn btn-inverse" target="_blank"><i class="icon-plus icon-white" title="添加任务"></i></a></p>';
+	html += '<p><a class="btn btn-primary" href="/View-Store.aspx?StoreId=' + shop['id'] + '" title="查看店铺详细信息" target="_blank"><i class="icon-list-alt icon-white"></i></a> <a class="btn btn-inverse" href="/Edit-Store.aspx?storeId=' + shop['id'] + '" target="_blank" title="编辑店铺" target="_blank"><i class="icon-pencil icon-white"></i></a></p>';
 	return html;
 	
 	
