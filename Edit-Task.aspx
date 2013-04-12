@@ -7,6 +7,8 @@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAizK-CoOU44u0bTWzVeUlbMkQ2cHagM9s&amp;sensor=true&amp;language=ch"></script>
     <script src="Public/Libs/Leaflet/leaflet.js"></script>
     <script src="Public/Libs/Leaflet/google.js" type="text/javascript"></script>
+    <script type="text/javascript" src="Scripts/stupidtable.js?dev"></script>
+
     <link rel="Stylesheet" href="Public/Libs/Leaflet/leaflet.css" />
  <!--[if lte IE 8]>
  <link rel="Stylesheet" href="Public/Libs/Leaflet/leaflet.ie.css" />
@@ -26,19 +28,51 @@
 		#map_canvas img {
 		 max-width: none;
         }
+		.btn-danger {
+			border-bottom:none;
+			border-top:none;
+		}
+		.table-subTitle p{
+			line-height:30px;
+		}
+		.table-subTitle {
+			height:30px;
+		}
+		.tableContainer {
+			overflow-y:scroll;
+			width:100%;
+			height:500px;
+		}
     </style>
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
-
 <div class="row-fluid clearfix" >
-<div class="span3">
-<span>所有的店</span>
-<asp:Button ID="btn_AddToTask" runat="server" Text="添加选中的店" OnClick="btn_AddToTask_Click" />
-<asp:GridView ID="gv_AllStores" runat="server" DataSourceId="ds_AllStores" ShowHeader="false" DataKeyNames="StoreId"  AutoGenerateColumns="false" CssClass="table" style="margin-bottom:0px; border-left:0px transparent; border-right:0px transparent; border-bottom:0px trasparent">
+    <div class="span10">
+        <div style="padding-top:8px">员工：<a href="/View-Employee-Leaflet.aspx?userId=" target="_blank">姓名</a>
+        </div>
+    </div>
+    <div class="span2">
+    <a href="/Mange-Task.aspx" class="btn btn-primary">返回</a>
+    </div>
+</div><!--/row-fluid-->
+<hr />
+<div class="row-fluid clearfix" >
+<div class="span4">
+<div class="row-fluid table-subTitle">
+	<div class="span4"><h3>全部门店</h3></div>
+    <div class="span4"><p>已选中<span id="selectCount-add">0</span>个</p></div>
+    <div class="span4" style="text-align:right"><asp:Button ID="btn_AddToTask" runat="server" CssClass="btn-primary" Text="添加到任务 »" OnClick="btn_AddToTask_Click" /></div>
+</div>
+<div class="tableContainer">
+<asp:GridView ID="gv_AllStores" runat="server" DataSourceId="ds_AllStores" ShowHeader="true" DataKeyNames="StoreId"  AutoGenerateColumns="false" CssClass="table stupidTable">
     <Columns>
-        <asp:BoundField DataField="ChainStoreName"/>
-        <asp:BoundField DataField="StoreName" />
-        <asp:TemplateField >
+        <asp:BoundField HeaderText="系统" DataField="ChainStoreName">
+        <HeaderStyle Width="4em" CssClass="string" />
+        </asp:BoundField>
+        <asp:BoundField HeaderText="门店" DataField="StoreName" >
+        <HeaderStyle CssClass="string" />
+        </asp:BoundField>
+        <asp:TemplateField  Visible="false">
             <ItemTemplate>
                 <asp:HiddenField ID="hf_Latitude" runat="server" Value='<%# Eval("Latitude") %>' />
                 <asp:HiddenField ID="hf_Longitude" runat="server" Value='<%# Eval("Longitude") %>' />
@@ -54,14 +88,24 @@
     
 </asp:GridView>
 </div>
-<div class="span3">
-<span>该员工负责的店</span>
-<asp:Button ID="btn_RemoveFromTask" runat="server" Text="删除选中的店" OnClick="btn_RemoveFromTask_Click" />
-<asp:GridView ID="gv_Tasks" runat="server" DataSourceId="ds_Store" AutoGenerateColumns="false" DataKeyNames="TaskId"   ShowHeader="false" CssClass="table" style="margin-bottom:0px; border-left:0px transparent; border-right:0px transparent; border-bottom:0px trasparent">
+</div>
+<div class="span4">
+
+<div class="row-fluid table-subTitle">
+    <div class="span4"><asp:Button CssClass="btn-danger" ID="btn_RemoveFromTask" runat="server" Text="« 从任务中删除" OnClick="btn_RemoveFromTask_Click" /></div>
+    <div class="span4" style="text-align:right"><p>已选中<span id="selectCount-remove">0</span>个</p></div>
+    <div class="span4"><h3 style="text-align:right">负责门店<span id="taskCount">0</span>个</h3></div>
+</div>
+<div class="tableContainer">
+<asp:GridView ID="gv_Tasks" runat="server" DataSourceId="ds_Store" AutoGenerateColumns="false" DataKeyNames="TaskId"   ShowHeader="true" CssClass="table stupidTable">
     <Columns>
-        <asp:BoundField DataField="ChainStoreName" />
-        <asp:BoundField DataField="StoreName" />
-       <asp:TemplateField >
+        <asp:BoundField HeaderText="系统" DataField="ChainStoreName">
+         <HeaderStyle  Width="4em"  CssClass="string" />
+         </asp:BoundField>
+        <asp:BoundField HeaderText="门店" DataField="StoreName">
+        <HeaderStyle CssClass="string" />
+        </asp:BoundField>
+       <asp:TemplateField Visible="false">
             <ItemTemplate>
                 <asp:HiddenField ID="hf_Latitude" runat="server" Value='<%# Eval("Latitude") %>' />
                 <asp:HiddenField ID="hf_Longitude" runat="server" Value='<%# Eval("Longitude") %>' />
@@ -76,6 +120,7 @@
 </asp:GridView>
 </div>
 </div>
+</div>
 <asp:ObjectDataSource ID="ds_AllStores" runat="server" TypeName="EasyTrackerDomainModel.StoreLogic" SelectMethod="FetchByUserId">
     <SelectParameters>
         <asp:QueryStringParameter Name="userId" Type="Int32" QueryStringField="userId"/>
@@ -88,4 +133,38 @@
             <asp:QueryStringParameter Name="userId" Type="Int32" QueryStringField="userId"/>
         </SelectParameters>
     </asp:ObjectDataSource>
+<script>
+	$(function(){
+		$(".table th[class]").each(function(){
+			$(this).attr('data-sort',$(this).attr('class'));
+		});
+		
+		var table = $(".table").stupidtable({},true,false);
+        table.bind('aftertablesort', function (event, data) {
+          var th = $(this).find("th");
+          th.find(".caret").remove();
+          var arrow = data.direction === "asc" ? "&uarr;" : "&darr;";
+          th.eq(data.column).prepend('<span class="caret ' + data.direction +'">&nbsp;</span>');
+		  	
+        });
+		table.on('click','tbody tr',function(e) {
+			$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');
+		});
+	
+		table.on('click','.label-info',function(e) {
+			$('.label-info.active').removeClass('active');
+			$('.label-info[data-content="'+$(this).html().trim()+'"]').addClass('active');
+		});
+		
+		$('#ctl00_MainContent_gv_Tasks').bind('change','checkbox',function(e){
+			$('#selectCount-remove').html(($('#ctl00_MainContent_gv_Tasks :checkbox:checked').size()));
+		});
+		$('#ctl00_MainContent_gv_AllStores').bind('change','checkbox',function(e){
+			$('#selectCount-add').html(($('#ctl00_MainContent_gv_AllStores :checkbox:checked').size()));
+		});
+		$('.tableContainer').height(parseInt($(window).height()) - 220);
+		$('#taskCount').html($('#ctl00_MainContent_gv_Tasks tr').size() -1 );
+	});
+	</script>
 </asp:Content>
