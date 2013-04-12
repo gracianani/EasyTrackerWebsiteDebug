@@ -33,27 +33,53 @@
 <div class="row-fluid clearfix" >
 <div class="span3">
 <span>所有的店</span>
-<asp:GridView ID="gv_AllStores" runat="server" DataSourceId="ds_AllStores" ShowHeader="false"  AutoGenerateColumns="false" CssClass="table" style="margin-bottom:0px; border-left:0px transparent; border-right:0px transparent; border-bottom:0px trasparent">
+<asp:Button ID="btn_AddToTask" runat="server" Text="添加选中的店" OnClick="btn_AddToTask_Click" />
+<asp:GridView ID="gv_AllStores" runat="server" DataSourceId="ds_AllStores" ShowHeader="false" DataKeyNames="StoreId"  AutoGenerateColumns="false" CssClass="table" style="margin-bottom:0px; border-left:0px transparent; border-right:0px transparent; border-bottom:0px trasparent">
     <Columns>
         <asp:BoundField DataField="ChainStoreName"/>
         <asp:BoundField DataField="StoreName" />
+        <asp:TemplateField >
+            <ItemTemplate>
+                <asp:HiddenField ID="hf_Latitude" runat="server" Value='<%# Eval("Latitude") %>' />
+                <asp:HiddenField ID="hf_Longitude" runat="server" Value='<%# Eval("Longitude") %>' />
+            </ItemTemplate>
+        </asp:TemplateField>
+        <asp:TemplateField>
+            <ItemTemplate>
+                <asp:CheckBox ID="cbk_AddToTask" runat="server" />
+            </ItemTemplate>
+        </asp:TemplateField>
+
     </Columns>
     
 </asp:GridView>
 </div>
 <div class="span3">
 <span>该员工负责的店</span>
-<asp:GridView ID="gv_Tasks" runat="server" DataSourceId="ds_Store" AutoGenerateColumns="false" ShowHeader="false" CssClass="table" style="margin-bottom:0px; border-left:0px transparent; border-right:0px transparent; border-bottom:0px trasparent">
+<asp:Button ID="btn_RemoveFromTask" runat="server" Text="删除选中的店" OnClick="btn_RemoveFromTask_Click" />
+<asp:GridView ID="gv_Tasks" runat="server" DataSourceId="ds_Store" AutoGenerateColumns="false" DataKeyNames="TaskId"   ShowHeader="false" CssClass="table" style="margin-bottom:0px; border-left:0px transparent; border-right:0px transparent; border-bottom:0px trasparent">
     <Columns>
         <asp:BoundField DataField="ChainStoreName" />
         <asp:BoundField DataField="StoreName" />
+       <asp:TemplateField >
+            <ItemTemplate>
+                <asp:HiddenField ID="hf_Latitude" runat="server" Value='<%# Eval("Latitude") %>' />
+                <asp:HiddenField ID="hf_Longitude" runat="server" Value='<%# Eval("Longitude") %>' />
+            </ItemTemplate>
+        </asp:TemplateField>
+        <asp:TemplateField>
+            <ItemTemplate>
+                <asp:CheckBox ID="cbk_RemoveFromTask" runat="server" />
+            </ItemTemplate>
+        </asp:TemplateField>
     </Columns>
 </asp:GridView>
 </div>
 </div>
-<asp:ObjectDataSource ID="ds_AllStores" runat="server" TypeName="EasyTrackerDomainModel.StoreLogic" SelectMethod="Fetch">
+<asp:ObjectDataSource ID="ds_AllStores" runat="server" TypeName="EasyTrackerDomainModel.StoreLogic" SelectMethod="FetchByUserId">
     <SelectParameters>
-        <asp:Parameter Name="storeID" Type="Int32" DefaultValue="0"/>
+        <asp:QueryStringParameter Name="userId" Type="Int32" QueryStringField="userId"/>
+        <asp:Parameter Name="excludeExsiting" Type="Boolean" DefaultValue="true" />
     </SelectParameters>
 </asp:ObjectDataSource>
 <asp:ObjectDataSource ID="ds_Store" runat="server" 
