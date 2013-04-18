@@ -125,7 +125,6 @@ function initShopDetailWindow() {
             }
             if (props.photos) {
                 photos += '<div class="infoWindowPhotos">';
-				console.log(props.photos);
                 for (var i = 0; i < props.photos.length; i++) {
                     photos += '<a href="' + props.photos[i] + '" target="_blank"><img src="' + props.photos[i] + '" width="50" /></a>';
                 }
@@ -150,7 +149,6 @@ function initShopMarkers(shopList) {
         //test data
         // shop['photocount'] = 3;
         // shop['photos'] = ["/Public/Images/148_56_15_20130415173044.jpg", "/Public/Images/148_56_15_20130415173044.jpg", "/Public/Images/148_56_15_20130415173044.jpg"];
-        console.log(shop);
         var icon = shopIcon;
         if (parseInt(shop['checkincount']) > 0) {
             icon = shopCheckedIcon;
@@ -391,14 +389,13 @@ function deactivateMarkers(markers) {
         marker['status'] = 'inactive';
         marker.setOpacity(0.0);
 		marker.options.clickable = false;
-		console.log(marker);
     }
 }
 function bindStoresPopup() {
     $('#viewAllShops').click(function () {
         map.fitBounds(getShopBounds(shop_markers));
     });
-    $('table[id$=gv_UserTask] tr').click(function () {
+    $('#userTaskContainer').on('click','tr',function (e) {
         /*
         var storeId = $(this).find('input[id$=StoreId]');
         var latitude = $(this).find('input[id$=Latitude]');
