@@ -216,10 +216,10 @@
         </div>
         <div class="span9 form-inline">
         选择日期：
-            <asp:HiddenField ID="hf_DateFrom"  runat="server"/>
+            <asp:HiddenField ID="hf_txtDateFrom"  runat="server"/>
            <input class="small w8em highlight-days-67 range-low-today" type="text" id="txtDateFrom" maxlength="10"/> 
         到
-            <asp:HiddenField ID="hf_DateTo"  runat="server"/>
+            <asp:HiddenField ID="hf_txtDateTo"  runat="server"/>
             <input class="small w8em highlight-days-67 range-low-today" type="text" id="txtDateTo" maxlength="10" /> 
         <input type="button" class="btn primary" value="搜索" id="btnSearch"/>
 

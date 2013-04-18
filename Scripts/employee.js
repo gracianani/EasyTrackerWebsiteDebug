@@ -29,31 +29,7 @@ function getTrackingsUpdate() {
     }
 }
 
-function initDatepicker() {
-    var today = new Date();
-    var tomorrow = new Date(today.getTime() + (24 * 60 * 60 * 1000));
-    var yesterday = new Date(today.getTime() - (5 * 24 * 60 * 60 * 1000));
-    var todayDateText = tomorrow.getFullYear() + '-' + (tomorrow.getMonth() + 1) + '-' + tomorrow.getDate();
-    var yesterdateDateText = yesterday.getFullYear() + '-' + (yesterday.getMonth() + 1) + '-' + yesterday.getDate();
-    var dates = $("#txtDateFrom, #txtDateTo").datepicker({
-        defaultDate: "+1w",
-        changeMonth: true,
-        numberOfMonths: 1,
-        dateFormat: 'yy-mm-dd',
-        onSelect: function (selectedDate) {
-            var option = this.id == "txtDateFrom" ? "minDate" : "maxDate",
-					instance = $(this).data("datepicker"),
-					date = $.datepicker.parseDate(
-						instance.settings.dateFormat ||
-						$.datepicker._defaults.dateFormat,
-						selectedDate, instance.settings);
-            dates.not(this).datepicker("option", option, date);
-        }
-    });
-    dates.first().val(yesterdateDateText).trigger('change');
-    dates.last().val(todayDateText).trigger('change');
 
-}
 var EARTH_RADIUS = 6378.137
 			
 

@@ -237,10 +237,22 @@ function initDatepicker() {
 						$.datepicker._defaults.dateFormat,
 						selectedDate, instance.settings);
             dates.not(this).datepicker("option", option, date);
+            $('input[id$=hf_' + this.id + ']').val(selectedDate);
+            $('input[id$=hf_' + $(dates.not(this)).attr('id') + ']').val($(dates.not(this)).val());
         }
     });
     dates.first().val(yesterdateDateText).trigger('change');
     dates.last().val(todayDateText).trigger('change');
+    if ($("input[id$=hf_txtDateFrom]").val().length == 0) {
+        dates.first().val(yesterdateDateText).trigger('change');
+        dates.last().val(todayDateText).trigger('change');
+        $('input[id$=hf_txtDateFrom]').val(yesterdateDateText);
+        $('input[id$=hf_txtDateTo]').val(todayDateText);
+    }
+    else {
+        $('#txtDateFrom').val($("input[id$=hf_txtDateFrom]").val());
+        $('#txtDateTo').val($("input[id$=hf_txtDateTo]").val());
+    }
 }
 
 
