@@ -125,6 +125,7 @@ function initShopDetailWindow() {
             }
             if (props.photos) {
                 photos += '<div class="infoWindowPhotos">';
+				console.log(props.photos);
                 for (var i = 0; i < props.photos.length; i++) {
                     photos += '<a href="' + props.photos[i] + '" target="_blank"><img src="' + props.photos[i] + '" width="50" /></a>';
                 }
@@ -376,7 +377,7 @@ function activateMarkers(markers) {
         var marker = markers[index];
         marker['status'] = 'active';
         marker.setOpacity(1.0);
-		marker.clickable = true;
+		marker.options.clickable = true;
     }
 }
 
@@ -386,7 +387,8 @@ function deactivateMarkers(markers) {
         var marker = markers[index];
         marker['status'] = 'inactive';
         marker.setOpacity(0.0);
-		marker.clickable = false;
+		marker.options.clickable = false;
+		console.log(marker);
     }
 }
 function bindStoresPopup() {
@@ -406,7 +408,6 @@ function bindStoresPopup() {
         .openOn(map);
         map.panTo([latitude.val(), longitude.val()]);*/
         // find shop marker by index
-        console.log($(this).index());
         var marker = shop_markers[$(this).index()];
         map.panTo(marker.getLatLng());
         marker.fireEvent('click');

@@ -102,26 +102,16 @@
         .checkInIndex {
 
 	        display: inline-block;
-
 	        float: left;
-
-	        width: 40px;
-
+	        width: 30px;
 	        height: 40px;
-
 	        overflow: hidden;
-
 	        line-height: 30px;
-
 	        font-size: 24px;
-
 	        font-style: italic;
-
 	        color: #999;
+	        text-align: left;
 
-	        text-align: center;
-
-	        margin-right: 5px;
 
         }
         .info {
@@ -221,9 +211,9 @@
         到
             <asp:HiddenField ID="hf_txtDateTo"  runat="server"/>
             <input class="small w8em highlight-days-67 range-low-today" type="text" id="txtDateTo" maxlength="10" /> 
-        <input type="button" class="btn primary" value="搜索" id="btnSearch"/>
+        <input type="button" class="btn btn-primary"  style="margin-right:20px" value="搜索" id="btnSearch"/>
 
-        <asp:LinkButton ID="lnk_DownloadReport" runat="server" CssClass="btn btn-primary" OnClick="btn_DownloadReport_Click" ><i class="icon-file icon-white" title="导出报表"></i>导出报表</asp:LinkButton>
+        <asp:LinkButton ID="lnk_DownloadReport" runat="server" CssClass="btn btn-inverse" OnClick="btn_DownloadReport_Click"><i class="icon-file icon-white" title="导出报表"></i>导出报表</asp:LinkButton>
         <a class="btn btn-inverse" href="/Edit-Task.aspx?userId=" target="_blank"><i class="icon-pencil icon-white" title="编辑任务"></i>编辑任务</a> 
         <a id="viewAllShops" class="btn btn-inverse" ><i title="在地图中显示全部店铺" class=" icon-resize-full icon-white"></i></a>
 
