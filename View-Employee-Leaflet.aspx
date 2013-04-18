@@ -190,10 +190,16 @@
         </div>
         <div class="span9 form-inline">
         选择日期：
-        <input class="small w8em highlight-days-67 range-low-today" type="text" id="txtDateFrom" maxlength="10"/>
+        <asp:HiddenField ID="hf_DateFrom"  runat="server"/>
+      <!--       <asp:TextBox ID="tb_DateFrom" runat="server" CssClass="small w8em highlight-days-67 range-low-today"></asp:TextBox>-->
+           <input class="small w8em highlight-days-67 range-low-today" type="text" id="txtDateFrom" maxlength="10"/> 
         到
-        <input class="small w8em highlight-days-67 range-low-today" type="text" id="txtDateTo" maxlength="10" />
+            <asp:HiddenField ID="hf_DateTo"  runat="server"/>
+     <!--        <asp:TextBox ID="tb_DateTo" runat="server" CssClass="small w8em highlight-days-67 range-low-today"></asp:TextBox>-->
+        <input class="small w8em highlight-days-67 range-low-today" type="text" id="txtDateTo" maxlength="10" /> 
         <input type="button" class="btn primary" value="搜索" id="btnSearch"/>
+
+        <asp:Button ID="btn_DownloadReport" runat="server" CssClass="btn primary" OnClick="btn_DownloadReport_Click" Text="下载"/>
         </div>
 
         
