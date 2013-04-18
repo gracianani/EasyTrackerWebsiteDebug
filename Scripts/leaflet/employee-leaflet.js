@@ -362,6 +362,7 @@ function activateMarkers(markers) {
         var marker = markers[index];
         marker['status'] = 'active';
         marker.setOpacity(1.0);
+		marker.clickable = true;
     }
 }
 
@@ -371,6 +372,7 @@ function deactivateMarkers(markers) {
         var marker = markers[index];
         marker['status'] = 'inactive';
         marker.setOpacity(0.0);
+		marker.clickable = false;
     }
 }
 function bindStoresPopup() {
