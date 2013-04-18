@@ -231,7 +231,6 @@
     <div class="row-fluid clearfix" >
         <div class="span3" >
             <script id="employeeLocationTemplate" type="text/x-jquery-tmpl">
-
                 <li><a href="javascript:void(0)">
                 <span class="checkInIndex">${index}</span> <i class="icon-time"></i>时间：${CreatedAt}<br />
                 {{if CheckInType == 2 }}
@@ -240,6 +239,22 @@
 				<i class="icon-map-marker"></i>( ${CheckInCoordinate.Latitude}, ${CheckInCoordinate.Longitude} )</a>
 				</li>
 				{{/if}}
+            </script>
+            <script id="storeListTemplate" type="text/x-jquery-tmpl">
+                <tr>
+				<td>
+                <div class="storeName">
+                    ${name}
+                </div>
+                <div class="storeIcons">
+                    <span {{if checkincount == "0"}} style="display:none" {{/if}}><i class="icon-ok"></i>${checkincount}</span>
+                    <span {{if photocount == "0"}} style="display:none" {{/if}}><i class="icon-picture"></i>${photocount}</span>
+                </div>                                 
+                <input type="hidden" name="hd_StoreId" id="hd_StoreId" value="${id}">
+                <input type="hidden" name="hd_StoreLatitude" id="hd_StoreLatitude" value="${latlng[0]}">
+                <input type="hidden" name="hd_StoreLongitude" id="hd_StoreLongitude" value="${latlng[1]}">
+                </td>
+			    </tr>
             </script>
             
         <div id="locationsContainer">
@@ -258,35 +273,8 @@
                   <div  id="userTaskContainer">
                   <div id="userTask" class="accordion-body in collapse" >
                     <div >
-                      
-                     <asp:GridView ID="gv_UserTask" CssClass="table " EnableTheming="false" runat="server" DataSourceID="ds_UserTask" CellPadding="10" CellSpacing="10"
-                     DataKeyNames="StoreId" OnDataBound="gv_UserTask_DataBound" AutoGenerateColumns="false" ShowHeader="false" 
-                     style="margin-bottom:0px; border-left:0px transparent; border-right:0px transparent; border-bottom:0px trasparent"
-                        >
-                        <EmptyDataTemplate>
-                            您还没有给该员工布置任务. 
-                        </EmptyDataTemplate>
-                        <Columns>
-                            <asp:TemplateField HeaderText="店铺名称" >
-                                <ItemTemplate>
-                                <div class="storeName">
-                                <%# Eval("StoreName") %>
-                                </div>
-                                <div class="storeIcons" >
-                                    <span style='<%# Convert.ToInt32(Eval("TaskCheckInCount") ) > 0 ? "display:inline-block" : "display:none" %>'><i class="icon-ok"></i><%# Eval("TaskCheckInCount")%></span>
-                                    <span style='<%# Convert.ToInt32(Eval("PhotoCount") ) > 0 ? "display:inline-block" : "display:none" %>'><i class="icon-picture"></i><%# Eval("PhotoCount")%></span>
-                                </div>
-                                       
-                                <asp:HiddenField ID="hd_StoreId" runat="server" Value='<%# Eval("StoreId") %>' />
-                                <asp:HiddenField ID="hd_StoreLatitude" runat="server" Value='<%# Eval("Latitude") %>'/>
-                                <asp:HiddenField ID="hd_StoreLongitude" runat="server" Value='<%# Eval("Longitude") %>'/>
-
-                                
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                        </Columns>
-                        <RowStyle />
-                    </asp:GridView>
+                      <table id="userTaskList" class="table"></table>
+                     
                     </div>
                   </div>
                 </div>
@@ -330,14 +318,6 @@
         </SelectParameters>
     </asp:ObjectDataSource>
 
-    <asp:ObjectDataSource ID="ds_UserTask" runat="server" 
-    TypeName="EasyTrackerDomainModel.CheckInLogic" SelectMethod="FetchCheckInsStatByUserId" OnSelecting="ds_UserTask_Selecting"  >
-        <SelectParameters>
-            <asp:ControlParameter ControlID="ddl_Employee" Name="userId" Type="Int32" PropertyName="SelectedValue" />
-            <asp:Parameter Type="DateTime" Name="from" />
-            <asp:Parameter Type="DateTime" Name="to"/>
-        </SelectParameters>
-    </asp:ObjectDataSource>    
 
       <script type="text/javascript" src="Scripts/leaflet/employee-leaflet.js"></script>
       <script src="Scripts/chosen.jquery.min.js" type="text/javascript"></script>
