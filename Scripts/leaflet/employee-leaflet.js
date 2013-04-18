@@ -48,13 +48,15 @@ function generateTestShops(data) {
             shops = [];
             var stats = $.parseJSON(msg.d);
             $.each(stats, function (index, stat) {
+  
                 shops.push({
                     'id': stat.StoreId,
                     'name': stat.StoreName,
                     'latlng': [stat.Latitude, stat.Longitude],
                     'checkincount': stat.CheckInCount,
                     'photocount': stat.PhotoCount,
-                    'records': stat.Records
+                    'records': stat.Records,
+                    'photos': stat.PhotoUrls
                 });
             });
             initShopMarkers(shops);
@@ -145,8 +147,8 @@ function initShopMarkers(shopList) {
 
     $.each(shopList, function (index, shop) {
         //test data
-        shop['photocount'] = 3;
-        shop['photos'] = ["/Public/Images/148_56_15_20130415173044.jpg", "/Public/Images/148_56_15_20130415173044.jpg", "/Public/Images/148_56_15_20130415173044.jpg"];
+       // shop['photocount'] = 3;
+       // shop['photos'] = ["/Public/Images/148_56_15_20130415173044.jpg", "/Public/Images/148_56_15_20130415173044.jpg", "/Public/Images/148_56_15_20130415173044.jpg"];
         var icon = shopIcon;
         if (parseInt(shop['checkincount']) > 0) {
             icon = shopCheckedIcon;
@@ -237,10 +239,22 @@ function initDatepicker() {
 						$.datepicker._defaults.dateFormat,
 						selectedDate, instance.settings);
             dates.not(this).datepicker("option", option, date);
+            $('input[id$=hf_' + this.id + ']').val(selectedDate);
+            $('input[id$=hf_' + $(dates.not(this)).attr('id') + ']').val($(dates.not(this)).val());
         }
     });
     dates.first().val(yesterdateDateText).trigger('change');
     dates.last().val(todayDateText).trigger('change');
+    if ($("input[id$=hf_txtDateFrom]").val().length == 0) {
+        dates.first().val(yesterdateDateText).trigger('change');
+        dates.last().val(todayDateText).trigger('change');
+        $('input[id$=hf_txtDateFrom]').val(yesterdateDateText);
+        $('input[id$=hf_txtDateTo]').val(todayDateText);
+    }
+    else {
+        $('#txtDateFrom').val($("input[id$=hf_txtDateFrom]").val());
+        $('#txtDateTo').val($("input[id$=hf_txtDateTo]").val());
+    }
 }
 
 
