@@ -216,13 +216,18 @@
         </div>
         <div class="span9 form-inline">
         选择日期：
-        <input class="small w8em highlight-days-67 range-low-today" type="text" id="txtDateFrom" maxlength="10"/>
+            <asp:HiddenField ID="hf_DateFrom"  runat="server"/>
+           <input class="small w8em highlight-days-67 range-low-today" type="text" id="txtDateFrom" maxlength="10"/> 
         到
-        <input class="small w8em highlight-days-67 range-low-today" type="text" id="txtDateTo" maxlength="10" />
-        <input type="button" class="btn btn-primary" value="搜索" id="btnSearch"/>
-        <a class="btn btn-primary"><i class="icon-file icon-white" title="导出报表"></i>导出报表</a> 
+            <asp:HiddenField ID="hf_DateTo"  runat="server"/>
+            <input class="small w8em highlight-days-67 range-low-today" type="text" id="txtDateTo" maxlength="10" /> 
+        <input type="button" class="btn primary" value="搜索" id="btnSearch"/>
+
+        <asp:Button ID="btn_DownloadReport" runat="server" CssClass="btn primary" OnClick="btn_DownloadReport_Click" Text='<i class="icon-file icon-white" title="导出报表"></i>' />
         <a class="btn btn-inverse" href="/Edit-Task.aspx?userId=" target="_blank"><i class="icon-pencil icon-white" title="编辑任务"></i>编辑任务</a> 
         <a id="viewAllShops" class="btn btn-inverse" ><i title="在地图中显示全部店铺" class=" icon-resize-full icon-white"></i></a>
+
+
         </div>
 
         

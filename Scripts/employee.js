@@ -52,6 +52,7 @@ function initDatepicker() {
     });
     dates.first().val(yesterdateDateText).trigger('change');
     dates.last().val(todayDateText).trigger('change');
+
 }
 var EARTH_RADIUS = 6378.137
 			
@@ -134,7 +135,7 @@ $(document).ready(function () {
     initMap();
     enterTime = new Date().getTime();
     window.setInterval(getTrackingsUpdate, 60 * 1000 * 3);
-
+    
     $('#btnSearch').click(function () {
         $('#locations').html('');
         var data = {
@@ -151,14 +152,14 @@ $(document).ready(function () {
             success: function (msg) {
                 clearOverlays(data_markers, data_boundaries);
                 var location_data_list = $.parseJSON(msg.d);
-                
+
 
                 if (location_data_list.length < 1) {
                     $('#locations').text('在选定时段内，该员工无踩点纪录');
                 } else {
                     $.each(location_data_list, function (index, checkInGroupByDate) {
                         console.log(checkInGroupByDate);
-                        
+
                         var tempDate = new Date(checkInGroupByDate.CheckInDate);
                         var dateStr = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
 
