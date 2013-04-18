@@ -144,11 +144,12 @@ function initShopDetailWindow() {
 }
 
 function initShopMarkers(shopList) {
-
+    $("#userTaskList").html('');
     $.each(shopList, function (index, shop) {
         //test data
-       // shop['photocount'] = 3;
-       // shop['photos'] = ["/Public/Images/148_56_15_20130415173044.jpg", "/Public/Images/148_56_15_20130415173044.jpg", "/Public/Images/148_56_15_20130415173044.jpg"];
+        // shop['photocount'] = 3;
+        // shop['photos'] = ["/Public/Images/148_56_15_20130415173044.jpg", "/Public/Images/148_56_15_20130415173044.jpg", "/Public/Images/148_56_15_20130415173044.jpg"];
+        console.log(shop);
         var icon = shopIcon;
         if (parseInt(shop['checkincount']) > 0) {
             icon = shopCheckedIcon;
@@ -173,6 +174,8 @@ function initShopMarkers(shopList) {
                 info.update(props);
             }
         });
+
+        $("#storeListTemplate").tmpl(shop).appendTo($("#userTaskList"));
     });
 
 }
