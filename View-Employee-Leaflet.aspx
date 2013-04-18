@@ -283,8 +283,8 @@
                                 <%# Eval("StoreName") %>
                                 </div>
                                 <div class="storeIcons" >
-                                    <span style='<%# Convert.ToInt32(Eval("CheckInCount") ) > 0 ? "display:inline-block" : "display:none" %>'><i class="icon-ok"></i><%# Eval("CheckInCount") %></span>
-                                    <span style='<%# Convert.ToInt32(Eval("PhotoCount") ) > 0 ? "display:inline-block" : "display:none" %>'><i class="icon-picture"></i><%# Eval("PhotoCount") %></span>
+                                    <span style='<%# Convert.ToInt32(Eval("TaskCheckInCount") ) > 0 ? "display:inline-block" : "display:none" %>'><i class="icon-ok"></i><%# Eval("TaskCheckInCount")%></span>
+                                    <span style='<%# Convert.ToInt32(Eval("PhotoCount") ) > 0 ? "display:inline-block" : "display:none" %>'><i class="icon-picture"></i><%# Eval("PhotoCount")%></span>
                                 </div>
                                        
                                 <asp:HiddenField ID="hd_StoreId" runat="server" Value='<%# Eval("StoreId") %>' />
@@ -341,11 +341,11 @@
     </asp:ObjectDataSource>
 
     <asp:ObjectDataSource ID="ds_UserTask" runat="server" 
-    TypeName="EasyTrackerDomainModel.TaskLogic" SelectMethod="GetStats" >
+    TypeName="EasyTrackerDomainModel.CheckInLogic" SelectMethod="FetchCheckInsStatByUserId" OnSelecting="ds_UserTask_Selecting"  >
         <SelectParameters>
-            <asp:ControlParameter ControlID="ddl_Employee" Name="UserId" Type="Int32" PropertyName="SelectedValue" />
-            <asp:Parameter DefaultValue="2013-2-10" Type="DateTime" Name="fromDate" />
-            <asp:Parameter DefaultValue="2013-5-10" Type="DateTime" Name="toDate" />
+            <asp:ControlParameter ControlID="ddl_Employee" Name="userId" Type="Int32" PropertyName="SelectedValue" />
+            <asp:Parameter Type="DateTime" Name="from" />
+            <asp:Parameter Type="DateTime" Name="to"/>
         </SelectParameters>
     </asp:ObjectDataSource>    
 
