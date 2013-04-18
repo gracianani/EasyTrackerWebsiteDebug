@@ -178,6 +178,32 @@
 #locations .nav-header>a:hover i {
 	background-image:url("App_Themes/img/glyphicons-halflings-white.png");
 }
+.recordDetails {
+	font-size:12px;
+	font-weight:normal;
+	padding-left:20px;
+}
+#userTask td {
+	position:relative;
+}
+.storeIcons {
+	position:absolute;
+	right:5px;
+	top:10px;
+	font-size:11px;
+	line-height:14px;
+}
+.infoWindowPhotos {
+	padding:10px 0;
+}
+.infoWindowPhotos a {
+	margin-right:10px;
+	display:inline-block;
+}
+.infoWindowPhotos img {
+	width:50px;
+	height:50px;
+}
     </style>
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
@@ -193,7 +219,10 @@
         <input class="small w8em highlight-days-67 range-low-today" type="text" id="txtDateFrom" maxlength="10"/>
         到
         <input class="small w8em highlight-days-67 range-low-today" type="text" id="txtDateTo" maxlength="10" />
-        <input type="button" class="btn primary" value="搜索" id="btnSearch"/>
+        <input type="button" class="btn btn-primary" value="搜索" id="btnSearch"/>
+        <a class="btn btn-primary"><i class="icon-file icon-white" title="导出报表"></i>导出报表</a> 
+        <a class="btn btn-inverse" href="/Edit-Task.aspx?userId=" target="_blank"><i class="icon-pencil icon-white" title="编辑任务"></i>编辑任务</a> 
+        <a id="viewAllShops" class="btn btn-inverse" ><i title="在地图中显示全部店铺" class=" icon-resize-full icon-white"></i></a>
         </div>
 
         
@@ -232,7 +261,6 @@
                     <asp:UpdatePanel ID="upd_tasks" runat="server">
                 <ContentTemplate>
                   <div  id="userTaskContainer">
-                  <p><a class="btn btn-primary" href="/Edit-Task.aspx?userId=" target="_blank"><i class="icon-pencil icon-white" title="编辑任务"></i></a><a id="viewAllShops" class="btn btn-inverse" ><i title="在地图中显示全部店铺" class=" icon-resize-full icon-white"></i></a></p>
                   <div id="userTask" class="accordion-body in collapse" >
                     <div >
                       
@@ -250,8 +278,8 @@
                                 <%# Eval("StoreName") %>
                                 </div>
                                 <div class="storeIcons" >
-                                    <i class="icon-ok" style='<%# Convert.ToInt32(Eval("CheckInCount") ) > 0 ? "display:inline-block" : "display:none" %>'></i>
-                                    <i class="icon-picture" style='<%# Convert.ToInt32(Eval("PhotoCount") ) > 0 ? "display:inline-block" : "display:none" %>'></i>
+                                    <span style='<%# Convert.ToInt32(Eval("CheckInCount") ) > 0 ? "display:inline-block" : "display:none" %>'><i class="icon-ok"></i><%# Eval("CheckInCount") %></span>
+                                    <span style='<%# Convert.ToInt32(Eval("PhotoCount") ) > 0 ? "display:inline-block" : "display:none" %>'><i class="icon-picture"></i><%# Eval("PhotoCount") %></span>
                                 </div>
                                        
                                 <asp:HiddenField ID="hd_StoreId" runat="server" Value='<%# Eval("StoreId") %>' />

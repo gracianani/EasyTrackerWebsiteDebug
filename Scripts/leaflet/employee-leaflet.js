@@ -7,6 +7,9 @@ var currentTime;
 
 
 var shopIcon;
+var shopCheckedIcon;
+var shopPhotoIcon;
+var shopPhotoCheckedIcon;
 var shopLayer;
 var trackLayer;
 
@@ -70,6 +73,33 @@ function initShopIcon() {
 		shadowAnchor: [11, -2],  // the same for the shadow
 		popupAnchor:  [-4, -16] // point from which the popup should open relative to the iconAnchor
 	});	
+	shopCheckedIcon = L.icon({
+		iconUrl: 'Public/Styles/images/shop-checked.png',
+		shadowUrl: 'Public/Styles/images/shop-shadow.png',
+		iconSize:     [32, 32], // size of the icon
+		shadowSize:   [42, 13], // size of the shadow
+		iconAnchor:   [16, 16], // point of the icon which will correspond to marker's location
+		shadowAnchor: [11, -2],  // the same for the shadow
+		popupAnchor:  [-4, -16] // point from which the popup should open relative to the iconAnchor
+	});
+	shopPhotoIcon = L.icon({
+		iconUrl: 'Public/Styles/images/shop-photo.png',
+		shadowUrl: 'Public/Styles/images/shop-shadow.png',
+		iconSize:     [32, 32], // size of the icon
+		shadowSize:   [42, 13], // size of the shadow
+		iconAnchor:   [16, 16], // point of the icon which will correspond to marker's location
+		shadowAnchor: [11, -2],  // the same for the shadow
+		popupAnchor:  [-4, -16] // point from which the popup should open relative to the iconAnchor
+	});
+	shopPhotoCheckedIcon = L.icon({
+		iconUrl: 'Public/Styles/images/shop-photo-checked.png',
+		shadowUrl: 'Public/Styles/images/shop-shadow.png',
+		iconSize:     [32, 32], // size of the icon
+		shadowSize:   [42, 13], // size of the shadow
+		iconAnchor:   [16, 16], // point of the icon which will correspond to marker's location
+		shadowAnchor: [11, -2],  // the same for the shadow
+		popupAnchor:  [-4, -16] // point from which the popup should open relative to the iconAnchor
+	});
 }
 
 function initShopDetailWindow() {
@@ -84,19 +114,28 @@ function initShopDetailWindow() {
 	// method that we will use to update the control based on feature properties passed
 	info.update = function (props) {
 	    var trackRecords = "";
+		var photos = "";
 	    if (props) {
 	        if (props.records) {
 	            for (var i = 0; i < props.records.length; i++) {
-	                console.log(props.records[i]);
 	                trackRecords += (i + 1) + '. ' + props.records[i].EmployeeName + "&nbsp;" + props.records[i].Time + '<br>';
 	            }
 	        }
-	    }
-	    this._div.innerHTML = '<h4>' + (props ?
-			'<b>' + props.name + '</b> <br>踩点总数' + props.checkincount
-			: '店铺明细') + '</h4>' + (props ?
-			trackRecords
-			: '请在地图中选择一个商店');
+			if (props.photos) {
+				photos += '<div class="infoWindowPhotos">';
+	            for (var i = 0; i < props.photos.length; i++) {
+	                photos += '<a href="' + props.photos[i] + '" target="_blank"><img src="' + props.photos[i] + '" width="50" /></a>';
+	            }
+				photos += '</div>';
+	        }
+			
+			this._div.innerHTML = '<h4><a href="/View-Store.aspx?storeId=' + props.id + '" target="_blank">' + props.name + '</a></h4>' +
+			'<div>签到' + props.checkincount + '次，照片' + props.photocount + '张</div>' +
+			trackRecords + photos;
+	    } else {
+			this._div.innerHTML = "<h4>店铺明细</h4>请在地图中选择一个商店";
+		}
+	    
 	};
 	
 	info.addTo(map);
@@ -105,16 +144,30 @@ function initShopDetailWindow() {
 function initShopMarkers(shopList) {
 
     $.each(shopList, function (index, shop) {
-        
-        var shopMarker = L.marker(shop['latlng'], { icon: shopIcon }).bindPopup(shop['name'] + '<br>签到' + shop['checkincount'] + '次');
+        //test data
+		shop['photocount'] = 3;
+		shop['photos']=["/Public/Images/148_56_15_20130415173044.jpg","/Public/Images/148_56_15_20130415173044.jpg","/Public/Images/148_56_15_20130415173044.jpg"];
+		var icon = shopIcon;
+		if ( parseInt(shop['checkincount']) > 0 ) {
+			icon = shopCheckedIcon;
+			if ( parseInt(shop['photocount']) > 0 ) {
+				icon = shopPhotoCheckedIcon;
+			}
+		} else if ( parseInt(shop['photocount']) > 0 ) {
+			icon = shopPhotoIcon;
+		}
+        var shopMarker = L.marker(shop['latlng'], { icon: icon }).bindPopup(shop['name'] + '<br>签到' + shop['checkincount'] + '次');
         shopLayer.addLayer(shopMarker);
         shop_markers.push(shopMarker);
         shopMarker.on({
-            mouseover: function (e) {
+            click: function (e) {
                 var props = [];
                 props.name = shop['name'];
+				props.id = shop['id'];
                 props.checkincount = shop['checkincount'];
                 props.records = shop['records'];
+				props.photocount = shop['photocount'];
+				props.photos = shop['photos'];
                 info.update(props);
             }
         });
@@ -325,6 +378,7 @@ function bindStoresPopup() {
         map.fitBounds(getShopBounds(shop_markers));
     } );
     $('table[id$=gv_UserTask] tr').click(function () {
+		/*
         var storeId = $(this).find('input[id$=StoreId]');
         var latitude = $(this).find('input[id$=Latitude]');
         var longitude = $(this).find('input[id$=Longitude]');
@@ -334,7 +388,12 @@ function bindStoresPopup() {
         var popup = L.popup().setLatLng([latitude.val(), longitude.val()])
                                     .setContent(html)
                                     .openOn(map);
-        map.panTo([latitude.val(), longitude.val()]);
+        map.panTo([latitude.val(), longitude.val()]);*/
+		// find shop marker by index
+		console.log($(this).index());
+		var marker = shop_markers[$(this).index()];
+		map.panTo(marker.getLatLng());
+		marker.fireEvent('click');
     });
 }
 $(document).ready(function () {
@@ -343,6 +402,9 @@ $(document).ready(function () {
     $("#map_canvas").height($(window).height() - 68 - 2 - 43);
     $("#locationsContainer").height($(window).height() - 68 - 2 - 43);
     $("#userTaskContainer").height($(window).height() - 68 - 2 - 43);
+	$("#map_canvas,#ctl00_MainContent_upd_tasks").on('selectstart', function(e){
+		return false;
+	});
     initDatepicker();
     initMap();
     enterTime = new Date().getTime();
@@ -394,14 +456,14 @@ $(document).ready(function () {
                         var tempDate = new Date(checkInGroupByDate.CheckInDate);
                         var dateStr = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
                         var descriptionLi = $('<li class="nav-header accordion-group"  ></li>');
-                        var descriptionA = $('<a  data-toggle="collapse" ></a>').html("<i class='icon-plus-sign'></i>" + dateStr);
+                        var descriptionA = $('<a  data-toggle="collapse" ></a>').html("<i class='icon-plus-sign'></i> " + dateStr);
                         descriptionA.attr("data-target", ".collapse_" + index);
                         descriptionA.attr("data-parent", "#locations");
                         descriptionA.appendTo(descriptionLi);
-                        var descritpionDiv = $("<div></div>").html(
+                        var descritpionDiv = $("<div class='recordDetails'></div>").html(
                             " 任务踩点:" + checkInGroupByDate.TaskCheckInCount +
-                            " 店铺踩点:" + checkInGroupByDate.StoreCheckInCount +
-                            " 拍摄照片:" + checkInGroupByDate.PhotosCount);
+                            " 任务外踩点:" + checkInGroupByDate.StoreCheckInCount +
+                            " 照片:" + checkInGroupByDate.PhotosCount);
                         descritpionDiv.appendTo(descriptionA);
                         descriptionLi.appendTo("#locations");
 
@@ -490,6 +552,6 @@ $(document).ready(function () {
     });
     $('#btnSearch').click();
 
-
+	
 });
 
